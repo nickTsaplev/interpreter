@@ -12,6 +12,7 @@ dependencies {
     // Project "app" depends on project "utils". (Project paths are separated with ":", so ":utils" refers to the top-level "utils" project.)
     implementation(project(":utils"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
+    testImplementation(kotlin("test"))
 }
 
 application {
