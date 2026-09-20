@@ -12,7 +12,7 @@ class JsonToSeq: JsonToASTer() {
     ): ASTNode? {
         val jsonObject = text as? JsonObject ?: return next?.parse(parser, text)
         if (jsonObject.hasNodeTag("seq")) {
-            val sequence = jsonObject["seq"]?.asObjectOrNull() ?: return null
+            val sequence = jsonObject["seq"] as? JsonObject ?: return null
             val left = sequence["left"]?.let { parser.parse(parser, it) } ?: return null
             val right = sequence["right"]?.let { parser.parse(parser, it) } ?: return null
             return ASTSeq(left, right)

@@ -36,5 +36,11 @@ fun main(args: Array<String>) {
         print("Error: faulty JSON")
         return
     }
-    ast.visit(ExecutionVisitor())
+    try {
+        ast.visit(ExecutionVisitor())
+    } catch(e : IllegalStateException) {
+        print("State error while running: ${e.message}")
+    } catch(e : IllegalArgumentException) {
+        print("Argument error while running: ${e.message}")
+    }
 }
