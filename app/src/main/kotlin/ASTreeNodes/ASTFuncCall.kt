@@ -2,10 +2,11 @@ package ru.tsaplev.app.ASTreeNodes
 
 import ru.tsaplev.app.ASTNode
 import ru.tsaplev.app.ASTVisitor
-import ru.tsaplev.app.execution.DataValue
 
-class ASTConst(val value: DataValue): ASTNode {
+class ASTFuncCall(val name: String,
+                  private val inner: ASTNode): ASTNode {
     override fun visit(visitor: ASTVisitor) {
-        visitor.visit(this);
+        inner.visit(visitor)
+        visitor.visit(this)
     }
 }

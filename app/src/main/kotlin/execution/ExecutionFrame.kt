@@ -1,4 +1,4 @@
-package ru.tsaplev.app
+package ru.tsaplev.app.execution
 
 import java.util.Stack
 
@@ -17,5 +17,9 @@ public class ExecutionFrame(private val name: String? = null) {
         if(unnamedStack.empty())
             return null
         return unnamedStack.pop()
+    }
+
+    public fun pushNameless(value: DataValue) {
+        unnamedStack.push(value)
     }
 }

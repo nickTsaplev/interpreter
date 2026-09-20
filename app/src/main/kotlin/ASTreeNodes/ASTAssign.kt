@@ -2,10 +2,10 @@ package ru.tsaplev.app.ASTreeNodes
 
 import ru.tsaplev.app.ASTNode
 import ru.tsaplev.app.ASTVisitor
-import ru.tsaplev.app.execution.DataValue
 
-class ASTConst(val value: DataValue): ASTNode {
+class ASTAssign(val name: String, private val rvalue: ASTNode): ASTNode {
     override fun visit(visitor: ASTVisitor) {
-        visitor.visit(this);
+        rvalue.visit(visitor)
+        visitor.visit(this)
     }
 }
