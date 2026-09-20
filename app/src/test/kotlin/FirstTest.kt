@@ -1,17 +1,6 @@
-import ru.tsaplev.app.JSONToAST.GetJsonToAST
-import ru.tsaplev.app.JSONToAST.JsonToAssign
-import ru.tsaplev.app.JSONToAST.JsonToBinop
-import ru.tsaplev.app.JSONToAST.JsonToConst
-import ru.tsaplev.app.JSONToAST.JsonToRead
-import ru.tsaplev.app.JSONToAST.JsonToSeq
-import ru.tsaplev.app.JSONToAST.JsonToVar
-import ru.tsaplev.app.JSONToAST.JsonToWrite
-import ru.tsaplev.app.execution.ExecutionVisitor
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 
-class FirstTest {
+class FirstTest: ProgramTest() {
     @Test
     fun IOAndArithTest1() {
         val text = """
@@ -81,17 +70,7 @@ class FirstTest {
             }
 
         """
-        val jsonToASTer = GetJsonToAST()
 
-        val ast = jsonToASTer.startParse(text)
-
-        assertNotNull(ast)
-
-        val io = ListIOMock(mutableListOf(4))
-        val visitor = ExecutionVisitor(io)
-
-        ast.visit(visitor)
-
-        assertEquals<List<Int?>>(io.output, listOf(10, 14, 16))
+        testProgram(text, listOf(4), listOf(10, 14, 16))
     }
 }
