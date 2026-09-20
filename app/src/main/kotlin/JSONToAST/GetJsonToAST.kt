@@ -8,4 +8,6 @@ fun GetJsonToAST(): JsonToASTer {
         .addNext(JsonToAssign())
         .addNext(JsonToVar())
         .addNext(JsonToRead())
+        .addNext(JsonToSkip())
+        .addNext(JsonToControl())
 }
