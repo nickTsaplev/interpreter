@@ -12,10 +12,8 @@ import ru.tsaplev.app.ASTreeNodes.ASTWhile
 import ru.tsaplev.app.ASTreeNodes.ASTDo
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
 
-class ExecutionVisitor(
-    private val input: () -> String? = { readlnOrNull() },
-    private val output: (Int) -> Unit = { println(it) }
-) : ASTVisitor {
+class ExecutionVisitor(val io: IntIO = StandardIO()): ASTVisitor {
+
     private val executionStack = ExecutionStack()
 
     private fun binaryOperation(operand: String, left: Int, right: Int): Int {
@@ -58,16 +56,14 @@ class ExecutionVisitor(
 
     override fun visit(node: ASTFuncCall) {
         if (node.name == "write") {
-            output(popValue("write argument").get())
+            io.write(popValue("write argument").get())
             return
         }
         throw IllegalArgumentException("Unknown function: ${node.name}")
     }
 
     override fun visit(node: ASTRead) {
-        val rawValue = input() ?: throw IllegalStateException("Unexpected end of input while reading ${node.varName}")
-        val value = rawValue.trim().toIntOrNull()
-            ?: throw IllegalArgumentException("Expected an integer for ${node.varName}, got: $rawValue")
+        val value = io.read()
         executionStack.current().setVar(node.varName, DataValue(value))
     }
 
