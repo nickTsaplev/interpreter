@@ -1,11 +1,7 @@
 package ru.tsaplev.app.JSONToAST
 
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.decodeFromJsonElement
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 import ru.tsaplev.app.ASTNode
 import ru.tsaplev.app.ASTreeNodes.ASTAssign
 
@@ -14,14 +10,12 @@ class JsonToAssign: JsonToASTer() {
         parser: JsonToASTer,
         text: JsonElement
     ): ASTNode? {
-        val jsonObject: JsonObject = Json.decodeFromJsonElement(text)
-        if(jsonObject.keys.contains("assn")) {
-            val left = jsonObject["assn"]?.let { it.jsonObject["dst"]?.jsonPrimitive?.content } ?: return null
-            val src = jsonObject["assn"]?.let { it.jsonObject["src"]?.let {parser.parse(parser, it)} } ?: return null
-
-            return ASTAssign(
-                left, src
-            )
+        val jsonObject = text as? JsonObject ?: return next?.parse(parser, text)
+        if (jsonObject.hasNodeTag("assn")) {
+            val assignment = jsonObject["assn"]?.asObjectOrNull() ?: return null
+            val destination = assignment["dst"]?.asIdentifierOrNull() ?: return null
+            val source = assignment["src"]?.let { parser.parse(parser, it) } ?: return null
+            return ASTAssign(destination, source)
         }
         return next?.parse(parser, text)
     }
