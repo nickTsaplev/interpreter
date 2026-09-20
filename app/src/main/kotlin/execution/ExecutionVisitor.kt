@@ -8,7 +8,8 @@ import ru.tsaplev.app.ASTreeNodes.ASTFuncCall
 import ru.tsaplev.app.ASTreeNodes.ASTRead
 import ru.tsaplev.app.ASTreeNodes.ASTVar
 
-class ExecutionVisitor: ASTVisitor {
+class ExecutionVisitor(val io: IntIO = StandardIO()): ASTVisitor {
+
     private val executionStack = ExecutionStack()
     private val errors = mutableListOf<String>()
 
@@ -51,13 +52,13 @@ class ExecutionVisitor: ASTVisitor {
 
     override fun visit(node: ASTFuncCall) {
         if (node.name == "write") {
-            println(executionStack.current().getTopNameless()?.get())
+            io.write(executionStack.current().getTopNameless()?.get())
             return
         }
     }
 
     override fun visit(node: ASTRead) {
-        val value = readln().toInt()
+        val value = io.read()
         executionStack.current().setVar(node.varName, DataValue(value))
     }
 
