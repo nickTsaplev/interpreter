@@ -4,25 +4,24 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
-import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import ru.tsaplev.app.ASTNode
-import ru.tsaplev.app.ASTreeNodes.ASTAssign
-import ru.tsaplev.app.ASTreeNodes.ASTBinOP
+import ru.tsaplev.app.ASTreeNodes.ASTConst
+import ru.tsaplev.app.execution.DataValue
 
-class JSONToAssign: JsonToASTer() {
+class JsonToConst: JsonToASTer() {
     override fun parse(
         parser: JsonToASTer,
         text: JsonElement
     ): ASTNode? {
         val jsonObject: JsonObject = Json.decodeFromJsonElement(text)
-        if(jsonObject.keys.contains("assn")) {
-            val left = jsonObject["assn"]?.let { it.jsonObject["dst"]?.jsonPrimitive?.content } ?: return null
-            val src = jsonObject["assn"]?.let { it.jsonObject["src"]?.let {parser.parse(parser, it)} } ?: return null
-
-            return ASTAssign(
-                left, src
-            )
+        if(jsonObject.keys.contains("const")) {
+            val value = jsonObject["const"]?.jsonPrimitive?.content ?: return null
+            return try {
+                ASTConst(DataValue(value.toInt()))
+            } catch(e: NumberFormatException) {
+                null
+            }
         }
         return next?.parse(parser, text)
     }

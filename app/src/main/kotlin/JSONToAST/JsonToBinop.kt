@@ -8,7 +8,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import ru.tsaplev.app.ASTNode
 import ru.tsaplev.app.ASTreeNodes.ASTBinOP
 
-class JSONToBinop: JsonToASTer() {
+class JsonToBinop: JsonToASTer() {
     override fun parse(parser: JsonToASTer, text: JsonElement): ASTNode? {
         val jsonObject: JsonObject = Json.decodeFromJsonElement(text)
         if(jsonObject.keys.contains("binop")) {
