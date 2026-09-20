@@ -1,23 +1,18 @@
-# interpreter
+# Интерпретатор AST
 
-This project uses [Gradle](https://gradle.org/).
-To build and run the application, use the *Gradle* tool window by clicking the Gradle icon in the right-hand toolbar,
-or run it directly from the terminal:
+Программа принимает единственный аргумент — путь к JSON-файлу с AST — и выполняет его. Значения языка являются 32-битными целыми числами; сравнения и логические операции возвращают `0` или `1`, а в условиях ноль означает ложь и любое ненулевое значение — истину.
 
-* Run `./gradlew run` to build and run the application.
-* Run `./gradlew build` to only build the application.
-* Run `./gradlew check` to run all checks, including tests.
-* Run `./gradlew clean` to clean all build outputs.
+Поддерживаются узлы `const`, `var`, `binop`, `read`, `write`, `assn`, `seq`, `if`, `while`, `do` и `skip`. Операторы перечислены в [lang.txt](lang.txt). Конструкции исходного языка `for`, `elif` и составные присваивания разворачиваются «мордочкой» в эти базовые узлы AST.
 
-Note the usage of the Gradle Wrapper (`./gradlew`).
-This is the suggested way to use Gradle in production projects.
+Сборка и тесты:
 
-[Learn more about the Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
+```shell
+./gradlew clean test build
+```
 
-[Learn more about Gradle tasks](https://docs.gradle.org/current/userguide/command_line_interface.html#common_tasks).
+Запуск тестового AST:
 
-This project follows the suggested multi-module setup and consists of the `app` and `utils` subprojects.
-The shared build logic was extracted to a convention plugin located in `buildSrc`.
+```shell
+./gradlew :app:run --args='test.json'
+```
 
-This project uses a version catalog (see `gradle/libs.versions.toml`) to declare and version dependencies
-and both a build cache and a configuration cache (see `gradle.properties`).

@@ -2,6 +2,8 @@ package ru.tsaplev.app.JSONToAST
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import ru.tsaplev.app.ASTNode
 
 abstract class JsonToASTer {
@@ -11,10 +13,17 @@ abstract class JsonToASTer {
         if (next == null)
             next = parser
         else
-            next?.addNext(parser);
-        return this;
+            next?.addNext(parser)
+        return this
     }
 
-    fun startParse(text: String): ASTNode?
-        = parse(this, Json.decodeFromString<JsonElement>(text))
+    fun startParse(text: String): ASTNode? =
+        parse(this, Json.parseToJsonElement(text))
+
+    protected fun JsonElement.asStringOrNull(): String? {
+        val primitive = this as? JsonPrimitive ?: return null
+        return primitive.takeIf { it.isString }?.content
+    }
+
+    protected fun JsonObject.hasNodeTag(tag: String): Boolean = tag in this
 }

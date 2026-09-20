@@ -20,3 +20,8 @@ application {
     // (Note that Kotlin compiles `App.kt` to a class with FQN `com.example.app.AppKt`.)
     mainClass = "ru.tsaplev.app.AppKt"
 }
+
+tasks.named<JavaExec>("run") {
+    workingDir = rootProject.projectDir
+    standardInput = System.`in`
+}
