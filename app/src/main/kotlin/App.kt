@@ -4,6 +4,7 @@ import ru.tsaplev.app.JSONToAST.JSONToAssign
 import ru.tsaplev.app.JSONToAST.JSONToBinop
 import ru.tsaplev.app.JSONToAST.JSONToConst
 import ru.tsaplev.app.JSONToAST.JSONToWrite
+import ru.tsaplev.app.JSONToAST.JsonToRead
 import ru.tsaplev.app.JSONToAST.JsonToSeq
 import ru.tsaplev.app.JSONToAST.JsonToVar
 import ru.tsaplev.app.execution.ExecutionVisitor
@@ -20,6 +21,7 @@ fun main(args: Array<String>) {
         .addNext(JsonToSeq())
         .addNext(JSONToAssign())
         .addNext(JsonToVar())
+        .addNext(JsonToRead())
 
     val ast = jsonToASTer.startParse(text);
 
