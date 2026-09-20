@@ -1,3 +1,4 @@
+import ru.tsaplev.app.JSONToAST.GetJsonToAST
 import ru.tsaplev.app.JSONToAST.JsonToAssign
 import ru.tsaplev.app.JSONToAST.JsonToBinop
 import ru.tsaplev.app.JSONToAST.JsonToConst
@@ -80,13 +81,7 @@ class FirstTest {
             }
 
         """
-        val jsonToASTer = JsonToBinop()
-            .addNext(JsonToConst())
-            .addNext(JsonToWrite())
-            .addNext(JsonToSeq())
-            .addNext(JsonToAssign())
-            .addNext(JsonToVar())
-            .addNext(JsonToRead())
+        val jsonToASTer = GetJsonToAST()
 
         val ast = jsonToASTer.startParse(text)
 

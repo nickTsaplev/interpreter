@@ -1,5 +1,6 @@
 package ru.tsaplev.app
 
+import ru.tsaplev.app.JSONToAST.GetJsonToAST
 import ru.tsaplev.app.JSONToAST.JsonToAssign
 import ru.tsaplev.app.JSONToAST.JsonToBinop
 import ru.tsaplev.app.JSONToAST.JsonToConst
@@ -14,13 +15,7 @@ import java.io.File
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 fun main(args: Array<String>) {
     val text = File(args[0]).readText(Charsets.UTF_8)
-    val jsonToASTer = JsonToBinop()
-        .addNext(JsonToConst())
-        .addNext(JsonToWrite())
-        .addNext(JsonToSeq())
-        .addNext(JsonToAssign())
-        .addNext(JsonToVar())
-        .addNext(JsonToRead())
+    val jsonToASTer = GetJsonToAST()
 
     val ast = jsonToASTer.startParse(text);
 
