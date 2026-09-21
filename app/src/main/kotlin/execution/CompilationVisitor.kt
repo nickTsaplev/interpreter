@@ -49,7 +49,7 @@ class CompilationVisitor: ASTVisitor {
         val elseLabelName = "IF-ELSE {$labelCount++}"
         val endLabelName = "IF-END {$labelCount++}"
 
-        instructions.add(MachineInstruction.JNZ(elseLabelName))
+        instructions.add(MachineInstruction.JZ(elseLabelName))
         node.thenBranch.visit(this)
         instructions.add(MachineInstruction.JMP(endLabelName))
         instructions.add(MachineInstruction.LABEL(elseLabelName))
