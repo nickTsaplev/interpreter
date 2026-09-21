@@ -73,4 +73,30 @@ class FirstTest: ProgramTest() {
 
         testProgram(text, listOf(4), listOf(10, 14, 16))
     }
+
+    @Test
+    fun logicalOrTest() {
+        val text = """
+            {
+              "seq": {
+                "left": {
+                  "write": {
+                    "binop": "!!",
+                    "left": { "const": 0 },
+                    "right": { "const": 1 }
+                  }
+                },
+                "right": {
+                  "write": {
+                    "binop": "!!",
+                    "left": { "const": 0 },
+                    "right": { "const": 0 }
+                  }
+                }
+              }
+            }
+        """.trimIndent()
+
+        testProgram(text, listOf(), listOf(1, 0))
+    }
 }

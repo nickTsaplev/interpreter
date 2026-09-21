@@ -53,6 +53,20 @@ class LoopTests: ProgramTest() {
     }
 
     @Test
+    fun doWhileTest() {
+        val text = """
+            {
+              "do": {
+                "body": { "write": { "const": 42 } },
+                "cond": { "const": 0 }
+              }
+            }
+        """.trimIndent()
+
+        testProgram(text, listOf(), listOf(42))
+    }
+
+    @Test
     fun forTest() {
         val text = """
             {
