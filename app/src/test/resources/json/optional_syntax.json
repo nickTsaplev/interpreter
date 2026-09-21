@@ -1,0 +1,45 @@
+{
+  "seq": {
+    "left": {
+      "assn": {
+        "dst": "x",
+        "src": {
+          "const": 1
+        }
+      }
+    },
+    "right": {
+      "seq": {
+        "left": {
+          "if": {
+            "cond": {
+              "var": "x"
+            },
+            "then": {
+              "write": {
+                "var": "x"
+              }
+            }
+          }
+        },
+        "right": {
+          "seq": {
+            "left": {
+              "if": {
+                "cond": {
+                  "const": 0
+                },
+                "then": {
+                  "write": {
+                    "const": 999
+                  }
+                }
+              }
+            },
+            "right": "skip"
+          }
+        }
+      }
+    }
+  }
+}

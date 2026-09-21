@@ -1,0 +1,312 @@
+{
+  "seq": {
+    "left": {
+      "read": "state"
+    },
+    "right": {
+      "seq": {
+        "left": {
+          "assn": {
+            "dst": "i",
+            "src": {
+              "const": 0
+            }
+          }
+        },
+        "right": {
+          "seq": {
+            "left": {
+              "assn": {
+                "dst": "checksum",
+                "src": {
+                  "const": 0
+                }
+              }
+            },
+            "right": {
+              "seq": {
+                "left": {
+                  "assn": {
+                    "dst": "high",
+                    "src": {
+                      "const": 0
+                    }
+                  }
+                },
+                "right": {
+                  "seq": {
+                    "left": {
+                      "assn": {
+                        "dst": "low",
+                        "src": {
+                          "const": 0
+                        }
+                      }
+                    },
+                    "right": {
+                      "seq": {
+                        "left": {
+                          "do": {
+                            "body": {
+                              "seq": {
+                                "left": {
+                                  "assn": {
+                                    "dst": "state",
+                                    "src": {
+                                      "binop": "%",
+                                      "left": {
+                                        "binop": "+",
+                                        "left": {
+                                          "binop": "*",
+                                          "left": {
+                                            "var": "state"
+                                          },
+                                          "right": {
+                                            "const": 17
+                                          }
+                                        },
+                                        "right": {
+                                          "const": 11
+                                        }
+                                      },
+                                      "right": {
+                                        "const": 97
+                                      }
+                                    }
+                                  }
+                                },
+                                "right": {
+                                  "seq": {
+                                    "left": {
+                                      "if": {
+                                        "cond": {
+                                          "binop": "==",
+                                          "left": {
+                                            "binop": "%",
+                                            "left": {
+                                              "var": "state"
+                                            },
+                                            "right": {
+                                              "const": 2
+                                            }
+                                          },
+                                          "right": {
+                                            "const": 0
+                                          }
+                                        },
+                                        "then": {
+                                          "assn": {
+                                            "dst": "checksum",
+                                            "src": {
+                                              "binop": "+",
+                                              "left": {
+                                                "var": "checksum"
+                                              },
+                                              "right": {
+                                                "var": "state"
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "else": {
+                                          "if": {
+                                            "cond": {
+                                              "binop": "==",
+                                              "left": {
+                                                "binop": "%",
+                                                "left": {
+                                                  "var": "state"
+                                                },
+                                                "right": {
+                                                  "const": 3
+                                                }
+                                              },
+                                              "right": {
+                                                "const": 0
+                                              }
+                                            },
+                                            "then": {
+                                              "assn": {
+                                                "dst": "checksum",
+                                                "src": {
+                                                  "binop": "-",
+                                                  "left": {
+                                                    "var": "checksum"
+                                                  },
+                                                  "right": {
+                                                    "var": "state"
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            "else": {
+                                              "assn": {
+                                                "dst": "checksum",
+                                                "src": {
+                                                  "binop": "+",
+                                                  "left": {
+                                                    "var": "checksum"
+                                                  },
+                                                  "right": {
+                                                    "binop": "*",
+                                                    "left": {
+                                                      "var": "state"
+                                                    },
+                                                    "right": {
+                                                      "const": 2
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "right": {
+                                      "seq": {
+                                        "left": {
+                                          "if": {
+                                            "cond": {
+                                              "binop": ">",
+                                              "left": {
+                                                "var": "state"
+                                              },
+                                              "right": {
+                                                "const": 50
+                                              }
+                                            },
+                                            "then": {
+                                              "assn": {
+                                                "dst": "high",
+                                                "src": {
+                                                  "binop": "+",
+                                                  "left": {
+                                                    "var": "high"
+                                                  },
+                                                  "right": {
+                                                    "const": 1
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            "else": {
+                                              "assn": {
+                                                "dst": "low",
+                                                "src": {
+                                                  "binop": "+",
+                                                  "left": {
+                                                    "var": "low"
+                                                  },
+                                                  "right": {
+                                                    "const": 1
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "right": {
+                                          "seq": {
+                                            "left": {
+                                              "if": {
+                                                "cond": {
+                                                  "binop": "==",
+                                                  "left": {
+                                                    "binop": "%",
+                                                    "left": {
+                                                      "var": "i"
+                                                    },
+                                                    "right": {
+                                                      "const": 5
+                                                    }
+                                                  },
+                                                  "right": {
+                                                    "const": 0
+                                                  }
+                                                },
+                                                "then": {
+                                                  "write": {
+                                                    "var": "checksum"
+                                                  }
+                                                },
+                                                "else": "skip"
+                                              }
+                                            },
+                                            "right": {
+                                              "assn": {
+                                                "dst": "i",
+                                                "src": {
+                                                  "binop": "+",
+                                                  "left": {
+                                                    "var": "i"
+                                                  },
+                                                  "right": {
+                                                    "const": 1
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "cond": {
+                              "binop": "<",
+                              "left": {
+                                "var": "i"
+                              },
+                              "right": {
+                                "const": 30
+                              }
+                            }
+                          }
+                        },
+                        "right": {
+                          "seq": {
+                            "left": {
+                              "write": {
+                                "var": "state"
+                              }
+                            },
+                            "right": {
+                              "seq": {
+                                "left": {
+                                  "write": {
+                                    "var": "checksum"
+                                  }
+                                },
+                                "right": {
+                                  "seq": {
+                                    "left": {
+                                      "write": {
+                                        "var": "high"
+                                      }
+                                    },
+                                    "right": {
+                                      "write": {
+                                        "var": "low"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

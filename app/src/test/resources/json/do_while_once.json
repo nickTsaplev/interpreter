@@ -1,0 +1,12 @@
+{
+  "do": {
+    "body": {
+      "write": {
+        "const": 42
+      }
+    },
+    "cond": {
+      "const": 0
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  -- Semicolons are optional.
+  x = 1
+  (* The else part is optional too. *)
+  if (x)
+    write(x)
+  if (0)
+    write(999)
+  skip
+}

@@ -1,0 +1,17 @@
+{
+  read(x);
+  read(y);
+  result_2' = x + y;
+  write(result_2');
+
+  x += 5;
+  write(x);
+  x -= 2;
+  write(x);
+  x *= y;
+  write(x);
+  x /= 4;
+  write(x);
+  x %= 5;
+  write(x);
+}
