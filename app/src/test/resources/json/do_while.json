@@ -1,28 +1,18 @@
 {
   "seq": {
-    "left": {
-      "read": "x"
-    },
+    "left": { "read": "x" },
     "right": {
       "do": {
         "body": {
           "seq": {
-            "left": {
-              "write": {
-                "var": "x"
-              }
-            },
+            "left": { "write": { "var": "x" } },
             "right": {
               "assn": {
                 "dst": "x",
                 "src": {
                   "binop": "-",
-                  "left": {
-                    "var": "x"
-                  },
-                  "right": {
-                    "const": 1
-                  }
+                  "left": { "var": "x" },
+                  "right": { "const": 1 }
                 }
               }
             }
@@ -30,12 +20,8 @@
         },
         "cond": {
           "binop": ">",
-          "left": {
-            "var": "x"
-          },
-          "right": {
-            "const": 0
-          }
+          "left": { "var": "x" },
+          "right": { "const": 0 }
         }
       }
     }

@@ -1,37 +1,16 @@
 {
   "seq": {
-    "left": {
-      "read": "limit"
-    },
+    "left": { "read": "limit" },
     "right": {
       "seq": {
-        "left": {
-          "assn": {
-            "dst": "count",
-            "src": {
-              "const": 0
-            }
-          }
-        },
+        "left": { "assn": { "dst": "count", "src": { "const": 0 } } },
         "right": {
           "seq": {
-            "left": {
-              "assn": {
-                "dst": "sum",
-                "src": {
-                  "const": 0
-                }
-              }
-            },
+            "left": { "assn": { "dst": "sum", "src": { "const": 0 } } },
             "right": {
               "seq": {
                 "left": {
-                  "assn": {
-                    "dst": "checksum",
-                    "src": {
-                      "const": 0
-                    }
-                  }
+                  "assn": { "dst": "checksum", "src": { "const": 0 } }
                 },
                 "right": {
                   "seq": {
@@ -40,21 +19,15 @@
                         "left": {
                           "assn": {
                             "dst": "candidate",
-                            "src": {
-                              "const": 2
-                            }
+                            "src": { "const": 2 }
                           }
                         },
                         "right": {
                           "while": {
                             "cond": {
                               "binop": "<=",
-                              "left": {
-                                "var": "candidate"
-                              },
-                              "right": {
-                                "var": "limit"
-                              }
+                              "left": { "var": "candidate" },
+                              "right": { "var": "limit" }
                             },
                             "body": {
                               "seq": {
@@ -63,9 +36,7 @@
                                     "left": {
                                       "assn": {
                                         "dst": "divisor",
-                                        "src": {
-                                          "const": 2
-                                        }
+                                        "src": { "const": 2 }
                                       }
                                     },
                                     "right": {
@@ -73,9 +44,7 @@
                                         "left": {
                                           "assn": {
                                             "dst": "isPrime",
-                                            "src": {
-                                              "const": 1
-                                            }
+                                            "src": { "const": 1 }
                                           }
                                         },
                                         "right": {
@@ -116,16 +85,12 @@
                                                           "var": "divisor"
                                                         }
                                                       },
-                                                      "right": {
-                                                        "const": 0
-                                                      }
+                                                      "right": { "const": 0 }
                                                     },
                                                     "then": {
                                                       "assn": {
                                                         "dst": "isPrime",
-                                                        "src": {
-                                                          "const": 0
-                                                        }
+                                                        "src": { "const": 0 }
                                                       }
                                                     },
                                                     "else": {
@@ -148,9 +113,7 @@
                                             },
                                             "right": {
                                               "if": {
-                                                "cond": {
-                                                  "var": "isPrime"
-                                                },
+                                                "cond": { "var": "isPrime" },
                                                 "then": {
                                                   "seq": {
                                                     "left": {
@@ -268,12 +231,8 @@
                                     "dst": "candidate",
                                     "src": {
                                       "binop": "+",
-                                      "left": {
-                                        "var": "candidate"
-                                      },
-                                      "right": {
-                                        "const": 1
-                                      }
+                                      "left": { "var": "candidate" },
+                                      "right": { "const": 1 }
                                     }
                                   }
                                 }
@@ -285,23 +244,11 @@
                     },
                     "right": {
                       "seq": {
-                        "left": {
-                          "write": {
-                            "var": "count"
-                          }
-                        },
+                        "left": { "write": { "var": "count" } },
                         "right": {
                           "seq": {
-                            "left": {
-                              "write": {
-                                "var": "sum"
-                              }
-                            },
-                            "right": {
-                              "write": {
-                                "var": "checksum"
-                              }
-                            }
+                            "left": { "write": { "var": "sum" } },
+                            "right": { "write": { "var": "checksum" } }
                           }
                         }
                       }

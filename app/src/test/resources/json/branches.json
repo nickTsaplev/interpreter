@@ -1,45 +1,23 @@
 {
   "seq": {
-    "left": {
-      "read": "x"
-    },
+    "left": { "read": "x" },
     "right": {
       "if": {
         "cond": {
           "binop": ">",
-          "left": {
-            "var": "x"
-          },
-          "right": {
-            "const": 10
-          }
+          "left": { "var": "x" },
+          "right": { "const": 10 }
         },
-        "then": {
-          "write": {
-            "const": 100
-          }
-        },
+        "then": { "write": { "const": 100 } },
         "else": {
           "if": {
             "cond": {
               "binop": "==",
-              "left": {
-                "var": "x"
-              },
-              "right": {
-                "const": 10
-              }
+              "left": { "var": "x" },
+              "right": { "const": 10 }
             },
-            "then": {
-              "write": {
-                "const": 200
-              }
-            },
-            "else": {
-              "write": {
-                "const": 300
-              }
-            }
+            "then": { "write": { "const": 200 } },
+            "else": { "write": { "const": 300 } }
           }
         }
       }

@@ -2,14 +2,7 @@
   "seq": {
     "left": {
       "seq": {
-        "left": {
-          "assn": {
-            "dst": "x",
-            "src": {
-              "const": 1
-            }
-          }
-        },
+        "left": { "assn": { "dst": "x", "src": { "const": 1 } } },
         "right": {
           "seq": {
             "left": "skip",
@@ -20,20 +13,12 @@
                     "dst": "x",
                     "src": {
                       "binop": "+",
-                      "left": {
-                        "var": "x"
-                      },
-                      "right": {
-                        "const": 1
-                      }
+                      "left": { "var": "x" },
+                      "right": { "const": 1 }
                     }
                   }
                 },
-                "right": {
-                  "write": {
-                    "var": "x"
-                  }
-                }
+                "right": { "write": { "var": "x" } }
               }
             }
           }

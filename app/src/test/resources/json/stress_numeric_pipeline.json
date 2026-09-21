@@ -1,45 +1,23 @@
 {
   "seq": {
-    "left": {
-      "read": "n"
-    },
+    "left": { "read": "n" },
     "right": {
       "seq": {
-        "left": {
-          "read": "m"
-        },
+        "left": { "read": "m" },
         "right": {
           "seq": {
-            "left": {
-              "assn": {
-                "dst": "factorial",
-                "src": {
-                  "const": 1
-                }
-              }
-            },
+            "left": { "assn": { "dst": "factorial", "src": { "const": 1 } } },
             "right": {
               "seq": {
                 "left": {
                   "seq": {
-                    "left": {
-                      "assn": {
-                        "dst": "i",
-                        "src": {
-                          "const": 2
-                        }
-                      }
-                    },
+                    "left": { "assn": { "dst": "i", "src": { "const": 2 } } },
                     "right": {
                       "while": {
                         "cond": {
                           "binop": "<=",
-                          "left": {
-                            "var": "i"
-                          },
-                          "right": {
-                            "var": "n"
-                          }
+                          "left": { "var": "i" },
+                          "right": { "var": "n" }
                         },
                         "body": {
                           "seq": {
@@ -48,12 +26,8 @@
                                 "dst": "factorial",
                                 "src": {
                                   "binop": "*",
-                                  "left": {
-                                    "var": "factorial"
-                                  },
-                                  "right": {
-                                    "var": "i"
-                                  }
+                                  "left": { "var": "factorial" },
+                                  "right": { "var": "i" }
                                 }
                               }
                             },
@@ -62,12 +36,8 @@
                                 "dst": "i",
                                 "src": {
                                   "binop": "+",
-                                  "left": {
-                                    "var": "i"
-                                  },
-                                  "right": {
-                                    "const": 1
-                                  }
+                                  "left": { "var": "i" },
+                                  "right": { "const": 1 }
                                 }
                               }
                             }
@@ -82,9 +52,7 @@
                     "left": {
                       "assn": {
                         "dst": "original",
-                        "src": {
-                          "var": "factorial"
-                        }
+                        "src": { "var": "factorial" }
                       }
                     },
                     "right": {
@@ -92,9 +60,7 @@
                         "left": {
                           "assn": {
                             "dst": "digitSum",
-                            "src": {
-                              "const": 0
-                            }
+                            "src": { "const": 0 }
                           }
                         },
                         "right": {
@@ -102,9 +68,7 @@
                             "left": {
                               "assn": {
                                 "dst": "reversed",
-                                "src": {
-                                  "const": 0
-                                }
+                                "src": { "const": 0 }
                               }
                             },
                             "right": {
@@ -112,9 +76,7 @@
                                 "left": {
                                   "assn": {
                                     "dst": "digits",
-                                    "src": {
-                                      "const": 0
-                                    }
+                                    "src": { "const": 0 }
                                   }
                                 },
                                 "right": {
@@ -131,9 +93,7 @@
                                                   "left": {
                                                     "var": "original"
                                                   },
-                                                  "right": {
-                                                    "const": 10
-                                                  }
+                                                  "right": { "const": 10 }
                                                 }
                                               }
                                             },
@@ -215,12 +175,8 @@
                                         },
                                         "cond": {
                                           "binop": ">",
-                                          "left": {
-                                            "var": "original"
-                                          },
-                                          "right": {
-                                            "const": 0
-                                          }
+                                          "left": { "var": "original" },
+                                          "right": { "const": 0 }
                                         }
                                       }
                                     },
@@ -229,9 +185,7 @@
                                         "left": {
                                           "assn": {
                                             "dst": "a",
-                                            "src": {
-                                              "var": "factorial"
-                                            }
+                                            "src": { "var": "factorial" }
                                           }
                                         },
                                         "right": {
@@ -239,9 +193,7 @@
                                             "left": {
                                               "assn": {
                                                 "dst": "b",
-                                                "src": {
-                                                  "var": "m"
-                                                }
+                                                "src": { "var": "m" }
                                               }
                                             },
                                             "right": {
@@ -250,12 +202,8 @@
                                                   "while": {
                                                     "cond": {
                                                       "binop": "!=",
-                                                      "left": {
-                                                        "var": "b"
-                                                      },
-                                                      "right": {
-                                                        "const": 0
-                                                      }
+                                                      "left": { "var": "b" },
+                                                      "right": { "const": 0 }
                                                     },
                                                     "body": {
                                                       "seq": {
@@ -302,9 +250,7 @@
                                                     "left": {
                                                       "assn": {
                                                         "dst": "gcd",
-                                                        "src": {
-                                                          "var": "a"
-                                                        }
+                                                        "src": { "var": "a" }
                                                       }
                                                     },
                                                     "right": {

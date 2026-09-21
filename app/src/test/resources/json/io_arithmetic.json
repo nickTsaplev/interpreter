@@ -7,25 +7,15 @@
           "binop": "+",
           "left": {
             "binop": "+",
-            "left": {
-              "const": 2
-            },
-            "right": {
-              "const": 2
-            }
+            "left": { "const": 2 },
+            "right": { "const": 2 }
           },
-          "right": {
-            "const": 4
-          }
+          "right": { "const": 4 }
         },
         "right": {
           "binop": "/",
-          "left": {
-            "const": 5
-          },
-          "right": {
-            "const": 2
-          }
+          "left": { "const": 5 },
+          "right": { "const": 2 }
         }
       }
     },
@@ -38,16 +28,10 @@
               "binop": "+",
               "left": {
                 "binop": "+",
-                "left": {
-                  "const": 2
-                },
-                "right": {
-                  "const": 2
-                }
+                "left": { "const": 2 },
+                "right": { "const": 2 }
               },
-              "right": {
-                "const": 3
-              }
+              "right": { "const": 3 }
             }
           }
         },
@@ -56,28 +40,18 @@
             "left": {
               "write": {
                 "binop": "*",
-                "left": {
-                  "var": "a"
-                },
-                "right": {
-                  "const": 2
-                }
+                "left": { "var": "a" },
+                "right": { "const": 2 }
               }
             },
             "right": {
               "seq": {
-                "left": {
-                  "read": "b"
-                },
+                "left": { "read": "b" },
                 "right": {
                   "write": {
                     "binop": "*",
-                    "left": {
-                      "var": "b"
-                    },
-                    "right": {
-                      "const": 4
-                    }
+                    "left": { "var": "b" },
+                    "right": { "const": 4 }
                   }
                 }
               }

@@ -1,65 +1,35 @@
 {
   "seq": {
-    "left": {
-      "read": "rows"
-    },
+    "left": { "read": "rows" },
     "right": {
       "seq": {
-        "left": {
-          "read": "cols"
-        },
+        "left": { "read": "cols" },
         "right": {
           "seq": {
-            "left": {
-              "assn": {
-                "dst": "score",
-                "src": {
-                  "const": 0
-                }
-              }
-            },
+            "left": { "assn": { "dst": "score", "src": { "const": 0 } } },
             "right": {
               "seq": {
                 "left": {
-                  "assn": {
-                    "dst": "evenCells",
-                    "src": {
-                      "const": 0
-                    }
-                  }
+                  "assn": { "dst": "evenCells", "src": { "const": 0 } }
                 },
                 "right": {
                   "seq": {
                     "left": {
-                      "assn": {
-                        "dst": "diagonal",
-                        "src": {
-                          "const": 0
-                        }
-                      }
+                      "assn": { "dst": "diagonal", "src": { "const": 0 } }
                     },
                     "right": {
                       "seq": {
                         "left": {
                           "seq": {
                             "left": {
-                              "assn": {
-                                "dst": "i",
-                                "src": {
-                                  "const": 0
-                                }
-                              }
+                              "assn": { "dst": "i", "src": { "const": 0 } }
                             },
                             "right": {
                               "while": {
                                 "cond": {
                                   "binop": "<",
-                                  "left": {
-                                    "var": "i"
-                                  },
-                                  "right": {
-                                    "var": "rows"
-                                  }
+                                  "left": { "var": "i" },
+                                  "right": { "var": "rows" }
                                 },
                                 "body": {
                                   "seq": {
@@ -68,21 +38,15 @@
                                         "left": {
                                           "assn": {
                                             "dst": "j",
-                                            "src": {
-                                              "const": 0
-                                            }
+                                            "src": { "const": 0 }
                                           }
                                         },
                                         "right": {
                                           "while": {
                                             "cond": {
                                               "binop": "<",
-                                              "left": {
-                                                "var": "j"
-                                              },
-                                              "right": {
-                                                "var": "cols"
-                                              }
+                                              "left": { "var": "j" },
+                                              "right": { "var": "cols" }
                                             },
                                             "body": {
                                               "seq": {
@@ -376,12 +340,8 @@
                                         "dst": "i",
                                         "src": {
                                           "binop": "+",
-                                          "left": {
-                                            "var": "i"
-                                          },
-                                          "right": {
-                                            "const": 1
-                                          }
+                                          "left": { "var": "i" },
+                                          "right": { "const": 1 }
                                         }
                                       }
                                     }
@@ -393,23 +353,11 @@
                         },
                         "right": {
                           "seq": {
-                            "left": {
-                              "write": {
-                                "var": "score"
-                              }
-                            },
+                            "left": { "write": { "var": "score" } },
                             "right": {
                               "seq": {
-                                "left": {
-                                  "write": {
-                                    "var": "evenCells"
-                                  }
-                                },
-                                "right": {
-                                  "write": {
-                                    "var": "diagonal"
-                                  }
-                                }
+                                "left": { "write": { "var": "evenCells" } },
+                                "right": { "write": { "var": "diagonal" } }
                               }
                             }
                           }

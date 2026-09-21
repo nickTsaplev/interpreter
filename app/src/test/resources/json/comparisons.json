@@ -3,12 +3,8 @@
     "left": {
       "write": {
         "binop": "<",
-        "left": {
-          "const": 2
-        },
-        "right": {
-          "const": 3
-        }
+        "left": { "const": 2 },
+        "right": { "const": 3 }
       }
     },
     "right": {
@@ -16,12 +12,8 @@
         "left": {
           "write": {
             "binop": "<",
-            "left": {
-              "const": 3
-            },
-            "right": {
-              "const": 2
-            }
+            "left": { "const": 3 },
+            "right": { "const": 2 }
           }
         },
         "right": {
@@ -29,12 +21,8 @@
             "left": {
               "write": {
                 "binop": "<=",
-                "left": {
-                  "const": 2
-                },
-                "right": {
-                  "const": 2
-                }
+                "left": { "const": 2 },
+                "right": { "const": 2 }
               }
             },
             "right": {
@@ -42,12 +30,8 @@
                 "left": {
                   "write": {
                     "binop": "<=",
-                    "left": {
-                      "const": 3
-                    },
-                    "right": {
-                      "const": 2
-                    }
+                    "left": { "const": 3 },
+                    "right": { "const": 2 }
                   }
                 },
                 "right": {
@@ -55,12 +39,8 @@
                     "left": {
                       "write": {
                         "binop": ">",
-                        "left": {
-                          "const": 3
-                        },
-                        "right": {
-                          "const": 2
-                        }
+                        "left": { "const": 3 },
+                        "right": { "const": 2 }
                       }
                     },
                     "right": {
@@ -68,12 +48,8 @@
                         "left": {
                           "write": {
                             "binop": ">",
-                            "left": {
-                              "const": 2
-                            },
-                            "right": {
-                              "const": 3
-                            }
+                            "left": { "const": 2 },
+                            "right": { "const": 3 }
                           }
                         },
                         "right": {
@@ -81,12 +57,8 @@
                             "left": {
                               "write": {
                                 "binop": ">=",
-                                "left": {
-                                  "const": 3
-                                },
-                                "right": {
-                                  "const": 3
-                                }
+                                "left": { "const": 3 },
+                                "right": { "const": 3 }
                               }
                             },
                             "right": {
@@ -94,12 +66,8 @@
                                 "left": {
                                   "write": {
                                     "binop": ">=",
-                                    "left": {
-                                      "const": 2
-                                    },
-                                    "right": {
-                                      "const": 3
-                                    }
+                                    "left": { "const": 2 },
+                                    "right": { "const": 3 }
                                   }
                                 },
                                 "right": {
@@ -107,12 +75,8 @@
                                     "left": {
                                       "write": {
                                         "binop": "==",
-                                        "left": {
-                                          "const": 4
-                                        },
-                                        "right": {
-                                          "const": 4
-                                        }
+                                        "left": { "const": 4 },
+                                        "right": { "const": 4 }
                                       }
                                     },
                                     "right": {
@@ -120,12 +84,8 @@
                                         "left": {
                                           "write": {
                                             "binop": "==",
-                                            "left": {
-                                              "const": 4
-                                            },
-                                            "right": {
-                                              "const": 5
-                                            }
+                                            "left": { "const": 4 },
+                                            "right": { "const": 5 }
                                           }
                                         },
                                         "right": {
@@ -133,23 +93,15 @@
                                             "left": {
                                               "write": {
                                                 "binop": "!=",
-                                                "left": {
-                                                  "const": 4
-                                                },
-                                                "right": {
-                                                  "const": 5
-                                                }
+                                                "left": { "const": 4 },
+                                                "right": { "const": 5 }
                                               }
                                             },
                                             "right": {
                                               "write": {
                                                 "binop": "!=",
-                                                "left": {
-                                                  "const": 4
-                                                },
-                                                "right": {
-                                                  "const": 4
-                                                }
+                                                "left": { "const": 4 },
+                                                "right": { "const": 4 }
                                               }
                                             }
                                           }
