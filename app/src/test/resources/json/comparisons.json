@@ -1,0 +1,176 @@
+{
+  "seq": {
+    "left": {
+      "write": {
+        "binop": "<",
+        "left": {
+          "const": 2
+        },
+        "right": {
+          "const": 3
+        }
+      }
+    },
+    "right": {
+      "seq": {
+        "left": {
+          "write": {
+            "binop": "<",
+            "left": {
+              "const": 3
+            },
+            "right": {
+              "const": 2
+            }
+          }
+        },
+        "right": {
+          "seq": {
+            "left": {
+              "write": {
+                "binop": "<=",
+                "left": {
+                  "const": 2
+                },
+                "right": {
+                  "const": 2
+                }
+              }
+            },
+            "right": {
+              "seq": {
+                "left": {
+                  "write": {
+                    "binop": "<=",
+                    "left": {
+                      "const": 3
+                    },
+                    "right": {
+                      "const": 2
+                    }
+                  }
+                },
+                "right": {
+                  "seq": {
+                    "left": {
+                      "write": {
+                        "binop": ">",
+                        "left": {
+                          "const": 3
+                        },
+                        "right": {
+                          "const": 2
+                        }
+                      }
+                    },
+                    "right": {
+                      "seq": {
+                        "left": {
+                          "write": {
+                            "binop": ">",
+                            "left": {
+                              "const": 2
+                            },
+                            "right": {
+                              "const": 3
+                            }
+                          }
+                        },
+                        "right": {
+                          "seq": {
+                            "left": {
+                              "write": {
+                                "binop": ">=",
+                                "left": {
+                                  "const": 3
+                                },
+                                "right": {
+                                  "const": 3
+                                }
+                              }
+                            },
+                            "right": {
+                              "seq": {
+                                "left": {
+                                  "write": {
+                                    "binop": ">=",
+                                    "left": {
+                                      "const": 2
+                                    },
+                                    "right": {
+                                      "const": 3
+                                    }
+                                  }
+                                },
+                                "right": {
+                                  "seq": {
+                                    "left": {
+                                      "write": {
+                                        "binop": "==",
+                                        "left": {
+                                          "const": 4
+                                        },
+                                        "right": {
+                                          "const": 4
+                                        }
+                                      }
+                                    },
+                                    "right": {
+                                      "seq": {
+                                        "left": {
+                                          "write": {
+                                            "binop": "==",
+                                            "left": {
+                                              "const": 4
+                                            },
+                                            "right": {
+                                              "const": 5
+                                            }
+                                          }
+                                        },
+                                        "right": {
+                                          "seq": {
+                                            "left": {
+                                              "write": {
+                                                "binop": "!=",
+                                                "left": {
+                                                  "const": 4
+                                                },
+                                                "right": {
+                                                  "const": 5
+                                                }
+                                              }
+                                            },
+                                            "right": {
+                                              "write": {
+                                                "binop": "!=",
+                                                "left": {
+                                                  "const": 4
+                                                },
+                                                "right": {
+                                                  "const": 4
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

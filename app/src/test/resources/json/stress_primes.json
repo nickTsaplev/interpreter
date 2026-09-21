@@ -1,0 +1,318 @@
+{
+  "seq": {
+    "left": {
+      "read": "limit"
+    },
+    "right": {
+      "seq": {
+        "left": {
+          "assn": {
+            "dst": "count",
+            "src": {
+              "const": 0
+            }
+          }
+        },
+        "right": {
+          "seq": {
+            "left": {
+              "assn": {
+                "dst": "sum",
+                "src": {
+                  "const": 0
+                }
+              }
+            },
+            "right": {
+              "seq": {
+                "left": {
+                  "assn": {
+                    "dst": "checksum",
+                    "src": {
+                      "const": 0
+                    }
+                  }
+                },
+                "right": {
+                  "seq": {
+                    "left": {
+                      "seq": {
+                        "left": {
+                          "assn": {
+                            "dst": "candidate",
+                            "src": {
+                              "const": 2
+                            }
+                          }
+                        },
+                        "right": {
+                          "while": {
+                            "cond": {
+                              "binop": "<=",
+                              "left": {
+                                "var": "candidate"
+                              },
+                              "right": {
+                                "var": "limit"
+                              }
+                            },
+                            "body": {
+                              "seq": {
+                                "left": {
+                                  "seq": {
+                                    "left": {
+                                      "assn": {
+                                        "dst": "divisor",
+                                        "src": {
+                                          "const": 2
+                                        }
+                                      }
+                                    },
+                                    "right": {
+                                      "seq": {
+                                        "left": {
+                                          "assn": {
+                                            "dst": "isPrime",
+                                            "src": {
+                                              "const": 1
+                                            }
+                                          }
+                                        },
+                                        "right": {
+                                          "seq": {
+                                            "left": {
+                                              "while": {
+                                                "cond": {
+                                                  "binop": "&&",
+                                                  "left": {
+                                                    "binop": "<=",
+                                                    "left": {
+                                                      "binop": "*",
+                                                      "left": {
+                                                        "var": "divisor"
+                                                      },
+                                                      "right": {
+                                                        "var": "divisor"
+                                                      }
+                                                    },
+                                                    "right": {
+                                                      "var": "candidate"
+                                                    }
+                                                  },
+                                                  "right": {
+                                                    "var": "isPrime"
+                                                  }
+                                                },
+                                                "body": {
+                                                  "if": {
+                                                    "cond": {
+                                                      "binop": "==",
+                                                      "left": {
+                                                        "binop": "%",
+                                                        "left": {
+                                                          "var": "candidate"
+                                                        },
+                                                        "right": {
+                                                          "var": "divisor"
+                                                        }
+                                                      },
+                                                      "right": {
+                                                        "const": 0
+                                                      }
+                                                    },
+                                                    "then": {
+                                                      "assn": {
+                                                        "dst": "isPrime",
+                                                        "src": {
+                                                          "const": 0
+                                                        }
+                                                      }
+                                                    },
+                                                    "else": {
+                                                      "assn": {
+                                                        "dst": "divisor",
+                                                        "src": {
+                                                          "binop": "+",
+                                                          "left": {
+                                                            "var": "divisor"
+                                                          },
+                                                          "right": {
+                                                            "const": 1
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            "right": {
+                                              "if": {
+                                                "cond": {
+                                                  "var": "isPrime"
+                                                },
+                                                "then": {
+                                                  "seq": {
+                                                    "left": {
+                                                      "assn": {
+                                                        "dst": "count",
+                                                        "src": {
+                                                          "binop": "+",
+                                                          "left": {
+                                                            "var": "count"
+                                                          },
+                                                          "right": {
+                                                            "const": 1
+                                                          }
+                                                        }
+                                                      }
+                                                    },
+                                                    "right": {
+                                                      "seq": {
+                                                        "left": {
+                                                          "assn": {
+                                                            "dst": "sum",
+                                                            "src": {
+                                                              "binop": "+",
+                                                              "left": {
+                                                                "var": "sum"
+                                                              },
+                                                              "right": {
+                                                                "var": "candidate"
+                                                              }
+                                                            }
+                                                          }
+                                                        },
+                                                        "right": {
+                                                          "seq": {
+                                                            "left": {
+                                                              "assn": {
+                                                                "dst": "checksum",
+                                                                "src": {
+                                                                  "binop": "%",
+                                                                  "left": {
+                                                                    "binop": "+",
+                                                                    "left": {
+                                                                      "binop": "*",
+                                                                      "left": {
+                                                                        "var": "checksum"
+                                                                      },
+                                                                      "right": {
+                                                                        "const": 31
+                                                                      }
+                                                                    },
+                                                                    "right": {
+                                                                      "var": "candidate"
+                                                                    }
+                                                                  },
+                                                                  "right": {
+                                                                    "const": 100000
+                                                                  }
+                                                                }
+                                                              }
+                                                            },
+                                                            "right": {
+                                                              "if": {
+                                                                "cond": {
+                                                                  "binop": "!!",
+                                                                  "left": {
+                                                                    "binop": "==",
+                                                                    "left": {
+                                                                      "binop": "%",
+                                                                      "left": {
+                                                                        "var": "candidate"
+                                                                      },
+                                                                      "right": {
+                                                                        "const": 10
+                                                                      }
+                                                                    },
+                                                                    "right": {
+                                                                      "const": 1
+                                                                    }
+                                                                  },
+                                                                  "right": {
+                                                                    "binop": "==",
+                                                                    "left": {
+                                                                      "var": "candidate"
+                                                                    },
+                                                                    "right": {
+                                                                      "const": 2
+                                                                    }
+                                                                  }
+                                                                },
+                                                                "then": {
+                                                                  "write": {
+                                                                    "var": "candidate"
+                                                                  }
+                                                                },
+                                                                "else": "skip"
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                },
+                                                "else": "skip"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "right": {
+                                  "assn": {
+                                    "dst": "candidate",
+                                    "src": {
+                                      "binop": "+",
+                                      "left": {
+                                        "var": "candidate"
+                                      },
+                                      "right": {
+                                        "const": 1
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "right": {
+                      "seq": {
+                        "left": {
+                          "write": {
+                            "var": "count"
+                          }
+                        },
+                        "right": {
+                          "seq": {
+                            "left": {
+                              "write": {
+                                "var": "sum"
+                              }
+                            },
+                            "right": {
+                              "write": {
+                                "var": "checksum"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

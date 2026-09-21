@@ -1,0 +1,26 @@
+{
+  "seq": {
+    "left": {
+      "write": {
+        "binop": "!!",
+        "left": {
+          "const": 0
+        },
+        "right": {
+          "const": 1
+        }
+      }
+    },
+    "right": {
+      "write": {
+        "binop": "!!",
+        "left": {
+          "const": 0
+        },
+        "right": {
+          "const": 0
+        }
+      }
+    }
+  }
+}
