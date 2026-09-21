@@ -1,14 +1,15 @@
 package ru.tsaplev.app
 
 import ru.tsaplev.app.JSONToAST.GetJsonToAST
+import ru.tsaplev.app.execution.CompilationVisitor
 import ru.tsaplev.app.execution.ExecutionVisitor
 import ru.tsaplev.app.execution.StandardIO
 import ru.tsaplev.app.execution.stackMachine.StackMachine
 import java.io.File
 
 fun main(args: Array<String>) {
-    if (args.size != 2) {
-        System.err.println("Usage: interpreter ast/stack <ast.json>")
+    if (args.size != 2 && args.size != 3) {
+        System.err.println("Usage: interpreter ast/stack <ast.json> | compile <ast.json> <output.json>")
         return
     }
 
@@ -41,5 +42,20 @@ fun main(args: Array<String>) {
         } catch (e: IllegalArgumentException) {
             print("Argument error while running: ${e.message}")
         }
+    }
+
+    if(args[0] == "compile") {
+        val text = File(args[1]).readText(Charsets.UTF_8)
+        val ast = GetJsonToAST().startParse(text)
+
+        if (ast == null) {
+            print("Error: faulty JSON")
+            return
+        }
+
+        val visitor = CompilationVisitor()
+        ast.visit(visitor)
+
+        File(args[2]).writeText(StackInstructionsToJSON(visitor.instructions).toString())
     }
 }

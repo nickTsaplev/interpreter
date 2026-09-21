@@ -43,7 +43,7 @@ class StackMachine {
                         pc = findLabel(commands, command.label)
                     }
                 }
-                is MachineInstruction.LABEL -> {};
+                is MachineInstruction.LABEL -> {}
                 is MachineInstruction.LD -> {
                     val value = mem.getVar(command.varname)
                         ?: throw IllegalArgumentException("Variable ${command.varname} not found")
