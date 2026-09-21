@@ -12,7 +12,7 @@ class JsonToRead: JsonToASTer() {
     ): ASTNode? {
         val jsonObject = text as? JsonObject ?: return next?.parse(parser, text)
         if (jsonObject.hasNodeTag("read")) {
-            val variableName = jsonObject["read"]?.asStringOrNull() ?: return null
+            val variableName = jsonObject["read"]?.asIdentifierOrNull() ?: return null
             return ASTRead(variableName)
         }
         return next?.parse(parser, text)

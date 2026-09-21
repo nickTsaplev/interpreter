@@ -9,7 +9,9 @@ class JsonToBinop: JsonToASTer() {
     override fun parse(parser: JsonToASTer, text: JsonElement): ASTNode? {
         val jsonObject = text as? JsonObject ?: return next?.parse(parser, text)
         if (jsonObject.hasNodeTag("binop")) {
-            val operation = jsonObject["binop"]?.asStringOrNull() ?: return null
+            val operation = jsonObject["binop"]?.asStringOrNull()
+                ?.takeIf { it in binaryOperators }
+                ?: return null
             val left = jsonObject["left"]?.let { parser.parse(parser, it) } ?: return null
             val right = jsonObject["right"]?.let { parser.parse(parser, it) } ?: return null
             return ASTBinOP(operation, left, right)

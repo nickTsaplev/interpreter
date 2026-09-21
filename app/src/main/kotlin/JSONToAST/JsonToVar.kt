@@ -12,7 +12,7 @@ class JsonToVar: JsonToASTer() {
     ): ASTNode? {
         val jsonObject = text as? JsonObject ?: return next?.parse(parser, text)
         if (jsonObject.hasNodeTag("var")) {
-            val variableName = jsonObject["var"]?.asStringOrNull() ?: return null
+            val variableName = jsonObject["var"]?.asIdentifierOrNull() ?: return null
             return ASTVar(variableName)
         }
         return next?.parse(parser, text)

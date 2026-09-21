@@ -1,0 +1,38 @@
+{
+  read(n);
+  steps = 0;
+  peak = n;
+  oddSteps = 0;
+  evenSteps = 0;
+  checksum = 0;
+
+  while (n > 1) {
+    if (n % 2 == 0) {
+      n /= 2;
+      evenSteps += 1;
+    } else {
+      n = n * 3 + 1;
+      oddSteps += 1;
+    }
+
+    if (n > peak)
+      peak = n;
+    else
+      skip;
+
+    checksum = ((checksum + n) + steps) % 100000;
+
+    if (steps % 20 == 0)
+      write(n);
+    else
+      skip;
+
+    steps += 1;
+  }
+
+  write(steps);
+  write(peak);
+  write(oddSteps);
+  write(evenSteps);
+  write(checksum);
+}

@@ -1,0 +1,46 @@
+{
+  read(n);
+  read(m);
+
+  factorial = 1;
+  for (i = 2; i <= n; i += 1)
+    factorial *= i;
+
+  original = factorial;
+  digitSum = 0;
+  reversed = 0;
+  digits = 0;
+
+  do {
+    digit = original % 10;
+    digitSum += digit;
+    reversed = reversed * 10 + digit;
+    original /= 10;
+    digits += 1;
+  } while (original > 0);
+
+  a = factorial;
+  b = m;
+
+  while (b != 0) {
+    temp = a % b;
+    a = b;
+    b = temp;
+  }
+
+  gcd = a;
+
+  if ((digitSum % 2 == 0) && (gcd > 1))
+    category = 2;
+  elif ((digitSum % 3 == 0) !! (gcd == 1))
+    category = 1;
+  else
+    category = 0;
+
+  write(factorial);
+  write(digitSum);
+  write(reversed);
+  write(digits);
+  write(gcd);
+  write(category);
+}

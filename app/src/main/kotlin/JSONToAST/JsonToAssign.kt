@@ -13,7 +13,7 @@ class JsonToAssign: JsonToASTer() {
         val jsonObject = text as? JsonObject ?: return next?.parse(parser, text)
         if (jsonObject.hasNodeTag("assn")) {
             val assignment = jsonObject["assn"] as? JsonObject ?: return null
-            val destination = assignment["dst"]?.asStringOrNull() ?: return null
+            val destination = assignment["dst"]?.asIdentifierOrNull() ?: return null
             val source = assignment["src"]?.let { parser.parse(parser, it) } ?: return null
             return ASTAssign(destination, source)
         }

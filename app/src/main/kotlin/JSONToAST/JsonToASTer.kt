@@ -17,13 +17,26 @@ abstract class JsonToASTer {
         return this
     }
 
-    fun startParse(text: String): ASTNode? =
+    fun startParse(text: String): ASTNode? = try {
         parse(this, Json.parseToJsonElement(text))
+    } catch (_: Exception) {
+        null
+    }
 
     protected fun JsonElement.asStringOrNull(): String? {
         val primitive = this as? JsonPrimitive ?: return null
         return primitive.takeIf { it.isString }?.content
     }
 
-    protected fun JsonObject.hasNodeTag(tag: String): Boolean = tag in this
+    protected fun JsonElement.asIdentifierOrNull(): String? =
+        asStringOrNull()?.takeIf(identifierPattern::matches)
+
+    protected fun JsonObject.hasNodeTag(tag: String): Boolean =
+        tag in this && keys.count { it in nodeTags } == 1
+
+    companion object {
+        private val identifierPattern = Regex("[a-z][a-zA-Z_'0-9]*")
+        private val nodeTags = setOf("read", "write", "assn", "while", "do", "if", "seq", "skip", "binop", "var", "const")
+        val binaryOperators = setOf("!!", "||", "&&", "==", "!=", "<=", "<", ">=", ">", "+", "-", "*", "/", "%")
+    }
 }
