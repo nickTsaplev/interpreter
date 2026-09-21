@@ -1,8 +1,8 @@
 {
   read(x);
   read(y);
-  result_2' = x + y;
-  write(result_2');
+  result_2 = x + y;
+  write(result_2);
 
   x += 5;
   write(x);

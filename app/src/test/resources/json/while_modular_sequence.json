@@ -1,23 +1,12 @@
 {
   "seq": {
-    "left": {
-      "assn": {
-        "dst": "a",
-        "src": {
-          "const": 2
-        }
-      }
-    },
+    "left": { "assn": { "dst": "a", "src": { "const": 2 } } },
     "right": {
       "while": {
         "cond": {
           "binop": "<",
-          "left": {
-            "var": "a"
-          },
-          "right": {
-            "const": 22
-          }
+          "left": { "var": "a" },
+          "right": { "const": 22 }
         },
         "body": {
           "seq": {
@@ -26,21 +15,13 @@
                 "binop": "+",
                 "left": {
                   "binop": "%",
-                  "left": {
-                    "var": "a"
-                  },
-                  "right": {
-                    "const": 7
-                  }
+                  "left": { "var": "a" },
+                  "right": { "const": 7 }
                 },
                 "right": {
                   "binop": "%",
-                  "left": {
-                    "var": "a"
-                  },
-                  "right": {
-                    "const": 3
-                  }
+                  "left": { "var": "a" },
+                  "right": { "const": 3 }
                 }
               }
             },
@@ -49,12 +30,8 @@
                 "dst": "a",
                 "src": {
                   "binop": "+",
-                  "left": {
-                    "var": "a"
-                  },
-                  "right": {
-                    "const": 1
-                  }
+                  "left": { "var": "a" },
+                  "right": { "const": 1 }
                 }
               }
             }

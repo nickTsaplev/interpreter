@@ -3,23 +3,15 @@
     "left": {
       "write": {
         "binop": "!!",
-        "left": {
-          "const": 0
-        },
-        "right": {
-          "const": 1
-        }
+        "left": { "const": 0 },
+        "right": { "const": 1 }
       }
     },
     "right": {
       "write": {
         "binop": "!!",
-        "left": {
-          "const": 0
-        },
-        "right": {
-          "const": 0
-        }
+        "left": { "const": 0 },
+        "right": { "const": 0 }
       }
     }
   }

@@ -1,57 +1,29 @@
 {
   "seq": {
-    "left": {
-      "assn": {
-        "dst": "n",
-        "src": {
-          "const": 40
-        }
-      }
-    },
+    "left": { "assn": { "dst": "n", "src": { "const": 40 } } },
     "right": {
       "seq": {
-        "left": {
-          "assn": {
-            "dst": "i",
-            "src": {
-              "const": 2
-            }
-          }
-        },
+        "left": { "assn": { "dst": "i", "src": { "const": 2 } } },
         "right": {
           "while": {
             "cond": {
               "binop": "<",
-              "left": {
-                "var": "i"
-              },
-              "right": {
-                "var": "n"
-              }
+              "left": { "var": "i" },
+              "right": { "var": "n" }
             },
             "body": {
               "seq": {
                 "left": {
                   "seq": {
                     "left": {
-                      "assn": {
-                        "dst": "is_prime",
-                        "src": {
-                          "const": 1
-                        }
-                      }
+                      "assn": { "dst": "is_prime", "src": { "const": 1 } }
                     },
                     "right": {
                       "seq": {
                         "left": {
                           "seq": {
                             "left": {
-                              "assn": {
-                                "dst": "j",
-                                "src": {
-                                  "const": 2
-                                }
-                              }
+                              "assn": { "dst": "j", "src": { "const": 2 } }
                             },
                             "right": {
                               "while": {
@@ -59,16 +31,10 @@
                                   "binop": "<=",
                                   "left": {
                                     "binop": "*",
-                                    "left": {
-                                      "var": "j"
-                                    },
-                                    "right": {
-                                      "var": "j"
-                                    }
+                                    "left": { "var": "j" },
+                                    "right": { "var": "j" }
                                   },
-                                  "right": {
-                                    "var": "i"
-                                  }
+                                  "right": { "var": "i" }
                                 },
                                 "body": {
                                   "seq": {
@@ -77,23 +43,15 @@
                                         "dst": "is_prime",
                                         "src": {
                                           "binop": "&&",
-                                          "left": {
-                                            "var": "is_prime"
-                                          },
+                                          "left": { "var": "is_prime" },
                                           "right": {
                                             "binop": "!=",
                                             "left": {
                                               "binop": "%",
-                                              "left": {
-                                                "var": "i"
-                                              },
-                                              "right": {
-                                                "var": "j"
-                                              }
+                                              "left": { "var": "i" },
+                                              "right": { "var": "j" }
                                             },
-                                            "right": {
-                                              "const": 0
-                                            }
+                                            "right": { "const": 0 }
                                           }
                                         }
                                       }
@@ -103,12 +61,8 @@
                                         "dst": "j",
                                         "src": {
                                           "binop": "+",
-                                          "left": {
-                                            "var": "j"
-                                          },
-                                          "right": {
-                                            "const": 1
-                                          }
+                                          "left": { "var": "j" },
+                                          "right": { "const": 1 }
                                         }
                                       }
                                     }
@@ -120,14 +74,8 @@
                         },
                         "right": {
                           "if": {
-                            "cond": {
-                              "var": "is_prime"
-                            },
-                            "then": {
-                              "write": {
-                                "var": "i"
-                              }
-                            },
+                            "cond": { "var": "is_prime" },
+                            "then": { "write": { "var": "i" } },
                             "else": "skip"
                           }
                         }
@@ -140,12 +88,8 @@
                     "dst": "i",
                     "src": {
                       "binop": "+",
-                      "left": {
-                        "var": "i"
-                      },
-                      "right": {
-                        "const": 1
-                      }
+                      "left": { "var": "i" },
+                      "right": { "const": 1 }
                     }
                   }
                 }

@@ -1,36 +1,24 @@
 {
   "seq": {
-    "left": {
-      "read": "x"
-    },
+    "left": { "read": "x" },
     "right": {
       "seq": {
-        "left": {
-          "read": "y"
-        },
+        "left": { "read": "y" },
         "right": {
           "seq": {
             "left": {
               "assn": {
-                "dst": "result_2'",
+                "dst": "result_2",
                 "src": {
                   "binop": "+",
-                  "left": {
-                    "var": "x"
-                  },
-                  "right": {
-                    "var": "y"
-                  }
+                  "left": { "var": "x" },
+                  "right": { "var": "y" }
                 }
               }
             },
             "right": {
               "seq": {
-                "left": {
-                  "write": {
-                    "var": "result_2'"
-                  }
-                },
+                "left": { "write": { "var": "result_2" } },
                 "right": {
                   "seq": {
                     "left": {
@@ -38,22 +26,14 @@
                         "dst": "x",
                         "src": {
                           "binop": "+",
-                          "left": {
-                            "var": "x"
-                          },
-                          "right": {
-                            "const": 5
-                          }
+                          "left": { "var": "x" },
+                          "right": { "const": 5 }
                         }
                       }
                     },
                     "right": {
                       "seq": {
-                        "left": {
-                          "write": {
-                            "var": "x"
-                          }
-                        },
+                        "left": { "write": { "var": "x" } },
                         "right": {
                           "seq": {
                             "left": {
@@ -61,22 +41,14 @@
                                 "dst": "x",
                                 "src": {
                                   "binop": "-",
-                                  "left": {
-                                    "var": "x"
-                                  },
-                                  "right": {
-                                    "const": 2
-                                  }
+                                  "left": { "var": "x" },
+                                  "right": { "const": 2 }
                                 }
                               }
                             },
                             "right": {
                               "seq": {
-                                "left": {
-                                  "write": {
-                                    "var": "x"
-                                  }
-                                },
+                                "left": { "write": { "var": "x" } },
                                 "right": {
                                   "seq": {
                                     "left": {
@@ -84,22 +56,14 @@
                                         "dst": "x",
                                         "src": {
                                           "binop": "*",
-                                          "left": {
-                                            "var": "x"
-                                          },
-                                          "right": {
-                                            "var": "y"
-                                          }
+                                          "left": { "var": "x" },
+                                          "right": { "var": "y" }
                                         }
                                       }
                                     },
                                     "right": {
                                       "seq": {
-                                        "left": {
-                                          "write": {
-                                            "var": "x"
-                                          }
-                                        },
+                                        "left": { "write": { "var": "x" } },
                                         "right": {
                                           "seq": {
                                             "left": {
@@ -107,21 +71,15 @@
                                                 "dst": "x",
                                                 "src": {
                                                   "binop": "/",
-                                                  "left": {
-                                                    "var": "x"
-                                                  },
-                                                  "right": {
-                                                    "const": 4
-                                                  }
+                                                  "left": { "var": "x" },
+                                                  "right": { "const": 4 }
                                                 }
                                               }
                                             },
                                             "right": {
                                               "seq": {
                                                 "left": {
-                                                  "write": {
-                                                    "var": "x"
-                                                  }
+                                                  "write": { "var": "x" }
                                                 },
                                                 "right": {
                                                   "seq": {
@@ -140,9 +98,7 @@
                                                       }
                                                     },
                                                     "right": {
-                                                      "write": {
-                                                        "var": "x"
-                                                      }
+                                                      "write": { "var": "x" }
                                                     }
                                                   }
                                                 }

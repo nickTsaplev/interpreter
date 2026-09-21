@@ -3,12 +3,8 @@
     "left": {
       "write": {
         "binop": "+",
-        "left": {
-          "const": 7
-        },
-        "right": {
-          "const": 5
-        }
+        "left": { "const": 7 },
+        "right": { "const": 5 }
       }
     },
     "right": {
@@ -16,12 +12,8 @@
         "left": {
           "write": {
             "binop": "-",
-            "left": {
-              "const": 7
-            },
-            "right": {
-              "const": 5
-            }
+            "left": { "const": 7 },
+            "right": { "const": 5 }
           }
         },
         "right": {
@@ -29,12 +21,8 @@
             "left": {
               "write": {
                 "binop": "*",
-                "left": {
-                  "const": 7
-                },
-                "right": {
-                  "const": 5
-                }
+                "left": { "const": 7 },
+                "right": { "const": 5 }
               }
             },
             "right": {
@@ -42,12 +30,8 @@
                 "left": {
                   "write": {
                     "binop": "/",
-                    "left": {
-                      "const": 17
-                    },
-                    "right": {
-                      "const": 5
-                    }
+                    "left": { "const": 17 },
+                    "right": { "const": 5 }
                   }
                 },
                 "right": {
@@ -55,12 +39,8 @@
                     "left": {
                       "write": {
                         "binop": "%",
-                        "left": {
-                          "const": 17
-                        },
-                        "right": {
-                          "const": 5
-                        }
+                        "left": { "const": 17 },
+                        "right": { "const": 5 }
                       }
                     },
                     "right": {
@@ -70,21 +50,13 @@
                             "binop": "*",
                             "left": {
                               "binop": "+",
-                              "left": {
-                                "const": 2
-                              },
-                              "right": {
-                                "const": 3
-                              }
+                              "left": { "const": 2 },
+                              "right": { "const": 3 }
                             },
                             "right": {
                               "binop": "-",
-                              "left": {
-                                "const": 10
-                              },
-                              "right": {
-                                "const": 4
-                              }
+                              "left": { "const": 10 },
+                              "right": { "const": 4 }
                             }
                           }
                         },
@@ -93,16 +65,10 @@
                             "binop": "/",
                             "left": {
                               "binop": "-",
-                              "left": {
-                                "const": 0
-                              },
-                              "right": {
-                                "const": 7
-                              }
+                              "left": { "const": 0 },
+                              "right": { "const": 7 }
                             },
-                            "right": {
-                              "const": 2
-                            }
+                            "right": { "const": 2 }
                           }
                         }
                       }
