@@ -19,6 +19,12 @@ public class ExecutionFrame(private val name: String? = null) {
         return unnamedStack.pop()
     }
 
+    fun popNameless(): DataValue {
+        if(unnamedStack.empty())
+            throw IllegalStateException("Execution stack empty")
+        return unnamedStack.pop()
+    }
+
     public fun pushNameless(value: DataValue) {
         unnamedStack.push(value)
     }
