@@ -1,0 +1,9 @@
+{
+  read(x);
+  if (x > 10)
+    write(100);
+  elif (x == 10)
+    write(200);
+  else
+    write(300);
+}

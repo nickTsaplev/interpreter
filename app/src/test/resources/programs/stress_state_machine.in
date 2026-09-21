@@ -1,0 +1,35 @@
+{
+  read(state);
+  i = 0;
+  checksum = 0;
+  high = 0;
+  low = 0;
+
+  do {
+    state = (state * 17 + 11) % 97;
+
+    if (state % 2 == 0)
+      checksum += state;
+    elif (state % 3 == 0)
+      checksum -= state;
+    else
+      checksum += state * 2;
+
+    if (state > 50)
+      high += 1;
+    else
+      low += 1;
+
+    if (i % 5 == 0)
+      write(checksum);
+    else
+      skip;
+
+    i += 1;
+  } while (i < 30);
+
+  write(state);
+  write(checksum);
+  write(high);
+  write(low);
+}
