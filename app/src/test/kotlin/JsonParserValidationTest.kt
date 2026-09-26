@@ -6,7 +6,7 @@ import kotlin.test.assertNull
 
 class JsonParserValidationTest {
     @Test
-    fun `parser rejects malformed and unknown AST nodes`() {
+    fun parserRejectsMalformedAndUnknownAstNodes() {
         val invalidJsonValues = listOf(
             "{",
             "{\"unknown\":1}",

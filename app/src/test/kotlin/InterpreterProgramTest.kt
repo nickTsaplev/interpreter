@@ -29,7 +29,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program conditional if without else skips false branch`() {
+    fun conditionalIfWithoutElseSkipsFalseBranch() {
         val input = emptyList<Int>()
         val expectedOutput = emptyList<Int>()
 
@@ -37,7 +37,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program io arithmetic combines assignment read and write`() {
+    fun ioArithmeticCombinesAssignmentReadAndWrite() {
         val input = listOf(4)
         val expectedOutput = listOf(10, 14, 16)
 
@@ -45,7 +45,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program logical or evaluates true and false cases`() {
+    fun logicalOrEvaluatesTrueAndFalseCases() {
         val input = emptyList<Int>()
         val expectedOutput = listOf(1, 0)
 
@@ -53,7 +53,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program while loop produces modular sequence`() {
+    fun whileLoopProducesModularSequence() {
         val input = emptyList<Int>()
         val expectedOutput = listOf(4, 3, 5, 7, 6, 1, 3, 2, 4, 6, 5, 7, 2, 1, 3, 5, 4, 6, 8, 0)
 
@@ -61,7 +61,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program do while executes once before false condition`() {
+    fun doWhileExecutesOnceBeforeFalseCondition() {
         val input = emptyList<Int>()
         val expectedOutput = listOf(42)
 
@@ -69,7 +69,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program prime search finds primes below forty`() {
+    fun primeSearchFindsPrimesBelowForty() {
         val input = emptyList<Int>()
         val expectedOutput = listOf(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37)
 
@@ -77,7 +77,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program arithmetic evaluates operators and nested expressions`() {
+    fun arithmeticEvaluatesOperatorsAndNestedExpressions() {
         val input = emptyList<Int>()
         val expectedOutput = listOf(12, 2, 35, 3, 2, 30, -3)
 
@@ -85,7 +85,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program comparisons evaluates true and false results`() {
+    fun comparisonsEvaluateTrueAndFalseResults() {
         val input = emptyList<Int>()
         val expectedOutput = listOf(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0)
 
@@ -93,7 +93,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program logic evaluates truth tables and nonzero values`() {
+    fun logicEvaluatesTruthTablesAndNonzeroValues() {
         val input = emptyList<Int>()
         val expectedOutput = listOf(0, 0, 0, 1, 0, 1, 1, 1, 1)
 
@@ -101,7 +101,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program assignments reads variables and applies compound operators`() {
+    fun assignmentsReadVariablesAndApplyCompoundOperators() {
         val input = listOf(20, 3)
         val expectedOutput = listOf(23, 25, 23, 69, 17, 2)
 
@@ -109,7 +109,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program branches selects then branch`() {
+    fun branchesSelectThenBranch() {
         val input = listOf(11)
         val expectedOutput = listOf(100)
 
@@ -117,7 +117,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program branches selects elif branch`() {
+    fun branchesSelectElifBranch() {
         val input = listOf(10)
         val expectedOutput = listOf(200)
 
@@ -125,7 +125,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program branches selects else branch`() {
+    fun branchesSelectElseBranch() {
         val input = listOf(9)
         val expectedOutput = listOf(300)
 
@@ -133,7 +133,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program while factorial repeats until condition is false`() {
+    fun whileFactorialRepeatsUntilConditionIsFalse() {
         val input = listOf(5)
         val expectedOutput = listOf(120)
 
@@ -141,7 +141,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program while factorial handles zero iterations`() {
+    fun whileFactorialHandlesZeroIterations() {
         val input = listOf(0)
         val expectedOutput = listOf(1)
 
@@ -149,7 +149,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program do while repeats its body`() {
+    fun doWhileRepeatsItsBody() {
         val input = listOf(3)
         val expectedOutput = listOf(3, 2, 1)
 
@@ -157,7 +157,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program do while executes once for zero input`() {
+    fun doWhileExecutesOnceForZeroInput() {
         val input = listOf(0)
         val expectedOutput = listOf(0)
 
@@ -165,7 +165,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program for sum iterates and accumulates values`() {
+    fun forSumIteratesAndAccumulatesValues() {
         val input = listOf(5)
         val expectedOutput = listOf(0, 1, 2, 3, 4, 10)
 
@@ -173,7 +173,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program for sum handles zero iterations`() {
+    fun forSumHandlesZeroIterations() {
         val input = listOf(0)
         val expectedOutput = listOf(0)
 
@@ -181,7 +181,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program nested control traverses grid with conditions`() {
+    fun nestedControlTraversesGridWithConditions() {
         val input = listOf(3, 4)
         val expectedOutput = listOf(6)
 
@@ -189,7 +189,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program nested control handles empty outer loop`() {
+    fun nestedControlHandlesEmptyOuterLoop() {
         val input = listOf(0, 5)
         val expectedOutput = listOf(0)
 
@@ -197,7 +197,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program optional syntax supports comments semicolons and missing else`() {
+    fun optionalSyntaxSupportsCommentsSemicolonsAndMissingElse() {
         val input = emptyList<Int>()
         val expectedOutput = listOf(1)
 
@@ -205,7 +205,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program blocks and skip preserve nested execution order`() {
+    fun blocksAndSkipPreserveNestedExecutionOrder() {
         val input = emptyList<Int>()
         val expectedOutput = listOf(2)
 
@@ -213,7 +213,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program stress collatz tracks long trajectory statistics`() {
+    fun stressCollatzTracksLongTrajectoryStatistics() {
         val input = listOf(27)
         val expectedOutput = listOf(82, 137, 1336, 2158, 577, 160, 111, 9232, 41, 70, 7518)
 
@@ -221,7 +221,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program stress collatz handles finished trajectory`() {
+    fun stressCollatzHandlesFinishedTrajectory() {
         val input = listOf(1)
         val expectedOutput = listOf(0, 1, 0, 0, 0)
 
@@ -229,7 +229,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program stress primes calculates primes statistics and checksum`() {
+    fun stressPrimesCalculatesPrimesStatisticsAndChecksum() {
         val input = listOf(100)
         val expectedOutput = listOf(2, 11, 31, 41, 61, 71, 25, 1060, 64660)
 
@@ -237,7 +237,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program stress primes handles empty range`() {
+    fun stressPrimesHandlesEmptyRange() {
         val input = listOf(1)
         val expectedOutput = listOf(0, 0, 0)
 
@@ -245,7 +245,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program stress state machine follows seed forty two path`() {
+    fun stressStateMachineFollowsSeedFortyTwoPath() {
         val input = listOf(42)
         val expectedOutput = listOf(46, 435, 642, 833, 1008, 1231, 22, 1539, 13, 17)
 
@@ -253,7 +253,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program stress state machine follows zero seed path`() {
+    fun stressStateMachineFollowsZeroSeedPath() {
         val input = listOf(0)
         val expectedOutput = listOf(22, 143, 518, 605, 848, 1053, 42, 1371, 15, 15)
 
@@ -261,7 +261,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program stress grid traverses seven by six cells`() {
+    fun stressGridTraversesSevenBySixCells() {
         val input = listOf(7, 6)
         val expectedOutput = listOf(11, 27, 126, 126, 208, 234, 248, 260, 260, 17, 14)
 
@@ -269,7 +269,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program stress grid handles empty outer dimension`() {
+    fun stressGridHandlesEmptyOuterDimension() {
         val input = listOf(0, 8)
         val expectedOutput = listOf(0, 0, 0)
 
@@ -277,7 +277,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program stress numeric pipeline combines all loop forms`() {
+    fun stressNumericPipelineCombinesAllLoopForms() {
         val input = listOf(7, 126)
         val expectedOutput = listOf(5040, 9, 405, 4, 126, 1)
 
@@ -285,7 +285,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program stress numeric pipeline reaches category two`() {
+    fun stressNumericPipelineReachesCategoryTwo() {
         val input = listOf(4, 18)
         val expectedOutput = listOf(24, 6, 42, 2, 6, 2)
 
@@ -293,7 +293,7 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun `program stress numeric pipeline handles zero bound`() {
+    fun stressNumericPipelineHandlesZeroBound() {
         val input = listOf(0, 17)
         val expectedOutput = listOf(1, 1, 1, 1, 1, 1)
 
