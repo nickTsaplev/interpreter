@@ -7,17 +7,25 @@ import ru.tsaplev.app.execution.binaryOperation
 
 class StackMachine {
     private val mem = ExecutionFrame("main")
+    private var labelTable = mapOf<String, Int>()
 
     private fun findLabel(commands: List<MachineInstruction>, label: String): Int {
+        return labelTable[label] ?: throw IllegalArgumentException("$label not found")
+    }
+
+    private fun createLabelTable(commands: List<MachineInstruction>) {
+        val newLabels = mutableMapOf<String, Int>()
         commands.forEachIndexed { index, instruction ->
-            if (instruction is MachineInstruction.LABEL && instruction.label == label)
-                return index
+            if (instruction is MachineInstruction.LABEL)
+                newLabels[instruction.label] = index
         }
-        throw IllegalArgumentException("$label not found")
+        labelTable = newLabels
     }
 
     fun run(commands: List<MachineInstruction>, io: IntIO) {
         var pc = 0
+
+        createLabelTable(commands)
 
         while (pc < commands.size) {
             val command = commands[pc++]
