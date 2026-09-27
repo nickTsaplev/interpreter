@@ -38,7 +38,13 @@ fun main(args: Array<String>) {
 
     if (mode == "stack") {
         val text = File(inputPath).readText(Charsets.UTF_8)
-        val commandList = JSONToStackInstructions(text)
+
+        val commandList = try {
+            JSONToStackInstructions(text)
+        } catch (e: IllegalArgumentException) {
+            print("Argument error while parsing JSON: ${e.message}")
+            return
+        }
 
         val machine = StackMachine()
         try {
