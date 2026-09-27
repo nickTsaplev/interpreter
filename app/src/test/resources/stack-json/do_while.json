@@ -1,0 +1,6 @@
+[
+  "READ", {"ST": "x"},
+  {"LABEL": "loop"}, {"LD": "x"}, "WRITE",
+  {"LD": "x"}, {"CONST": 1}, {"BINOP": "-"}, {"ST": "x"},
+  {"LD": "x"}, {"CONST": 0}, {"BINOP": ">"}, {"JNZ": "loop"}
+]

@@ -1,0 +1,9 @@
+[
+  "READ", {"ST": "x"},
+  {"LD": "x"}, {"CONST": 10}, {"BINOP": ">"}, {"JZ": "elif"},
+  {"CONST": 100}, "WRITE", {"JMP": "end"},
+  {"LABEL": "elif"}, {"LD": "x"}, {"CONST": 10}, {"BINOP": "=="}, {"JZ": "else"},
+  {"CONST": 200}, "WRITE", {"JMP": "end"},
+  {"LABEL": "else"}, {"CONST": 300}, "WRITE",
+  {"LABEL": "end"}
+]
