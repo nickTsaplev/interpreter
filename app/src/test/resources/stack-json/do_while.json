@@ -1,6 +1,16 @@
 [
-  "READ", {"ST": "x"},
-  {"LABEL": "loop"}, {"LD": "x"}, "WRITE",
-  {"LD": "x"}, {"CONST": 1}, {"BINOP": "-"}, {"ST": "x"},
-  {"LD": "x"}, {"CONST": 0}, {"BINOP": ">"}, {"JNZ": "loop"}
+  "READ",
+  { "ST": "x" },
+  { "LABEL": "L_while_cody_2" },
+  { "LD": "x" },
+  "WRITE",
+  { "LD": "x" },
+  { "CONST": 1 },
+  { "BINOP": "-" },
+  { "ST": "x" },
+  { "LABEL": "L_while_cond_3" },
+  { "LD": "x" },
+  { "CONST": 0 },
+  { "BINOP": ">" },
+  { "JNZ": "L_while_cody_2" }
 ]
