@@ -1,0 +1,237 @@
+{
+  "seq": {
+    "left": { "read": "n" },
+    "right": {
+      "seq": {
+        "left": { "assn": { "dst": "steps", "src": { "const": 0 } } },
+        "right": {
+          "seq": {
+            "left": { "assn": { "dst": "peak", "src": { "var": "n" } } },
+            "right": {
+              "seq": {
+                "left": {
+                  "assn": { "dst": "oddSteps", "src": { "const": 0 } }
+                },
+                "right": {
+                  "seq": {
+                    "left": {
+                      "assn": { "dst": "evenSteps", "src": { "const": 0 } }
+                    },
+                    "right": {
+                      "seq": {
+                        "left": {
+                          "assn": {
+                            "dst": "checksum",
+                            "src": { "const": 0 }
+                          }
+                        },
+                        "right": {
+                          "seq": {
+                            "left": {
+                              "while": {
+                                "cond": {
+                                  "binop": ">",
+                                  "left": { "var": "n" },
+                                  "right": { "const": 1 }
+                                },
+                                "body": {
+                                  "seq": {
+                                    "left": {
+                                      "if": {
+                                        "cond": {
+                                          "binop": "==",
+                                          "left": {
+                                            "binop": "%",
+                                            "left": { "var": "n" },
+                                            "right": { "const": 2 }
+                                          },
+                                          "right": { "const": 0 }
+                                        },
+                                        "then": {
+                                          "seq": {
+                                            "left": {
+                                              "assn": {
+                                                "dst": "n",
+                                                "src": {
+                                                  "binop": "/",
+                                                  "left": { "var": "n" },
+                                                  "right": { "const": 2 }
+                                                }
+                                              }
+                                            },
+                                            "right": {
+                                              "assn": {
+                                                "dst": "evenSteps",
+                                                "src": {
+                                                  "binop": "+",
+                                                  "left": {
+                                                    "var": "evenSteps"
+                                                  },
+                                                  "right": { "const": 1 }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "else": {
+                                          "seq": {
+                                            "left": {
+                                              "assn": {
+                                                "dst": "n",
+                                                "src": {
+                                                  "binop": "+",
+                                                  "left": {
+                                                    "binop": "*",
+                                                    "left": { "var": "n" },
+                                                    "right": { "const": 3 }
+                                                  },
+                                                  "right": { "const": 1 }
+                                                }
+                                              }
+                                            },
+                                            "right": {
+                                              "assn": {
+                                                "dst": "oddSteps",
+                                                "src": {
+                                                  "binop": "+",
+                                                  "left": {
+                                                    "var": "oddSteps"
+                                                  },
+                                                  "right": { "const": 1 }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "right": {
+                                      "seq": {
+                                        "left": {
+                                          "if": {
+                                            "cond": {
+                                              "binop": ">",
+                                              "left": { "var": "n" },
+                                              "right": { "var": "peak" }
+                                            },
+                                            "then": {
+                                              "assn": {
+                                                "dst": "peak",
+                                                "src": { "var": "n" }
+                                              }
+                                            },
+                                            "else": "skip"
+                                          }
+                                        },
+                                        "right": {
+                                          "seq": {
+                                            "left": {
+                                              "assn": {
+                                                "dst": "checksum",
+                                                "src": {
+                                                  "binop": "%",
+                                                  "left": {
+                                                    "binop": "+",
+                                                    "left": {
+                                                      "binop": "+",
+                                                      "left": {
+                                                        "var": "checksum"
+                                                      },
+                                                      "right": { "var": "n" }
+                                                    },
+                                                    "right": {
+                                                      "var": "steps"
+                                                    }
+                                                  },
+                                                  "right": {
+                                                    "const": 100000
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            "right": {
+                                              "seq": {
+                                                "left": {
+                                                  "if": {
+                                                    "cond": {
+                                                      "binop": "==",
+                                                      "left": {
+                                                        "binop": "%",
+                                                        "left": {
+                                                          "var": "steps"
+                                                        },
+                                                        "right": {
+                                                          "const": 20
+                                                        }
+                                                      },
+                                                      "right": { "const": 0 }
+                                                    },
+                                                    "then": {
+                                                      "write": { "var": "n" }
+                                                    },
+                                                    "else": "skip"
+                                                  }
+                                                },
+                                                "right": {
+                                                  "assn": {
+                                                    "dst": "steps",
+                                                    "src": {
+                                                      "binop": "+",
+                                                      "left": {
+                                                        "var": "steps"
+                                                      },
+                                                      "right": { "const": 1 }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "right": {
+                              "seq": {
+                                "left": { "write": { "var": "steps" } },
+                                "right": {
+                                  "seq": {
+                                    "left": { "write": { "var": "peak" } },
+                                    "right": {
+                                      "seq": {
+                                        "left": {
+                                          "write": { "var": "oddSteps" }
+                                        },
+                                        "right": {
+                                          "seq": {
+                                            "left": {
+                                              "write": { "var": "evenSteps" }
+                                            },
+                                            "right": {
+                                              "write": { "var": "checksum" }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

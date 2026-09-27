@@ -1,0 +1,7 @@
+{
+  "if": {
+    "cond": { "const": 0 },
+    "then": { "write": { "const": 42 } },
+    "else": "skip"
+  }
+}

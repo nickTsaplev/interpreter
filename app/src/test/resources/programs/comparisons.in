@@ -1,0 +1,14 @@
+{
+  write(2 < 3);
+  write(3 < 2);
+  write(2 <= 2);
+  write(3 <= 2);
+  write(3 > 2);
+  write(2 > 3);
+  write(3 >= 3);
+  write(2 >= 3);
+  write(4 == 4);
+  write(4 == 5);
+  write(4 != 5);
+  write(4 != 4);
+}
