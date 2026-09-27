@@ -28,6 +28,8 @@ class CompilationVisitor: ASTVisitor {
     override fun visit(node: ASTFuncCall) {
         if (node.name == "write") {
             instructions.add(MachineInstruction.WRITE())
+        } else {
+            throw IllegalArgumentException("Unknown function: ${node.name}")
         }
     }
 
@@ -46,8 +48,8 @@ class CompilationVisitor: ASTVisitor {
 
     override fun visit(node: ASTIf) {
         node.cond.visit(this)
-        val elseLabelName = "IF-ELSE {$labelCount++}"
-        val endLabelName = "IF-END {$labelCount++}"
+        val elseLabelName = "IF-ELSE ${labelCount++}"
+        val endLabelName = "IF-END ${labelCount++}"
 
         instructions.add(MachineInstruction.JZ(elseLabelName))
         node.thenBranch.visit(this)
@@ -58,8 +60,8 @@ class CompilationVisitor: ASTVisitor {
     }
 
     override fun visit(node: ASTWhile) {
-        val loopStartLabel = "WHILE-START {$labelCount++}"
-        val loopEndLabel = "WHILE-END {$labelCount++}"
+        val loopStartLabel = "WHILE-START ${labelCount++}"
+        val loopEndLabel = "WHILE-END ${labelCount++}"
 
         instructions.add(MachineInstruction.LABEL(loopStartLabel))
         node.cond.visit(this)
@@ -70,7 +72,7 @@ class CompilationVisitor: ASTVisitor {
     }
 
     override fun visit(node: ASTDo) {
-        val loopStartLabel = "DO-WHILE-START {$labelCount++}"
+        val loopStartLabel = "DO-WHILE-START ${labelCount++}"
 
         instructions.add(MachineInstruction.LABEL(loopStartLabel))
         node.body.visit(this)

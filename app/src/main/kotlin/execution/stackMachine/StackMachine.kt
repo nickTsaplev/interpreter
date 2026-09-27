@@ -17,7 +17,7 @@ class StackMachine {
     }
 
     fun run(commands: List<MachineInstruction>, io: IntIO) {
-        var pc = 1
+        var pc = 0
 
         while (pc < commands.size) {
             val command = commands[pc++]

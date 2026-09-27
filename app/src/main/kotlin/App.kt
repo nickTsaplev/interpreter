@@ -8,13 +8,19 @@ import ru.tsaplev.app.execution.stackMachine.StackMachine
 import java.io.File
 
 fun main(args: Array<String>) {
-    if (args.size != 2 && args.size != 3) {
-        System.err.println("Usage: interpreter ast/stack <ast.json> | compile <ast.json> <output.json>")
-        return
+    val mode = when {
+        args.size == 1 -> "ast"
+        args.size == 2 && (args[0] == "ast" || args[0] == "stack") -> args[0]
+        args.size == 3 && args[0] == "compile" -> "compile"
+        else -> {
+            System.err.println("Usage: interpreter <ast.json> | ast <ast.json> | stack <stack.json> | compile <ast.json> <output.json>")
+            return
+        }
     }
+    val inputPath = if (args.size == 1) args[0] else args[1]
 
-    if(args[0] == "ast") {
-        val text = File(args[1]).readText(Charsets.UTF_8)
+    if (mode == "ast") {
+        val text = File(inputPath).readText(Charsets.UTF_8)
         val ast = GetJsonToAST().startParse(text)
 
         if (ast == null) {
@@ -23,15 +29,15 @@ fun main(args: Array<String>) {
         }
         try {
             ast.visit(ExecutionVisitor())
-        } catch (e: IllegalStateException) {
+        } catch(e : IllegalStateException) {
             print("State error while running: ${e.message}")
-        } catch (e: IllegalArgumentException) {
+        } catch(e : IllegalArgumentException) {
             print("Argument error while running: ${e.message}")
         }
     }
 
-    if(args[0] == "stack") {
-        val text = File(args[1]).readText(Charsets.UTF_8)
+    if (mode == "stack") {
+        val text = File(inputPath).readText(Charsets.UTF_8)
         val commandList = JSONToStackInstructions(text)
 
         val machine = StackMachine()
@@ -44,8 +50,8 @@ fun main(args: Array<String>) {
         }
     }
 
-    if(args[0] == "compile") {
-        val text = File(args[1]).readText(Charsets.UTF_8)
+    if (mode == "compile") {
+        val text = File(inputPath).readText(Charsets.UTF_8)
         val ast = GetJsonToAST().startParse(text)
 
         if (ast == null) {
