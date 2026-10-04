@@ -1,0 +1,23 @@
+[
+  { "CONST": 2 },
+  { "ST": "a" },
+  { "JMP": "L_while_cond_3" },
+  { "LABEL": "L_while_cody_2" },
+  { "LD": "a" },
+  { "CONST": 7 },
+  { "BINOP": "%" },
+  { "LD": "a" },
+  { "CONST": 3 },
+  { "BINOP": "%" },
+  { "BINOP": "+" },
+  "WRITE",
+  { "LD": "a" },
+  { "CONST": 1 },
+  { "BINOP": "+" },
+  { "ST": "a" },
+  { "LABEL": "L_while_cond_3" },
+  { "LD": "a" },
+  { "CONST": 22 },
+  { "BINOP": "<" },
+  { "JNZ": "L_while_cody_2" }
+]

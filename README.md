@@ -21,7 +21,7 @@
 Каждый сквозной тест состоит из двух файлов с одинаковым именем:
 
 - [`app/src/test/resources/programs`](app/src/test/resources/programs) содержит исходный код языка в файлах `.in`;
-- [`app/src/test/resources/json`](app/src/test/resources/json) содержит соответствующий AST в файлах `.json`.
+- [`app/src/test/resources/ast-json`](app/src/test/resources/ast-json) содержит соответствующий AST в файлах `.json`.
 
 Входные данные и ожидаемый вывод записаны отдельными переменными `input` и `expectedOutput` непосредственно в [`InterpreterProgramTest.kt`](app/src/test/kotlin/InterpreterProgramTest.kt). Если одну программу нужно проверить на нескольких входах, для неё создаются несколько одинаково оформленных тестовых методов, использующих общую пару `.in`/`.json`.
 

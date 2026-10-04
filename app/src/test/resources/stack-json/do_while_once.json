@@ -1,0 +1,8 @@
+[
+  { "LABEL": "L_while_cody_1" },
+  { "CONST": 42 },
+  "WRITE",
+  { "LABEL": "L_while_cond_2" },
+  { "CONST": 0 },
+  { "JNZ": "L_while_cody_1" }
+]
