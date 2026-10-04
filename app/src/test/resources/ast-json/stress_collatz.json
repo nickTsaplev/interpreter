@@ -1,28 +1,56 @@
 {
   "seq": {
-    "left": { "read": "n" },
+    "left": {
+      "read": "n"
+    },
     "right": {
       "seq": {
-        "left": { "assn": { "dst": "steps", "src": { "const": 0 } } },
+        "left": {
+          "assn": {
+            "dst": "steps",
+            "src": {
+              "const": 0
+            }
+          }
+        },
         "right": {
           "seq": {
-            "left": { "assn": { "dst": "peak", "src": { "var": "n" } } },
+            "left": {
+              "assn": {
+                "dst": "peak",
+                "src": {
+                  "var": "n"
+                }
+              }
+            },
             "right": {
               "seq": {
                 "left": {
-                  "assn": { "dst": "oddSteps", "src": { "const": 0 } }
+                  "assn": {
+                    "dst": "oddSteps",
+                    "src": {
+                      "const": 0
+                    }
+                  }
                 },
                 "right": {
                   "seq": {
                     "left": {
-                      "assn": { "dst": "evenSteps", "src": { "const": 0 } }
+                      "assn": {
+                        "dst": "evenSteps",
+                        "src": {
+                          "const": 0
+                        }
+                      }
                     },
                     "right": {
                       "seq": {
                         "left": {
                           "assn": {
                             "dst": "checksum",
-                            "src": { "const": 0 }
+                            "src": {
+                              "const": 0
+                            }
                           }
                         },
                         "right": {
@@ -31,8 +59,12 @@
                               "while": {
                                 "cond": {
                                   "binop": ">",
-                                  "left": { "var": "n" },
-                                  "right": { "const": 1 }
+                                  "left": {
+                                    "var": "n"
+                                  },
+                                  "right": {
+                                    "const": 1
+                                  }
                                 },
                                 "body": {
                                   "seq": {
@@ -42,10 +74,16 @@
                                           "binop": "==",
                                           "left": {
                                             "binop": "%",
-                                            "left": { "var": "n" },
-                                            "right": { "const": 2 }
+                                            "left": {
+                                              "var": "n"
+                                            },
+                                            "right": {
+                                              "const": 2
+                                            }
                                           },
-                                          "right": { "const": 0 }
+                                          "right": {
+                                            "const": 0
+                                          }
                                         },
                                         "then": {
                                           "seq": {
@@ -54,8 +92,12 @@
                                                 "dst": "n",
                                                 "src": {
                                                   "binop": "/",
-                                                  "left": { "var": "n" },
-                                                  "right": { "const": 2 }
+                                                  "left": {
+                                                    "var": "n"
+                                                  },
+                                                  "right": {
+                                                    "const": 2
+                                                  }
                                                 }
                                               }
                                             },
@@ -67,7 +109,9 @@
                                                   "left": {
                                                     "var": "evenSteps"
                                                   },
-                                                  "right": { "const": 1 }
+                                                  "right": {
+                                                    "const": 1
+                                                  }
                                                 }
                                               }
                                             }
@@ -82,10 +126,16 @@
                                                   "binop": "+",
                                                   "left": {
                                                     "binop": "*",
-                                                    "left": { "var": "n" },
-                                                    "right": { "const": 3 }
+                                                    "left": {
+                                                      "var": "n"
+                                                    },
+                                                    "right": {
+                                                      "const": 3
+                                                    }
                                                   },
-                                                  "right": { "const": 1 }
+                                                  "right": {
+                                                    "const": 1
+                                                  }
                                                 }
                                               }
                                             },
@@ -97,11 +147,17 @@
                                                   "left": {
                                                     "var": "oddSteps"
                                                   },
-                                                  "right": { "const": 1 }
+                                                  "right": {
+                                                    "const": 1
+                                                  }
                                                 }
                                               }
                                             }
                                           }
+                                        },
+                                        "labels": {
+                                          "end": "L_seq_10",
+                                          "else": "L_else_11"
                                         }
                                       }
                                     },
@@ -111,16 +167,26 @@
                                           "if": {
                                             "cond": {
                                               "binop": ">",
-                                              "left": { "var": "n" },
-                                              "right": { "var": "peak" }
+                                              "left": {
+                                                "var": "n"
+                                              },
+                                              "right": {
+                                                "var": "peak"
+                                              }
                                             },
                                             "then": {
                                               "assn": {
                                                 "dst": "peak",
-                                                "src": { "var": "n" }
+                                                "src": {
+                                                  "var": "n"
+                                                }
                                               }
                                             },
-                                            "else": "skip"
+                                            "else": "skip",
+                                            "labels": {
+                                              "end": "L_seq_14",
+                                              "else": "L_else_15"
+                                            }
                                           }
                                         },
                                         "right": {
@@ -137,7 +203,9 @@
                                                       "left": {
                                                         "var": "checksum"
                                                       },
-                                                      "right": { "var": "n" }
+                                                      "right": {
+                                                        "var": "n"
+                                                      }
                                                     },
                                                     "right": {
                                                       "var": "steps"
@@ -164,12 +232,20 @@
                                                           "const": 20
                                                         }
                                                       },
-                                                      "right": { "const": 0 }
+                                                      "right": {
+                                                        "const": 0
+                                                      }
                                                     },
                                                     "then": {
-                                                      "write": { "var": "n" }
+                                                      "write": {
+                                                        "var": "n"
+                                                      }
                                                     },
-                                                    "else": "skip"
+                                                    "else": "skip",
+                                                    "labels": {
+                                                      "end": "L_seq_17",
+                                                      "else": "L_else_18"
+                                                    }
                                                   }
                                                 },
                                                 "right": {
@@ -180,7 +256,9 @@
                                                       "left": {
                                                         "var": "steps"
                                                       },
-                                                      "right": { "const": 1 }
+                                                      "right": {
+                                                        "const": 1
+                                                      }
                                                     }
                                                   }
                                                 }
@@ -191,27 +269,45 @@
                                       }
                                     }
                                   }
+                                },
+                                "labels": {
+                                  "body": 8,
+                                  "condition": 9
                                 }
                               }
                             },
                             "right": {
                               "seq": {
-                                "left": { "write": { "var": "steps" } },
+                                "left": {
+                                  "write": {
+                                    "var": "steps"
+                                  }
+                                },
                                 "right": {
                                   "seq": {
-                                    "left": { "write": { "var": "peak" } },
+                                    "left": {
+                                      "write": {
+                                        "var": "peak"
+                                      }
+                                    },
                                     "right": {
                                       "seq": {
                                         "left": {
-                                          "write": { "var": "oddSteps" }
+                                          "write": {
+                                            "var": "oddSteps"
+                                          }
                                         },
                                         "right": {
                                           "seq": {
                                             "left": {
-                                              "write": { "var": "evenSteps" }
+                                              "write": {
+                                                "var": "evenSteps"
+                                              }
                                             },
                                             "right": {
-                                              "write": { "var": "checksum" }
+                                              "write": {
+                                                "var": "checksum"
+                                              }
                                             }
                                           }
                                         }

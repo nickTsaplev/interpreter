@@ -1,7 +1,17 @@
 {
   "if": {
-    "cond": { "const": 0 },
-    "then": { "write": { "const": 42 } },
-    "else": "skip"
+    "cond": {
+      "const": 0
+    },
+    "then": {
+      "write": {
+        "const": 42
+      }
+    },
+    "else": "skip",
+    "labels": {
+      "end": "L_end_0",
+      "else": "L_else_1"
+    }
   }
 }

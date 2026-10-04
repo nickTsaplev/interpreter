@@ -1,1 +1,16 @@
-{ "do": { "body": { "write": { "const": 42 } }, "cond": { "const": 0 } } }
+{
+  "do": {
+    "body": {
+      "write": {
+        "const": 42
+      }
+    },
+    "cond": {
+      "const": 0
+    },
+    "labels": {
+      "body": 1,
+      "condition": 2
+    }
+  }
+}
