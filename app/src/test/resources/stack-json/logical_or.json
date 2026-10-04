@@ -1,0 +1,10 @@
+[
+  { "CONST": 0 },
+  { "CONST": 1 },
+  { "BINOP": "!!" },
+  "WRITE",
+  { "CONST": 0 },
+  { "CONST": 0 },
+  { "BINOP": "!!" },
+  "WRITE"
+]

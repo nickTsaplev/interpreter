@@ -1,19 +1,47 @@
 {
   "seq": {
-    "left": { "read": "state" },
+    "left": {
+      "read": "state"
+    },
     "right": {
       "seq": {
-        "left": { "assn": { "dst": "i", "src": { "const": 0 } } },
+        "left": {
+          "assn": {
+            "dst": "i",
+            "src": {
+              "const": 0
+            }
+          }
+        },
         "right": {
           "seq": {
-            "left": { "assn": { "dst": "checksum", "src": { "const": 0 } } },
+            "left": {
+              "assn": {
+                "dst": "checksum",
+                "src": {
+                  "const": 0
+                }
+              }
+            },
             "right": {
               "seq": {
-                "left": { "assn": { "dst": "high", "src": { "const": 0 } } },
+                "left": {
+                  "assn": {
+                    "dst": "high",
+                    "src": {
+                      "const": 0
+                    }
+                  }
+                },
                 "right": {
                   "seq": {
                     "left": {
-                      "assn": { "dst": "low", "src": { "const": 0 } }
+                      "assn": {
+                        "dst": "low",
+                        "src": {
+                          "const": 0
+                        }
+                      }
                     },
                     "right": {
                       "seq": {
@@ -30,12 +58,20 @@
                                         "binop": "+",
                                         "left": {
                                           "binop": "*",
-                                          "left": { "var": "state" },
-                                          "right": { "const": 17 }
+                                          "left": {
+                                            "var": "state"
+                                          },
+                                          "right": {
+                                            "const": 17
+                                          }
                                         },
-                                        "right": { "const": 11 }
+                                        "right": {
+                                          "const": 11
+                                        }
                                       },
-                                      "right": { "const": 97 }
+                                      "right": {
+                                        "const": 97
+                                      }
                                     }
                                   }
                                 },
@@ -47,18 +83,28 @@
                                           "binop": "==",
                                           "left": {
                                             "binop": "%",
-                                            "left": { "var": "state" },
-                                            "right": { "const": 2 }
+                                            "left": {
+                                              "var": "state"
+                                            },
+                                            "right": {
+                                              "const": 2
+                                            }
                                           },
-                                          "right": { "const": 0 }
+                                          "right": {
+                                            "const": 0
+                                          }
                                         },
                                         "then": {
                                           "assn": {
                                             "dst": "checksum",
                                             "src": {
                                               "binop": "+",
-                                              "left": { "var": "checksum" },
-                                              "right": { "var": "state" }
+                                              "left": {
+                                                "var": "checksum"
+                                              },
+                                              "right": {
+                                                "var": "state"
+                                              }
                                             }
                                           }
                                         },
@@ -68,10 +114,16 @@
                                               "binop": "==",
                                               "left": {
                                                 "binop": "%",
-                                                "left": { "var": "state" },
-                                                "right": { "const": 3 }
+                                                "left": {
+                                                  "var": "state"
+                                                },
+                                                "right": {
+                                                  "const": 3
+                                                }
                                               },
-                                              "right": { "const": 0 }
+                                              "right": {
+                                                "const": 0
+                                              }
                                             },
                                             "then": {
                                               "assn": {
@@ -81,7 +133,9 @@
                                                   "left": {
                                                     "var": "checksum"
                                                   },
-                                                  "right": { "var": "state" }
+                                                  "right": {
+                                                    "var": "state"
+                                                  }
                                                 }
                                               }
                                             },
@@ -98,12 +152,22 @@
                                                     "left": {
                                                       "var": "state"
                                                     },
-                                                    "right": { "const": 2 }
+                                                    "right": {
+                                                      "const": 2
+                                                    }
                                                   }
                                                 }
                                               }
+                                            },
+                                            "labels": {
+                                              "end": "L_seq_10",
+                                              "else": "L_else_12"
                                             }
                                           }
+                                        },
+                                        "labels": {
+                                          "end": "L_seq_10",
+                                          "else": "L_else_11"
                                         }
                                       }
                                     },
@@ -113,16 +177,24 @@
                                           "if": {
                                             "cond": {
                                               "binop": ">",
-                                              "left": { "var": "state" },
-                                              "right": { "const": 50 }
+                                              "left": {
+                                                "var": "state"
+                                              },
+                                              "right": {
+                                                "const": 50
+                                              }
                                             },
                                             "then": {
                                               "assn": {
                                                 "dst": "high",
                                                 "src": {
                                                   "binop": "+",
-                                                  "left": { "var": "high" },
-                                                  "right": { "const": 1 }
+                                                  "left": {
+                                                    "var": "high"
+                                                  },
+                                                  "right": {
+                                                    "const": 1
+                                                  }
                                                 }
                                               }
                                             },
@@ -131,10 +203,18 @@
                                                 "dst": "low",
                                                 "src": {
                                                   "binop": "+",
-                                                  "left": { "var": "low" },
-                                                  "right": { "const": 1 }
+                                                  "left": {
+                                                    "var": "low"
+                                                  },
+                                                  "right": {
+                                                    "const": 1
+                                                  }
                                                 }
                                               }
+                                            },
+                                            "labels": {
+                                              "end": "L_seq_13",
+                                              "else": "L_else_14"
                                             }
                                           }
                                         },
@@ -146,17 +226,27 @@
                                                   "binop": "==",
                                                   "left": {
                                                     "binop": "%",
-                                                    "left": { "var": "i" },
-                                                    "right": { "const": 5 }
+                                                    "left": {
+                                                      "var": "i"
+                                                    },
+                                                    "right": {
+                                                      "const": 5
+                                                    }
                                                   },
-                                                  "right": { "const": 0 }
+                                                  "right": {
+                                                    "const": 0
+                                                  }
                                                 },
                                                 "then": {
                                                   "write": {
                                                     "var": "checksum"
                                                   }
                                                 },
-                                                "else": "skip"
+                                                "else": "skip",
+                                                "labels": {
+                                                  "end": "L_seq_15",
+                                                  "else": "L_else_16"
+                                                }
                                               }
                                             },
                                             "right": {
@@ -164,8 +254,12 @@
                                                 "dst": "i",
                                                 "src": {
                                                   "binop": "+",
-                                                  "left": { "var": "i" },
-                                                  "right": { "const": 1 }
+                                                  "left": {
+                                                    "var": "i"
+                                                  },
+                                                  "right": {
+                                                    "const": 1
+                                                  }
                                                 }
                                               }
                                             }
@@ -179,21 +273,45 @@
                             },
                             "cond": {
                               "binop": "<",
-                              "left": { "var": "i" },
-                              "right": { "const": 30 }
+                              "left": {
+                                "var": "i"
+                              },
+                              "right": {
+                                "const": 30
+                              }
+                            },
+                            "labels": {
+                              "body": 7,
+                              "condition": 8
                             }
                           }
                         },
                         "right": {
                           "seq": {
-                            "left": { "write": { "var": "state" } },
+                            "left": {
+                              "write": {
+                                "var": "state"
+                              }
+                            },
                             "right": {
                               "seq": {
-                                "left": { "write": { "var": "checksum" } },
+                                "left": {
+                                  "write": {
+                                    "var": "checksum"
+                                  }
+                                },
                                 "right": {
                                   "seq": {
-                                    "left": { "write": { "var": "high" } },
-                                    "right": { "write": { "var": "low" } }
+                                    "left": {
+                                      "write": {
+                                        "var": "high"
+                                      }
+                                    },
+                                    "right": {
+                                      "write": {
+                                        "var": "low"
+                                      }
+                                    }
                                   }
                                 }
                               }

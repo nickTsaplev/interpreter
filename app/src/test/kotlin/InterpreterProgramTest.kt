@@ -17,7 +17,7 @@ class InterpreterProgramTest {
 
     private fun assertProgram(programName: String, input: List<Int>, expectedOutput: List<Int>) {
         val source = resourceText("programs", "$programName.in")
-        val json = resourceText("json", "$programName.json")
+        val json = resourceText("ast-json", "$programName.json")
         val io = TestIntIO(input)
         val ast = assertNotNull(GetJsonToAST().startParse(json), "Invalid AST: json/$programName.json")
 

@@ -1,0 +1,55 @@
+{
+  "seq": {
+    "left": {
+      "assn": {
+        "dst": "x",
+        "src": {
+          "const": 1
+        }
+      }
+    },
+    "right": {
+      "seq": {
+        "left": {
+          "if": {
+            "cond": {
+              "var": "x"
+            },
+            "then": {
+              "write": {
+                "var": "x"
+              }
+            },
+            "else": "skip",
+            "labels": {
+              "end": "L_seq_2",
+              "else": "L_else_3"
+            }
+          }
+        },
+        "right": {
+          "seq": {
+            "left": {
+              "if": {
+                "cond": {
+                  "const": 0
+                },
+                "then": {
+                  "write": {
+                    "const": 999
+                  }
+                },
+                "else": "skip",
+                "labels": {
+                  "end": "L_seq_4",
+                  "else": "L_else_5"
+                }
+              }
+            },
+            "right": "skip"
+          }
+        }
+      }
+    }
+  }
+}

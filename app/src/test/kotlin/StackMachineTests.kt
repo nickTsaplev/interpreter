@@ -7,6 +7,7 @@ import ru.tsaplev.app.ASTreeNodes.ASTConst
 import ru.tsaplev.app.ASTreeNodes.ASTDo
 import ru.tsaplev.app.ASTreeNodes.ASTFuncCall
 import ru.tsaplev.app.ASTreeNodes.ASTIf
+import ru.tsaplev.app.ASTreeNodes.LegacyLoopLabels
 import ru.tsaplev.app.ASTreeNodes.ASTSeq
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
 import ru.tsaplev.app.ASTreeNodes.ASTVar
@@ -34,6 +35,23 @@ private class StackIOMock(private val input: List<Int>) : IntIO {
 }
 
 class StackMachineTests {
+    @Test
+    fun annotatedDoLoopUsesLegacyLabels() {
+        val ast = ASTDo(
+            ASTFuncCall("write", ASTConst(DataValue(1))),
+            ASTConst(DataValue(0)),
+            LegacyLoopLabels(1, 2)
+        )
+        val compiler = CompilationVisitor()
+
+        ast.visit(compiler)
+
+        assertEquals(
+            "[{\"LABEL\":\"L_while_cody_1\"},{\"CONST\":1},\"WRITE\",{\"LABEL\":\"L_while_cond_2\"},{\"CONST\":0},{\"JNZ\":\"L_while_cody_1\"}]",
+            StackInstructionsToJSON(compiler.instructions).toString()
+        )
+    }
+
     @Test
     fun executesFirstInstructionAndKeepsOperandOrder() {
         val io = StackIOMock(listOf())
