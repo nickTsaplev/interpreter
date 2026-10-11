@@ -9,6 +9,7 @@ import ru.tsaplev.app.ASTreeNodes.ASTVar
 import ru.tsaplev.app.ASTreeNodes.ASTIf
 import ru.tsaplev.app.ASTreeNodes.ASTWhile
 import ru.tsaplev.app.ASTreeNodes.ASTDo
+import ru.tsaplev.app.ASTreeNodes.ASTSeq
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
 
 interface ASTVisitor {
@@ -28,4 +29,5 @@ interface ASTVisitor {
     fun visit(node: ASTWhile)
     fun visit(node: ASTDo)
     fun visit(node: ASTSkip)
+    fun visit(node: ASTSeq)
 }

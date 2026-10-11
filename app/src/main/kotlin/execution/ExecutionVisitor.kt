@@ -10,6 +10,7 @@ import ru.tsaplev.app.ASTreeNodes.ASTVar
 import ru.tsaplev.app.ASTreeNodes.ASTIf
 import ru.tsaplev.app.ASTreeNodes.ASTWhile
 import ru.tsaplev.app.ASTreeNodes.ASTDo
+import ru.tsaplev.app.ASTreeNodes.ASTSeq
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
 
 class ExecutionVisitor(val io: IntIO = StandardIO()): ASTVisitor {
@@ -82,5 +83,9 @@ class ExecutionVisitor(val io: IntIO = StandardIO()): ASTVisitor {
 
     override fun visit(node: ASTSkip) {
         // skip does nothing
+    }
+
+    override fun visit(node: ASTSeq) {
+        // Already visited
     }
 }

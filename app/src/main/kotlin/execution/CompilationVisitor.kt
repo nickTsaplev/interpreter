@@ -8,6 +8,7 @@ import ru.tsaplev.app.ASTreeNodes.ASTDo
 import ru.tsaplev.app.ASTreeNodes.ASTFuncCall
 import ru.tsaplev.app.ASTreeNodes.ASTIf
 import ru.tsaplev.app.ASTreeNodes.ASTRead
+import ru.tsaplev.app.ASTreeNodes.ASTSeq
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
 import ru.tsaplev.app.ASTreeNodes.ASTVar
 import ru.tsaplev.app.ASTreeNodes.ASTWhile
@@ -61,14 +62,17 @@ class CompilationVisitor: ASTVisitor {
 
     override fun visit(node: ASTWhile) {
         val loopStartLabel = "WHILE-START ${labelCount++}"
-        val loopEndLabel = "WHILE-END ${labelCount++}"
+        val loopConditionLabel = "WHILE-CONDITION ${labelCount++}"
+
+        instructions.add(MachineInstruction.JMP(loopConditionLabel))
 
         instructions.add(MachineInstruction.LABEL(loopStartLabel))
-        node.cond.visit(this)
-        instructions.add(MachineInstruction.JZ(loopEndLabel))
         node.body.visit(this)
-        instructions.add(MachineInstruction.JMP(loopStartLabel))
-        instructions.add(MachineInstruction.LABEL(loopEndLabel))
+
+        instructions.add(MachineInstruction.LABEL(loopConditionLabel))
+        node.cond.visit(this)
+        instructions.add(MachineInstruction.JNZ(loopStartLabel))
+
     }
 
     override fun visit(node: ASTDo) {
@@ -82,5 +86,9 @@ class CompilationVisitor: ASTVisitor {
 
     override fun visit(node: ASTSkip) {
 
+    }
+
+    override fun visit(node: ASTSeq) {
+        // Already visited
     }
 }
