@@ -3,8 +3,8 @@ package ru.tsaplev.app
 import ru.tsaplev.app.JSONToAST.GetJsonToAST
 import ru.tsaplev.app.execution.CompilationVisitor
 import ru.tsaplev.app.execution.ExecutionVisitor
-import ru.tsaplev.app.execution.OptimizeSequentialJumps
 import ru.tsaplev.app.execution.StandardIO
+import ru.tsaplev.app.execution.optimize
 import ru.tsaplev.app.execution.stackMachine.StackMachine
 import java.io.File
 
@@ -74,7 +74,7 @@ fun main(args: Array<String>) {
         val visitor = CompilationVisitor()
         ast.visit(visitor)
 
-        val instructions = if (optimize) OptimizeSequentialJumps(visitor.instructions) else visitor.instructions
+        val instructions = if (optimize) optimize(visitor.instructions) else visitor.instructions
 
         val outputFileName = if (args.size == 3) args[2] else args[3]
 
