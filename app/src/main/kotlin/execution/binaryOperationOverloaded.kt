@@ -6,7 +6,7 @@ private fun Boolean.toLanguageBoolean(): DataValue = if (this) DataValue.IntValu
 
 fun cmpDV(left: DataValue, right: DataValue): Int {
     if (left is DataValue.IntValue && right is DataValue.IntValue) {
-        return left.value - right.value
+        return left.value.compareTo(right.value)
     }
 
     if (left is DataValue.StringValue && right is DataValue.StringValue) {
@@ -34,12 +34,12 @@ fun cmpDV(left: DataValue, right: DataValue): Int {
 
 fun binaryOperationOverloaded(operand: String, left: DataValue, right: DataValue): DataValue {
     when (operand) {
-        "<" -> (cmpDV(left,right) < 0).toLanguageBoolean()
-        "<=" -> (cmpDV(left,right) <= 0).toLanguageBoolean()
-        ">" -> (cmpDV(left,right) > 0).toLanguageBoolean()
-        ">=" -> (cmpDV(left,right) >= 0).toLanguageBoolean()
-        "==" -> (cmpDV(left,right) == 0).toLanguageBoolean()
-        "!=" -> (cmpDV(left,right) != 0).toLanguageBoolean()
+        "<" -> return (cmpDV(left,right) < 0).toLanguageBoolean()
+        "<=" -> return (cmpDV(left,right) <= 0).toLanguageBoolean()
+        ">" -> return (cmpDV(left,right) > 0).toLanguageBoolean()
+        ">=" -> return (cmpDV(left,right) >= 0).toLanguageBoolean()
+        "==" -> return (cmpDV(left,right) == 0).toLanguageBoolean()
+        "!=" -> return (cmpDV(left,right) != 0).toLanguageBoolean()
     }
 
     if (left is DataValue.IntValue && right is DataValue.IntValue) {

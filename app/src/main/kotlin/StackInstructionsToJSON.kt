@@ -9,6 +9,11 @@ fun StackInstructionsToJSON(instructions: List<MachineInstruction>) = JsonArray(
     when(it) {
         is MachineInstruction.BINOP -> Json.encodeToJsonElement(mapOf("BINOP" to it.op))
         is MachineInstruction.CONST -> Json.encodeToJsonElement(mapOf("CONST" to it.value))
+        is MachineInstruction.STRING -> Json.encodeToJsonElement(mapOf("STRING" to it.value))
+        is MachineInstruction.ARRAY -> Json.encodeToJsonElement(mapOf("ARRAY" to it.size))
+        is MachineInstruction.ELEM -> Json.encodeToJsonElement("ELEM")
+        is MachineInstruction.SET -> Json.encodeToJsonElement("SET")
+        is MachineInstruction.LENGTH -> Json.encodeToJsonElement("LENGTH")
         is MachineInstruction.JMP -> Json.encodeToJsonElement(mapOf("JMP" to it.label))
         is MachineInstruction.JNZ -> Json.encodeToJsonElement(mapOf("JNZ" to it.label))
         is MachineInstruction.JZ -> Json.encodeToJsonElement(mapOf("JZ" to it.label))

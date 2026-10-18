@@ -15,6 +15,8 @@ private fun toCommandWithArg(name: String, field: String): MachineInstruction? {
         "LABEL" -> MachineInstruction.LABEL(field)
         "BINOP" -> MachineInstruction.BINOP(field)
         "CONST" -> MachineInstruction.CONST(field.toInt())
+        "STRING" -> MachineInstruction.STRING(field)
+        "ARRAY" -> MachineInstruction.ARRAY(field.toInt())
         "ST" -> MachineInstruction.ST(field)
         "LD" -> MachineInstruction.LD(field)
         else -> null
@@ -29,6 +31,9 @@ fun JSONToStackInstructions(text: String): List<MachineInstruction> {
             when (command.content) {
                 "READ" -> ans.add(MachineInstruction.READ())
                 "WRITE" -> ans.add(MachineInstruction.WRITE())
+                "ELEM" -> ans.add(MachineInstruction.ELEM())
+                "SET" -> ans.add(MachineInstruction.SET())
+                "LENGTH" -> ans.add(MachineInstruction.LENGTH())
                 else -> throw IllegalArgumentException("Unknown stack instruction: ${command.content}")
             }
         } else if (command is JsonObject) {

@@ -1,7 +1,5 @@
 package ru.tsaplev.app.execution
 
-import kotlin.text.trim
-
 class StandardDataIO: DataIO {
     override fun write(output: DataValue?, end: String) {
         if (output == null) {
@@ -27,31 +25,90 @@ class StandardDataIO: DataIO {
         print(end)
     }
 
-    private fun parseInput(rawInput: String): DataValue {
-        val input = rawInput.trim()
+    override fun read(): DataValue {
+        return parseDataValue(readln())
+    }
+}
 
-        if (input == "") {
-            return DataValue.StringValue("")
-        }
+internal fun parseDataValue(input: String): DataValue = DataValueParser(input).parse()
 
-        if (input[0] == '[') {
-            return DataValue.ArrayValue(input.replace(',', ';').split(';').map {
-                parseInput(it)
-            }.toMutableList())
-        }
+private class DataValueParser(private val input: String) {
+    private var position = 0
 
-        if (input[0].isDigit()) {
-            return try {
-                DataValue.IntValue(input.toInt())
-            } catch (e: NumberFormatException) {
-                DataValue.StringValue(input)
-            }
-        }
-        return DataValue.StringValue(input)
+    fun parse(): DataValue {
+        skipWhitespace()
+        val value = parseValue()
+        skipWhitespace()
+        require(position == input.length) { "Unexpected input at position $position" }
+        return value
     }
 
-    override fun read(): DataValue {
-        val input = readln()
-        return parseInput(input)
+    private fun parseValue(): DataValue {
+        skipWhitespace()
+        if (position == input.length) return DataValue.StringValue("")
+
+        return when (input[position]) {
+            '[' -> parseArray()
+            '"' -> DataValue.StringValue(parseQuotedString())
+            else -> parseScalar()
+        }
+    }
+
+    private fun parseArray(): DataValue.ArrayValue {
+        position++
+        skipWhitespace()
+        val elements = mutableListOf<DataValue>()
+        if (consume(']')) return DataValue.ArrayValue(elements)
+
+        while (true) {
+            elements.add(parseValue())
+            skipWhitespace()
+            if (consume(']')) break
+            require(consume(';') || consume(',')) { "Expected ',', ';' or ']' at position $position" }
+            skipWhitespace()
+        }
+        return DataValue.ArrayValue(elements)
+    }
+
+    private fun parseQuotedString(): String {
+        position++
+        val result = StringBuilder()
+        while (position < input.length) {
+            val char = input[position++]
+            when (char) {
+                '"' -> return result.toString()
+                '\\' -> {
+                    require(position < input.length) { "Unfinished escape sequence" }
+                    result.append(
+                        when (val escaped = input[position++]) {
+                            'n' -> '\n'
+                            'r' -> '\r'
+                            't' -> '\t'
+                            '"', '\\' -> escaped
+                            else -> throw IllegalArgumentException("Unsupported escape sequence: \\$escaped")
+                        }
+                    )
+                }
+                else -> result.append(char)
+            }
+        }
+        throw IllegalArgumentException("Unterminated string")
+    }
+
+    private fun parseScalar(): DataValue {
+        val start = position
+        while (position < input.length && input[position] !in charArrayOf(',', ';', ']')) position++
+        val token = input.substring(start, position).trim()
+        return token.toIntOrNull()?.let(DataValue::IntValue) ?: DataValue.StringValue(token)
+    }
+
+    private fun consume(expected: Char): Boolean {
+        if (position >= input.length || input[position] != expected) return false
+        position++
+        return true
+    }
+
+    private fun skipWhitespace() {
+        while (position < input.length && input[position].isWhitespace()) position++
     }
 }

@@ -1,6 +1,7 @@
 package ru.tsaplev.app.execution.stackMachine
 
 import ru.tsaplev.app.execution.DataValue
+import ru.tsaplev.app.execution.DataIO
 import ru.tsaplev.app.execution.ExecutionFrame
 import ru.tsaplev.app.execution.IntIO
 import ru.tsaplev.app.execution.binaryOperationOverloaded
@@ -22,7 +23,15 @@ class StackMachine {
         labelTable = newLabels
     }
 
-    fun run(commands: List<MachineInstruction>, io: IntIO) {
+    fun run(commands: List<MachineInstruction>, io: IntIO) = run(commands, object : DataIO {
+        override fun write(output: DataValue?, end: String) {
+            io.write((output as? DataValue.IntValue)?.value)
+        }
+
+        override fun read(): DataValue = DataValue.IntValue(io.read())
+    })
+
+    fun run(commands: List<MachineInstruction>, io: DataIO) {
         var pc = 0
 
         createLabelTable(commands)
@@ -30,7 +39,7 @@ class StackMachine {
         while (pc < commands.size) {
             val command = commands[pc++]
             when(command) {
-                is MachineInstruction.READ -> mem.pushNameless(DataValue.IntValue(io.read()))
+                is MachineInstruction.READ -> mem.pushNameless(io.read())
                 is MachineInstruction.BINOP -> {
                     val right = mem.popNameless()
                     val left = mem.popNameless()
@@ -38,6 +47,34 @@ class StackMachine {
                     mem.pushNameless((binaryOperationOverloaded(command.op, left, right)))
                 }
                 is MachineInstruction.CONST -> mem.pushNameless(DataValue.IntValue(command.value))
+                is MachineInstruction.STRING -> mem.pushNameless(DataValue.StringValue(command.value))
+                is MachineInstruction.ARRAY -> {
+                    val elements = MutableList(command.size) { mem.popNameless() }
+                    mem.pushNameless(DataValue.ArrayValue(elements.reversed().toMutableList()))
+                }
+                is MachineInstruction.ELEM -> {
+                    val index = (mem.popNameless() as? DataValue.IntValue)?.value
+                        ?: throw IllegalArgumentException("Array index is not an integer")
+                    val array = mem.popNameless() as? DataValue.ArrayValue
+                        ?: throw IllegalArgumentException("Indexed value is not an array")
+                    mem.pushNameless(array.elems[index])
+                }
+                is MachineInstruction.SET -> {
+                    val source = mem.popNameless()
+                    val index = (mem.popNameless() as? DataValue.IntValue)?.value
+                        ?: throw IllegalArgumentException("Array index is not an integer")
+                    val destination = mem.popNameless() as? DataValue.ArrayValue
+                        ?: throw IllegalArgumentException("Set destination is not an array")
+                    destination.elems[index] = source
+                }
+                is MachineInstruction.LENGTH -> {
+                    val length = when (val value = mem.popNameless()) {
+                        is DataValue.ArrayValue -> value.elems.size
+                        is DataValue.StringValue -> value.value.length
+                        is DataValue.IntValue -> throw IllegalArgumentException("length is only defined for arrays and strings")
+                    }
+                    mem.pushNameless(DataValue.IntValue(length))
+                }
                 is MachineInstruction.JMP -> pc = findLabel(commands, command.label)
                 is MachineInstruction.JNZ -> {
                     val zero = mem.popNameless()
@@ -62,7 +99,7 @@ class StackMachine {
                     mem.pushNameless(value)
                 }
                 is MachineInstruction.ST -> mem.setVar(command.varname, mem.popNameless())
-                is MachineInstruction.WRITE -> io.write((mem.popNameless() as? DataValue.IntValue)?.value)
+                is MachineInstruction.WRITE -> io.write(mem.popNameless())
             }
         }
     }
