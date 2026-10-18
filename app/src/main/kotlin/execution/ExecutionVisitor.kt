@@ -16,6 +16,7 @@ import ru.tsaplev.app.ASTreeNodes.ASTSeq
 import ru.tsaplev.app.ASTreeNodes.ASTSet
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
 import ru.tsaplev.app.ASTreeNodes.ASTString
+import ru.tsaplev.app.ASTreeNodes.ASTLength
 
 class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
 
@@ -120,14 +121,24 @@ class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
     }
 
     override fun visit(node: ASTSet) {
-        val value = popValue("array element set value")
+        val source = popValue("array element set value")
         val index = popIntOrThrow("array set index")
         val destination = popValue("array set destination")
 
-        if (value !is DataValue.ArrayValue) {
+        if (destination !is DataValue.ArrayValue) {
             throw IllegalStateException("$node did not get an array to index")
         }
 
-        value.elems[index] = destination
+        destination.elems[index] = source
+    }
+
+    override fun visit(node: ASTLength) {
+        val value = popValue("length argument")
+        val length = when (value) {
+            is DataValue.ArrayValue -> value.elems.size
+            is DataValue.StringValue -> value.value.length
+            is DataValue.IntValue -> throw IllegalArgumentException("length is only defined for arrays and strings")
+        }
+        executionStack.current().pushNameless(DataValue.IntValue(length))
     }
 }

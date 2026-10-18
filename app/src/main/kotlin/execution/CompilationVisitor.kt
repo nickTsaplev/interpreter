@@ -14,6 +14,7 @@ import ru.tsaplev.app.ASTreeNodes.ASTSeq
 import ru.tsaplev.app.ASTreeNodes.ASTSet
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
 import ru.tsaplev.app.ASTreeNodes.ASTString
+import ru.tsaplev.app.ASTreeNodes.ASTLength
 import ru.tsaplev.app.ASTreeNodes.ASTVar
 import ru.tsaplev.app.ASTreeNodes.ASTWhile
 import ru.tsaplev.app.execution.stackMachine.MachineInstruction
@@ -101,18 +102,22 @@ class CompilationVisitor: ASTVisitor {
     }
 
     override fun visit(node: ASTString) {
-        TODO("Not yet implemented")
+        instructions.add(MachineInstruction.STRING(node.value))
     }
 
     override fun visit(node: ASTArray) {
-        TODO("Not yet implemented")
+        instructions.add(MachineInstruction.ARRAY(node.elems.size))
     }
 
     override fun visit(node: ASTElem) {
-        TODO("Not yet implemented")
+        instructions.add(MachineInstruction.ELEM())
     }
 
     override fun visit(node: ASTSet) {
-        TODO("Not yet implemented")
+        instructions.add(MachineInstruction.SET())
+    }
+
+    override fun visit(node: ASTLength) {
+        instructions.add(MachineInstruction.LENGTH())
     }
 }

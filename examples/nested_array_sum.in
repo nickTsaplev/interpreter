@@ -1,0 +1,22 @@
+{
+  -- Every element is [flag, payload]: 0 means a number, 1 means an array.
+  work = [
+    [0, 1],
+    [1, [[0, 2], [1, [[0, 3], [1, [[0, 4]]]]]]],
+    [0, 5]
+  ];
+  total = 0;
+  i = 0;
+
+  -- Appending nested elements to work makes the traversal independent of depth.
+  while (i < length(work)) {
+    item = work[i];
+    if (item[0] == 0)
+      total = total + item[1];
+    else
+      work = work + item[1];
+    i = i + 1;
+  }
+
+  write(total);
+}

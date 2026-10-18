@@ -1,0 +1,122 @@
+{
+  "seq": {
+    "left": {
+      "assn": {
+        "dst": "work",
+        "src": {
+          "array": [
+            { "array": [{ "const": 0 }, { "const": 1 }] },
+            {
+              "array": [
+                { "const": 1 },
+                {
+                  "array": [
+                    { "array": [{ "const": 0 }, { "const": 2 }] },
+                    {
+                      "array": [
+                        { "const": 1 },
+                        {
+                          "array": [
+                            { "array": [{ "const": 0 }, { "const": 3 }] },
+                            {
+                              "array": [
+                                { "const": 1 },
+                                {
+                                  "array": [
+                                    { "array": [{ "const": 0 }, { "const": 4 }] }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "array": [{ "const": 0 }, { "const": 5 }] }
+          ]
+        }
+      }
+    },
+    "right": {
+      "seq": {
+        "left": { "assn": { "dst": "total", "src": { "const": 0 } } },
+        "right": {
+          "seq": {
+            "left": { "assn": { "dst": "i", "src": { "const": 0 } } },
+            "right": {
+              "seq": {
+                "left": {
+                  "while": {
+                    "cond": {
+                      "binop": "<",
+                      "left": { "var": "i" },
+                      "right": { "length": { "var": "work" } }
+                    },
+                    "body": {
+                      "seq": {
+                        "left": {
+                          "assn": {
+                            "dst": "item",
+                            "src": { "elem": { "var": "work" }, "index": { "var": "i" } }
+                          }
+                        },
+                        "right": {
+                          "seq": {
+                            "left": {
+                              "if": {
+                                "cond": {
+                                  "binop": "==",
+                                  "left": { "elem": { "var": "item" }, "index": { "const": 0 } },
+                                  "right": { "const": 0 }
+                                },
+                                "then": {
+                                  "assn": {
+                                    "dst": "total",
+                                    "src": {
+                                      "binop": "+",
+                                      "left": { "var": "total" },
+                                      "right": { "elem": { "var": "item" }, "index": { "const": 1 } }
+                                    }
+                                  }
+                                },
+                                "else": {
+                                  "assn": {
+                                    "dst": "work",
+                                    "src": {
+                                      "binop": "+",
+                                      "left": { "var": "work" },
+                                      "right": { "elem": { "var": "item" }, "index": { "const": 1 } }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "right": {
+                              "assn": {
+                                "dst": "i",
+                                "src": {
+                                  "binop": "+",
+                                  "left": { "var": "i" },
+                                  "right": { "const": 1 }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "right": { "write": { "var": "total" } }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

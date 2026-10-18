@@ -12,7 +12,10 @@ class JsonParserValidationTest {
             "{\"unknown\":1}",
             "{\"while\":{\"cond\":{\"const\":1}}}",
             "{\"read\":42}",
-            "{\"const\":\"1\"}"
+            "{\"const\":\"1\"}",
+            "{\"array\":1}",
+            "{\"string\":1}",
+            "{\"length\":{\"unknown\":1}}"
         )
 
         invalidJsonValues.forEach { json ->

@@ -3,7 +3,7 @@ package ru.tsaplev.app
 import ru.tsaplev.app.JSONToAST.GetJsonToAST
 import ru.tsaplev.app.execution.CompilationVisitor
 import ru.tsaplev.app.execution.ExecutionVisitor
-import ru.tsaplev.app.execution.StandardIO
+import ru.tsaplev.app.execution.StandardDataIO
 import ru.tsaplev.app.execution.optimize
 import ru.tsaplev.app.execution.stackMachine.StackMachine
 import java.io.File
@@ -54,7 +54,7 @@ fun main(args: Array<String>) {
 
         val machine = StackMachine()
         try {
-            machine.run(commandList, StandardIO())
+            machine.run(commandList, StandardDataIO())
         } catch (e: IllegalStateException) {
             print("State error while running: ${e.message}")
         } catch (e: IllegalArgumentException) {
