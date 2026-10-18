@@ -1,6 +1,7 @@
 package ru.tsaplev.app.execution
 
 import ru.tsaplev.app.ASTVisitor
+import ru.tsaplev.app.ASTreeNodes.ASTArray
 import ru.tsaplev.app.ASTreeNodes.ASTAssign
 import ru.tsaplev.app.ASTreeNodes.ASTBinOP
 import ru.tsaplev.app.ASTreeNodes.ASTConst
@@ -10,10 +11,13 @@ import ru.tsaplev.app.ASTreeNodes.ASTVar
 import ru.tsaplev.app.ASTreeNodes.ASTIf
 import ru.tsaplev.app.ASTreeNodes.ASTWhile
 import ru.tsaplev.app.ASTreeNodes.ASTDo
+import ru.tsaplev.app.ASTreeNodes.ASTElem
 import ru.tsaplev.app.ASTreeNodes.ASTSeq
+import ru.tsaplev.app.ASTreeNodes.ASTSet
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
+import ru.tsaplev.app.ASTreeNodes.ASTString
 
-class ExecutionVisitor(val io: IntIO = StandardIO()): ASTVisitor {
+class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
 
     private val executionStack = ExecutionStack()
 
@@ -21,12 +25,16 @@ class ExecutionVisitor(val io: IntIO = StandardIO()): ASTVisitor {
         executionStack.current().getTopNameless()
             ?: throw IllegalStateException("$context did not produce a value")
 
+    private fun popIntOrThrow(reason: String): Int {
+        return (popValue(reason) as? DataValue.IntValue)?.value ?:throw IllegalStateException("$reason did not produce an integer")
+    }
+
     override fun visit(node: ASTBinOP) {
         val right = popValue("Right operand of ${node.binop}")
         val left = popValue("Left operand of ${node.binop}")
 
         executionStack.current().pushNameless(
-            DataValue(binaryOperation(node.binop, left.get(), right.get()))
+            binaryOperationOverloaded(node.binop, left, right)
         )
     }
 
@@ -36,7 +44,7 @@ class ExecutionVisitor(val io: IntIO = StandardIO()): ASTVisitor {
 
     override fun visit(node: ASTFuncCall) {
         if (node.name == "write") {
-            io.write(popValue("write argument").get())
+            io.write(popValue("write argument"))
             return
         }
         throw IllegalArgumentException("Unknown function: ${node.name}")
@@ -44,7 +52,7 @@ class ExecutionVisitor(val io: IntIO = StandardIO()): ASTVisitor {
 
     override fun visit(node: ASTRead) {
         val value = io.read()
-        executionStack.current().setVar(node.varName, DataValue(value))
+        executionStack.current().setVar(node.varName, value)
     }
 
     override fun visit(node: ASTAssign) {
@@ -60,14 +68,14 @@ class ExecutionVisitor(val io: IntIO = StandardIO()): ASTVisitor {
 
     override fun visit(node: ASTIf) {
         node.cond.visit(this)
-        val branch = if (popValue("if condition").get() != 0) node.thenBranch else node.elseBranch
+        val branch = if (popIntOrThrow("if condition") != 0) node.thenBranch else node.elseBranch
         branch?.visit(this)
     }
 
     override fun visit(node: ASTWhile) {
         while (true) {
             node.cond.visit(this)
-            if (popValue("while condition").get() == 0) {
+            if (popIntOrThrow("while condition") == 0) {
                 break
             }
             node.body.visit(this)
@@ -78,7 +86,7 @@ class ExecutionVisitor(val io: IntIO = StandardIO()): ASTVisitor {
         do {
             node.body.visit(this)
             node.cond.visit(this)
-        } while (popValue("do-while condition").get() != 0)
+        } while (popIntOrThrow("do-while condition") != 0)
     }
 
     override fun visit(node: ASTSkip) {
@@ -87,5 +95,39 @@ class ExecutionVisitor(val io: IntIO = StandardIO()): ASTVisitor {
 
     override fun visit(node: ASTSeq) {
         // Already visited
+    }
+
+    override fun visit(node: ASTString) {
+        executionStack.current().pushNameless(DataValue.StringValue(node.value))
+    }
+
+    override fun visit(node: ASTArray) {
+        val ans = mutableListOf<DataValue>()
+        for (i in node.elems.indices) {
+            ans.add(popValue("array construction"))
+        }
+        executionStack.current().pushNameless(DataValue.ArrayValue(ans.reversed().toMutableList()))
+    }
+
+    override fun visit(node: ASTElem) {
+        val index = popIntOrThrow("array index")
+        val value = popValue("array value")
+        if (value !is DataValue.ArrayValue) {
+            throw IllegalStateException("$node did not get an array to index")
+        }
+
+        executionStack.current().pushNameless(value.elems[index])
+    }
+
+    override fun visit(node: ASTSet) {
+        val value = popValue("array element set value")
+        val index = popIntOrThrow("array set index")
+        val destination = popValue("array set destination")
+
+        if (value !is DataValue.ArrayValue) {
+            throw IllegalStateException("$node did not get an array to index")
+        }
+
+        value.elems[index] = destination
     }
 }

@@ -1,15 +1,19 @@
 package ru.tsaplev.app.execution
 
 import ru.tsaplev.app.ASTVisitor
+import ru.tsaplev.app.ASTreeNodes.ASTArray
 import ru.tsaplev.app.ASTreeNodes.ASTAssign
 import ru.tsaplev.app.ASTreeNodes.ASTBinOP
 import ru.tsaplev.app.ASTreeNodes.ASTConst
 import ru.tsaplev.app.ASTreeNodes.ASTDo
+import ru.tsaplev.app.ASTreeNodes.ASTElem
 import ru.tsaplev.app.ASTreeNodes.ASTFuncCall
 import ru.tsaplev.app.ASTreeNodes.ASTIf
 import ru.tsaplev.app.ASTreeNodes.ASTRead
 import ru.tsaplev.app.ASTreeNodes.ASTSeq
+import ru.tsaplev.app.ASTreeNodes.ASTSet
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
+import ru.tsaplev.app.ASTreeNodes.ASTString
 import ru.tsaplev.app.ASTreeNodes.ASTVar
 import ru.tsaplev.app.ASTreeNodes.ASTWhile
 import ru.tsaplev.app.execution.stackMachine.MachineInstruction
@@ -23,7 +27,11 @@ class CompilationVisitor: ASTVisitor {
     }
 
     override fun visit(node: ASTConst) {
-        instructions.add(MachineInstruction.CONST(node.value.get()))
+        val value = node.value
+        if (value is DataValue.IntValue)
+            instructions.add(MachineInstruction.CONST(value.value))
+        else
+            throw IllegalArgumentException("Expected int value, got ${node.value}")
     }
 
     override fun visit(node: ASTFuncCall) {
@@ -90,5 +98,21 @@ class CompilationVisitor: ASTVisitor {
 
     override fun visit(node: ASTSeq) {
         // Already visited
+    }
+
+    override fun visit(node: ASTString) {
+        TODO("Not yet implemented")
+    }
+
+    override fun visit(node: ASTArray) {
+        TODO("Not yet implemented")
+    }
+
+    override fun visit(node: ASTElem) {
+        TODO("Not yet implemented")
+    }
+
+    override fun visit(node: ASTSet) {
+        TODO("Not yet implemented")
     }
 }

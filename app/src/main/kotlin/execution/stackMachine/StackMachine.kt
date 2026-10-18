@@ -3,7 +3,7 @@ package ru.tsaplev.app.execution.stackMachine
 import ru.tsaplev.app.execution.DataValue
 import ru.tsaplev.app.execution.ExecutionFrame
 import ru.tsaplev.app.execution.IntIO
-import ru.tsaplev.app.execution.binaryOperation
+import ru.tsaplev.app.execution.binaryOperationOverloaded
 
 class StackMachine {
     private val mem = ExecutionFrame("main")
@@ -30,24 +30,28 @@ class StackMachine {
         while (pc < commands.size) {
             val command = commands[pc++]
             when(command) {
-                is MachineInstruction.READ -> mem.pushNameless(DataValue(io.read()))
+                is MachineInstruction.READ -> mem.pushNameless(DataValue.IntValue(io.read()))
                 is MachineInstruction.BINOP -> {
                     val right = mem.popNameless()
                     val left = mem.popNameless()
 
-                    mem.pushNameless(DataValue(binaryOperation(command.op, left.get(), right.get())))
+                    mem.pushNameless((binaryOperationOverloaded(command.op, left, right)))
                 }
-                is MachineInstruction.CONST -> mem.pushNameless(DataValue(command.value))
+                is MachineInstruction.CONST -> mem.pushNameless(DataValue.IntValue(command.value))
                 is MachineInstruction.JMP -> pc = findLabel(commands, command.label)
                 is MachineInstruction.JNZ -> {
                     val zero = mem.popNameless()
-                    if (zero.get() != 0) {
+                    if (zero !is DataValue.IntValue)
+                        throw IllegalArgumentException("Condition produced not int")
+                    if (zero.value != 0) {
                         pc = findLabel(commands, command.label)
                     }
                 }
                 is MachineInstruction.JZ -> {
                     val zero = mem.popNameless()
-                    if (zero.get() == 0) {
+                    if (zero !is DataValue.IntValue)
+                        throw IllegalArgumentException("Condition produced not int")
+                    if (zero.value == 0) {
                         pc = findLabel(commands, command.label)
                     }
                 }
@@ -58,7 +62,7 @@ class StackMachine {
                     mem.pushNameless(value)
                 }
                 is MachineInstruction.ST -> mem.setVar(command.varname, mem.popNameless())
-                is MachineInstruction.WRITE -> io.write(mem.popNameless().get())
+                is MachineInstruction.WRITE -> io.write((mem.popNameless() as? DataValue.IntValue)?.value)
             }
         }
     }

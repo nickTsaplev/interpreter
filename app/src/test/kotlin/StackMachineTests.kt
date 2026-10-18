@@ -11,6 +11,7 @@ import ru.tsaplev.app.ASTreeNodes.ASTSeq
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
 import ru.tsaplev.app.ASTreeNodes.ASTVar
 import ru.tsaplev.app.ASTreeNodes.ASTWhile
+import ru.tsaplev.app.TestIntIO
 import ru.tsaplev.app.execution.CompilationVisitor
 import ru.tsaplev.app.execution.DataValue
 import ru.tsaplev.app.execution.ExecutionVisitor
@@ -23,13 +24,13 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 
 private class StackIOMock(private val input: List<Int>) : IntIO {
-    val output = mutableListOf<Int?>()
+    val output = mutableListOf<Int>()
     private var index = 0
 
     override fun read(): Int = input[index++]
 
     override fun write(output: Int?) {
-        this.output.add(output)
+        this.output.add(requireNotNull(output))
     }
 }
 
@@ -79,7 +80,7 @@ class StackMachineTests {
         val ast = GetJsonToAST().startParse(text)
         assertNotNull(ast)
 
-        val directIO = StackIOMock(listOf(4))
+        val directIO = TestIntIO(listOf(4))
         ast.visit(ExecutionVisitor(directIO))
 
         val compiler = CompilationVisitor()
@@ -94,8 +95,8 @@ class StackMachineTests {
     @Test
     fun consecutiveConditionsHaveDistinctLabels() {
         val ast = ASTSeq(
-            ASTIf(ASTConst(DataValue(0)), ASTSkip(), ASTFuncCall("write", ASTConst(DataValue(1)))),
-            ASTIf(ASTConst(DataValue(0)), ASTSkip(), ASTFuncCall("write", ASTConst(DataValue(2))))
+            ASTIf(ASTConst(DataValue.IntValue(0)), ASTSkip(), ASTFuncCall("write", ASTConst(DataValue.IntValue(1)))),
+            ASTIf(ASTConst(DataValue.IntValue(0)), ASTSkip(), ASTFuncCall("write", ASTConst(DataValue.IntValue(2))))
         )
         val compiler = CompilationVisitor()
         ast.visit(compiler)
@@ -111,13 +112,13 @@ class StackMachineTests {
     @Test
     fun compiledWhileAndDoLoopsRun() {
         val ast = ASTSeq(
-            ASTAssign("i", ASTConst(DataValue(0))),
+            ASTAssign("i", ASTConst(DataValue.IntValue(0))),
             ASTSeq(
                 ASTWhile(
-                    ASTBinOP("<", ASTVar("i"), ASTConst(DataValue(3))),
-                    ASTAssign("i", ASTBinOP("+", ASTVar("i"), ASTConst(DataValue(1))))
+                    ASTBinOP("<", ASTVar("i"), ASTConst(DataValue.IntValue(3))),
+                    ASTAssign("i", ASTBinOP("+", ASTVar("i"), ASTConst(DataValue.IntValue(1))))
                 ),
-                ASTDo(ASTFuncCall("write", ASTVar("i")), ASTConst(DataValue(0)))
+                ASTDo(ASTFuncCall("write", ASTVar("i")), ASTConst(DataValue.IntValue(0)))
             )
         )
         val compiler = CompilationVisitor()
