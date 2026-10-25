@@ -113,11 +113,12 @@ class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
     override fun visit(node: ASTElem) {
         val index = popIntOrThrow("array index")
         val value = popValue("array value")
-        if (value !is DataValue.ArrayValue) {
-            throw IllegalStateException("$node did not get an array to index")
-        }
 
-        executionStack.current().pushNameless(value.elems[index])
+        when(value) {
+            is DataValue.StringValue -> executionStack.current().pushNameless(DataValue.IntValue(value.value[index].code))
+            is DataValue.ArrayValue -> executionStack.current().pushNameless(value.elems[index])
+            else -> throw IllegalStateException("$node did not get an array to index")
+        }
     }
 
     override fun visit(node: ASTSet) {
@@ -125,11 +126,14 @@ class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
         val index = popIntOrThrow("array set index")
         val destination = popValue("array set destination")
 
-        if (destination !is DataValue.ArrayValue) {
-            throw IllegalStateException("$node did not get an array to index")
+        when(destination) {
+            is DataValue.StringValue -> {
+                val charValue = (source as? DataValue.IntValue) ?: throw IllegalStateException("string element must be char")
+                destination.value = destination.value.replaceRange(index, index + 1, charValue.value.toChar().toString())
+            }
+            is DataValue.ArrayValue -> destination.elems[index] = source
+            else -> throw IllegalStateException("$node did not get an array to index")
         }
-
-        destination.elems[index] = source
     }
 
     override fun visit(node: ASTLength) {

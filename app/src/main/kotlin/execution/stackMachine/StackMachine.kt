@@ -55,17 +55,28 @@ class StackMachine {
                 is MachineInstruction.ELEM -> {
                     val index = (mem.popNameless() as? DataValue.IntValue)?.value
                         ?: throw IllegalArgumentException("Array index is not an integer")
-                    val array = mem.popNameless() as? DataValue.ArrayValue
-                        ?: throw IllegalArgumentException("Indexed value is not an array")
-                    mem.pushNameless(array.elems[index])
+                    val array = mem.popNameless()
+
+                    when(array) {
+                        is DataValue.StringValue -> mem.pushNameless(DataValue.IntValue(array.value[index].code))
+                        is DataValue.ArrayValue -> mem.pushNameless(array.elems[index])
+                        else -> throw IllegalStateException("Indexed value is not an array/string")
+                    }
                 }
                 is MachineInstruction.SET -> {
                     val source = mem.popNameless()
                     val index = (mem.popNameless() as? DataValue.IntValue)?.value
                         ?: throw IllegalArgumentException("Array index is not an integer")
-                    val destination = mem.popNameless() as? DataValue.ArrayValue
-                        ?: throw IllegalArgumentException("Set destination is not an array")
-                    destination.elems[index] = source
+                    val destination = mem.popNameless()
+
+                    when(destination) {
+                        is DataValue.StringValue -> {
+                            val charValue = (source as? DataValue.IntValue) ?: throw IllegalStateException("string element must be char")
+                            destination.value = destination.value.replaceRange(index, index + 1, charValue.value.toChar().toString())
+                        }
+                        is DataValue.ArrayValue -> destination.elems[index] = source
+                        else -> throw IllegalStateException("Set destination is not an array/string")
+                    }
                 }
                 is MachineInstruction.LENGTH -> {
                     val length = when (val value = mem.popNameless()) {
