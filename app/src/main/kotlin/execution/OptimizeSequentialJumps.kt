@@ -12,18 +12,29 @@ fun optimizeSequentialJumps(instructions: List<MachineInstruction>): List<Machin
         }
     }
 
-    val newInstructions = instructions.toMutableList()
-    for (i in newInstructions.indices) {
-        if (newInstructions[i] is MachineInstruction.JMP) {
-            while ((newInstructions[i] as MachineInstruction.JMP).label in replaceTable.keys) {
-                newInstructions[i] = MachineInstruction.JMP(replaceTable[(newInstructions[i] as MachineInstruction.JMP).label]!!)
-            }
+    val resolvedLabels = mutableMapOf<String, String>()
+    for (label in replaceTable.keys) {
+        val visited = mutableSetOf<String>()
+        var target = label
+        while (target in replaceTable && visited.add(target)) {
+            target = replaceTable[target]!!
+        }
+        if (target !in replaceTable)
+            resolvedLabels[label] = target
+    }
+
+    val newInstructions = instructions.map {
+        when (it) {
+            is MachineInstruction.JMP -> MachineInstruction.JMP(resolvedLabels[it.label] ?: it.label)
+            is MachineInstruction.JZ -> MachineInstruction.JZ(resolvedLabels[it.label] ?: it.label)
+            is MachineInstruction.JNZ -> MachineInstruction.JNZ(resolvedLabels[it.label] ?: it.label)
+            else -> it
         }
     }
 
     return newInstructions.filter {
         if (it is MachineInstruction.LABEL)
-            it.label !in replaceTable.keys
+            it.label !in resolvedLabels.keys
         else
             true
     }
