@@ -1,12 +1,32 @@
 package ru.tsaplev.app
 
 import ru.tsaplev.app.JSONToAST.GetJsonToAST
+import ru.tsaplev.app.execution.DataIO
+import ru.tsaplev.app.execution.DataValue
 import ru.tsaplev.app.execution.ExecutionVisitor
-import ru.tsaplev.app.execution.IntIO
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+
+class TestIntIO(input: List<Int>) : DataIO {
+    private val inputQueue = ArrayDeque(input)
+    val output = mutableListOf<Int>()
+
+    val inputConsumed: Boolean
+        get() = inputQueue.isEmpty()
+
+    val remainingInput: List<Int>
+        get() = inputQueue.toList()
+
+    override fun write(output: DataValue?, end: String) {
+        this.output.add(requireNotNull((output as? DataValue.IntValue)?.value) { "Interpreter attempted to write null" })
+    }
+
+    override fun read(): DataValue =
+        DataValue.IntValue(inputQueue.removeFirstOrNull()
+            ?: error("Interpreter requested more input than the test provides"))
+}
 
 class InterpreterProgramTest {
     private fun resourceText(directory: String, fileName: String): String =
@@ -298,24 +318,5 @@ class InterpreterProgramTest {
         val expectedOutput = listOf(1, 1, 1, 1, 1, 1)
 
         assertProgram("stress_numeric_pipeline", input, expectedOutput)
-    }
-
-    private class TestIntIO(input: List<Int>) : IntIO {
-        private val inputQueue = ArrayDeque(input)
-        val output = mutableListOf<Int>()
-
-        val inputConsumed: Boolean
-            get() = inputQueue.isEmpty()
-
-        val remainingInput: List<Int>
-            get() = inputQueue.toList()
-
-        override fun write(output: Int?) {
-            this.output.add(requireNotNull(output) { "Interpreter attempted to write null" })
-        }
-
-        override fun read(): Int =
-            inputQueue.removeFirstOrNull()
-                ?: error("Interpreter requested more input than the test provides")
     }
 }

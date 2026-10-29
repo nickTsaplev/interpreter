@@ -1,14 +1,20 @@
 package ru.tsaplev.app.execution
 
 import ru.tsaplev.app.ASTVisitor
+import ru.tsaplev.app.ASTreeNodes.ASTArray
 import ru.tsaplev.app.ASTreeNodes.ASTAssign
 import ru.tsaplev.app.ASTreeNodes.ASTBinOP
 import ru.tsaplev.app.ASTreeNodes.ASTConst
 import ru.tsaplev.app.ASTreeNodes.ASTDo
+import ru.tsaplev.app.ASTreeNodes.ASTElem
 import ru.tsaplev.app.ASTreeNodes.ASTFuncCall
 import ru.tsaplev.app.ASTreeNodes.ASTIf
 import ru.tsaplev.app.ASTreeNodes.ASTRead
+import ru.tsaplev.app.ASTreeNodes.ASTSeq
+import ru.tsaplev.app.ASTreeNodes.ASTSet
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
+import ru.tsaplev.app.ASTreeNodes.ASTString
+import ru.tsaplev.app.ASTreeNodes.ASTLength
 import ru.tsaplev.app.ASTreeNodes.ASTVar
 import ru.tsaplev.app.ASTreeNodes.ASTWhile
 import ru.tsaplev.app.execution.stackMachine.MachineInstruction
@@ -22,7 +28,11 @@ class CompilationVisitor: ASTVisitor {
     }
 
     override fun visit(node: ASTConst) {
-        instructions.add(MachineInstruction.CONST(node.value.get()))
+        val value = node.value
+        if (value is DataValue.IntValue)
+            instructions.add(MachineInstruction.CONST(value.value))
+        else
+            throw IllegalArgumentException("Expected int value, got ${node.value}")
     }
 
     override fun visit(node: ASTFuncCall) {
@@ -61,14 +71,17 @@ class CompilationVisitor: ASTVisitor {
 
     override fun visit(node: ASTWhile) {
         val loopStartLabel = "WHILE-START ${labelCount++}"
-        val loopEndLabel = "WHILE-END ${labelCount++}"
+        val loopConditionLabel = "WHILE-CONDITION ${labelCount++}"
+
+        instructions.add(MachineInstruction.JMP(loopConditionLabel))
 
         instructions.add(MachineInstruction.LABEL(loopStartLabel))
-        node.cond.visit(this)
-        instructions.add(MachineInstruction.JZ(loopEndLabel))
         node.body.visit(this)
-        instructions.add(MachineInstruction.JMP(loopStartLabel))
-        instructions.add(MachineInstruction.LABEL(loopEndLabel))
+
+        instructions.add(MachineInstruction.LABEL(loopConditionLabel))
+        node.cond.visit(this)
+        instructions.add(MachineInstruction.JNZ(loopStartLabel))
+
     }
 
     override fun visit(node: ASTDo) {
@@ -82,5 +95,29 @@ class CompilationVisitor: ASTVisitor {
 
     override fun visit(node: ASTSkip) {
 
+    }
+
+    override fun visit(node: ASTSeq) {
+        // Already visited
+    }
+
+    override fun visit(node: ASTString) {
+        instructions.add(MachineInstruction.STRING(node.value))
+    }
+
+    override fun visit(node: ASTArray) {
+        instructions.add(MachineInstruction.ARRAY(node.elems.size))
+    }
+
+    override fun visit(node: ASTElem) {
+        instructions.add(MachineInstruction.ELEM())
+    }
+
+    override fun visit(node: ASTSet) {
+        instructions.add(MachineInstruction.SET())
+    }
+
+    override fun visit(node: ASTLength) {
+        instructions.add(MachineInstruction.LENGTH())
     }
 }

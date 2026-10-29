@@ -6,6 +6,7 @@ import ru.tsaplev.app.ASTVisitor
 class ASTSeq(private val left: ASTNode, private val right: ASTNode): ASTNode {
     override fun visit(visitor: ASTVisitor) {
         left.visit(visitor)
+        visitor.visit(this)
         right.visit(visitor)
     }
 }

@@ -19,7 +19,7 @@ class JsonToConst: JsonToASTer() {
                 ?.content
                 ?.toIntOrNull()
                 ?: return null
-            return ASTConst(DataValue(value))
+            return ASTConst(DataValue.IntValue(value))
         }
         return next?.parse(parser, text)
     }

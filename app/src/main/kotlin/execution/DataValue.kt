@@ -1,7 +1,7 @@
 package ru.tsaplev.app.execution
 
-public class DataValue(private val value: Int) {
-    fun get(): Int {
-        return value;
-    }
+sealed class DataValue {
+    data class IntValue(val value: Int): DataValue()
+    data class StringValue(var value: String): DataValue()
+    data class ArrayValue(val elems: MutableList<DataValue>): DataValue()
 }

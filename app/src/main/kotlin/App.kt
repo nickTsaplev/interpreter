@@ -3,21 +3,27 @@ package ru.tsaplev.app
 import ru.tsaplev.app.JSONToAST.GetJsonToAST
 import ru.tsaplev.app.execution.CompilationVisitor
 import ru.tsaplev.app.execution.ExecutionVisitor
-import ru.tsaplev.app.execution.StandardIO
+import ru.tsaplev.app.execution.StandardDataIO
+import ru.tsaplev.app.execution.optimize
 import ru.tsaplev.app.execution.stackMachine.StackMachine
 import java.io.File
 
 fun main(args: Array<String>) {
+    var optimize = false
     val mode = when {
         args.size == 1 -> "ast"
         args.size == 2 && (args[0] == "ast" || args[0] == "stack") -> args[0]
         args.size == 3 && args[0] == "compile" -> "compile"
+        args.size == 4 && args[0] == "compile" -> {
+            optimize = (args[1] == "optimize")
+            "compile"
+        }
         else -> {
             System.err.println("Usage: interpreter <ast.json> | ast <ast.json> | stack <stack.json> | compile <ast.json> <output.json>")
             return
         }
     }
-    val inputPath = if (args.size == 1) args[0] else args[1]
+    val inputPath = if (args.size == 1) args[0] else if (args.size == 4) args[2] else args[1]
 
     if (mode == "ast") {
         val text = File(inputPath).readText(Charsets.UTF_8)
@@ -48,7 +54,7 @@ fun main(args: Array<String>) {
 
         val machine = StackMachine()
         try {
-            machine.run(commandList, StandardIO())
+            machine.run(commandList, StandardDataIO())
         } catch (e: IllegalStateException) {
             print("State error while running: ${e.message}")
         } catch (e: IllegalArgumentException) {
@@ -68,6 +74,10 @@ fun main(args: Array<String>) {
         val visitor = CompilationVisitor()
         ast.visit(visitor)
 
-        File(args[2]).writeText(StackInstructionsToJSON(visitor.instructions).toString())
+        val instructions = if (optimize) optimize(visitor.instructions) else visitor.instructions
+
+        val outputFileName = if (args.size == 3) args[2] else args[3]
+
+        File(outputFileName).writeText(StackInstructionsToJSON(instructions).toString())
     }
 }
