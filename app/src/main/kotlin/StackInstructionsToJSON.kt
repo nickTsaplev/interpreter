@@ -2,6 +2,8 @@ package ru.tsaplev.app
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.encodeToJsonElement
 import ru.tsaplev.app.execution.stackMachine.MachineInstruction
 import kotlin.collections.mapOf
@@ -23,6 +25,8 @@ fun StackInstructionsToJSON(instructions: List<MachineInstruction>) = JsonArray(
         is MachineInstruction.READ -> Json.encodeToJsonElement("READ")
         is MachineInstruction.ST -> Json.encodeToJsonElement(mapOf("ST" to it.varname))
         is MachineInstruction.WRITE -> Json.encodeToJsonElement("WRITE")
-        is MachineInstruction.SEXP -> Json.encodeToJsonElement(mapOf("SEXP" to listOf(it.name, it.size)))
+        is MachineInstruction.SEXP -> JsonObject(mapOf(
+            "SEXP" to JsonArray(listOf(JsonPrimitive(it.name), JsonPrimitive(it.size)))
+        ))
     }
 })

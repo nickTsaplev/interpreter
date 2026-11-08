@@ -64,7 +64,8 @@ class StackMachine {
                     when(array) {
                         is DataValue.StringValue -> mem.pushNameless(DataValue.IntValue(array.value[index].code))
                         is DataValue.ArrayValue -> mem.pushNameless(array.elems[index])
-                        else -> throw IllegalStateException("Indexed value is not an array/string")
+                        is DataValue.SExpressionValue -> mem.pushNameless(array.elems[index])
+                        else -> throw IllegalStateException("Indexed value is not an array/string/S-expression")
                     }
                 }
                 is MachineInstruction.SET -> {
