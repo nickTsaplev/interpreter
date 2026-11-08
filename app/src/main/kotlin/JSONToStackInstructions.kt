@@ -4,6 +4,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonPrimitive
 import ru.tsaplev.app.execution.stackMachine.MachineInstruction
 
@@ -39,10 +40,17 @@ fun JSONToStackInstructions(text: String): List<MachineInstruction> {
         } else if (command is JsonObject) {
             require(command.size == 1) { "Expected one stack instruction per object" }
             val key = command.keys.first()
-            val field = command[key]?.jsonPrimitive?.content
-                ?: throw IllegalArgumentException("Missing argument for $key")
-            ans.add(toCommandWithArg(key, field)
-                ?: throw IllegalArgumentException("Unknown stack instruction: $key"))
+            if (key == "SEXP") {
+                val field = command[key]?.jsonArray ?: throw IllegalArgumentException("Missing argument for $key")
+                ans.add(MachineInstruction.SEXP(field[0].jsonPrimitive.content, field[1].jsonPrimitive.content.toInt()))
+            } else {
+                val field = command[key]?.jsonPrimitive?.content
+                    ?: throw IllegalArgumentException("Missing argument for $key")
+                ans.add(
+                    toCommandWithArg(key, field)
+                        ?: throw IllegalArgumentException("Unknown stack instruction: $key")
+                )
+            }
         } else {
             throw IllegalArgumentException("Invalid stack instruction: $command")
         }

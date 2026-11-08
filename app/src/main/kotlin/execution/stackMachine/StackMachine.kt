@@ -52,6 +52,10 @@ class StackMachine {
                     val elements = MutableList(command.size) { mem.popNameless() }
                     mem.pushNameless(DataValue.ArrayValue(elements.reversed().toMutableList()))
                 }
+                is MachineInstruction.SEXP -> {
+                    val elements = MutableList(command.size) { mem.popNameless() }
+                    mem.pushNameless(DataValue.SExpressionValue(command.name,elements.reversed().toMutableList()))
+                }
                 is MachineInstruction.ELEM -> {
                     val index = (mem.popNameless() as? DataValue.IntValue)?.value
                         ?: throw IllegalArgumentException("Array index is not an integer")
@@ -82,6 +86,7 @@ class StackMachine {
                     val length = when (val value = mem.popNameless()) {
                         is DataValue.ArrayValue -> value.elems.size
                         is DataValue.StringValue -> value.value.length
+                        is DataValue.SExpressionValue -> value.elems.size
                         is DataValue.IntValue -> throw IllegalArgumentException("length is only defined for arrays and strings")
                     }
                     mem.pushNameless(DataValue.IntValue(length))

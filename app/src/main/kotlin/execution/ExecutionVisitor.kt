@@ -17,6 +17,7 @@ import ru.tsaplev.app.ASTreeNodes.ASTSet
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
 import ru.tsaplev.app.ASTreeNodes.ASTString
 import ru.tsaplev.app.ASTreeNodes.ASTLength
+import ru.tsaplev.app.ASTreeNodes.ASTSExp
 
 class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
 
@@ -110,6 +111,14 @@ class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
         executionStack.current().pushNameless(DataValue.ArrayValue(ans.reversed().toMutableList()))
     }
 
+    override fun visit(node: ASTSExp) {
+        val ans = mutableListOf<DataValue>()
+        for (i in node.elems.indices) {
+            ans.add(popValue("array construction"))
+        }
+        executionStack.current().pushNameless(DataValue.SExpressionValue(node.name,ans.reversed().toMutableList()))
+    }
+
     override fun visit(node: ASTElem) {
         val index = popIntOrThrow("array index")
         val value = popValue("array value")
@@ -117,6 +126,7 @@ class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
         when(value) {
             is DataValue.StringValue -> executionStack.current().pushNameless(DataValue.IntValue(value.value[index].code))
             is DataValue.ArrayValue -> executionStack.current().pushNameless(value.elems[index])
+            is DataValue.SExpressionValue -> executionStack.current().pushNameless(value.elems[index])
             else -> throw IllegalStateException("$node did not get an array to index")
         }
     }
@@ -132,6 +142,7 @@ class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
                 destination.value = destination.value.replaceRange(index, index + 1, charValue.value.toChar().toString())
             }
             is DataValue.ArrayValue -> destination.elems[index] = source
+            is DataValue.SExpressionValue -> destination.elems[index] = source
             else -> throw IllegalStateException("$node did not get an array to index")
         }
     }
@@ -141,7 +152,7 @@ class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
         val length = when (value) {
             is DataValue.ArrayValue -> value.elems.size
             is DataValue.StringValue -> value.value.length
-            is DataValue.IntValue -> throw IllegalArgumentException("length is only defined for arrays and strings")
+            else -> throw IllegalArgumentException("length is only defined for arrays and strings")
         }
         executionStack.current().pushNameless(DataValue.IntValue(length))
     }
