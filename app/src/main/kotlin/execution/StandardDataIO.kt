@@ -21,6 +21,15 @@ class StandardDataIO: DataIO {
             is DataValue.StringValue -> {
                 print(output.value)
             }
+
+            is DataValue.SExpressionValue -> {
+                print(output.name)
+                print('(')
+                output.elems.forEachIndexed { index, value ->
+                    write(value, if (index < output.elems.size - 1) ", " else "")
+                }
+                print(')')
+            }
         }
         print(end)
     }

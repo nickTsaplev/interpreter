@@ -16,4 +16,6 @@ sealed class MachineInstruction {
     class JMP(val label: String): MachineInstruction()
     class JZ(val label: String): MachineInstruction()
     class JNZ(val label: String): MachineInstruction()
+
+    class SEXP(val name: String, val size: Int): MachineInstruction()
 }

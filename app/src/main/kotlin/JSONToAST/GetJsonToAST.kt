@@ -15,4 +15,5 @@ fun GetJsonToAST(): JsonToASTer {
         .addNext(JsonToSet())
         .addNext(JsonToLength())
         .addNext(JsonToString())
+        .addNext(JsonToSExp())
 }
