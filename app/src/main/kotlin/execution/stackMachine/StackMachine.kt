@@ -32,6 +32,7 @@ class StackMachine {
     })
 
     fun run(commands: List<MachineInstruction>, io: DataIO) {
+        val matchScopes = ArrayDeque<Map<String, DataValue?>>()
         var pc = 0
 
         createLabelTable(commands)
@@ -52,6 +53,20 @@ class StackMachine {
                     val elements = MutableList(command.size) { mem.popNameless() }
                     mem.pushNameless(DataValue.ArrayValue(elements.reversed().toMutableList()))
                 }
+                is MachineInstruction.MATCH -> {
+                    val value = mem.popNameless()
+                    val bindings = command.pattern.match(value)
+                    if (bindings == null) {
+                        mem.pushNameless(value)
+                        mem.pushNameless(DataValue.IntValue(0))
+                    } else {
+                        matchScopes.addLast(mem.bind(bindings))
+                        mem.pushNameless(DataValue.IntValue(1))
+                    }
+                }
+                is MachineInstruction.ENDMATCH -> mem.restore(matchScopes.removeLast())
+                is MachineInstruction.MATCHFAIL ->
+                    throw IllegalArgumentException("Match failure on ${mem.popNameless()}")
                 is MachineInstruction.SEXP -> {
                     val elements = MutableList(command.size) { mem.popNameless() }
                     mem.pushNameless(DataValue.SExpressionValue(command.name,elements.reversed().toMutableList()))
@@ -80,7 +95,8 @@ class StackMachine {
                             destination.value = destination.value.replaceRange(index, index + 1, charValue.value.toChar().toString())
                         }
                         is DataValue.ArrayValue -> destination.elems[index] = source
-                        else -> throw IllegalStateException("Set destination is not an array/string")
+                        is DataValue.SExpressionValue -> destination.elems[index] = source
+                        else -> throw IllegalStateException("Set destination is not an array/string/S-expression")
                     }
                 }
                 is MachineInstruction.LENGTH -> {
@@ -88,7 +104,7 @@ class StackMachine {
                         is DataValue.ArrayValue -> value.elems.size
                         is DataValue.StringValue -> value.value.length
                         is DataValue.SExpressionValue -> value.elems.size
-                        is DataValue.IntValue -> throw IllegalArgumentException("length is only defined for arrays and strings")
+                        is DataValue.IntValue -> throw IllegalArgumentException("length is only defined for arrays, strings and S-expressions")
                     }
                     mem.pushNameless(DataValue.IntValue(length))
                 }

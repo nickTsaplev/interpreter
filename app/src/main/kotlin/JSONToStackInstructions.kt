@@ -6,6 +6,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonPrimitive
+import ru.tsaplev.app.execution.MatchPattern
 import ru.tsaplev.app.execution.stackMachine.MachineInstruction
 
 private fun toCommandWithArg(name: String, field: String): MachineInstruction? {
@@ -32,6 +33,8 @@ fun JSONToStackInstructions(text: String): List<MachineInstruction> {
             when (command.content) {
                 "READ" -> ans.add(MachineInstruction.READ())
                 "WRITE" -> ans.add(MachineInstruction.WRITE())
+                "ENDMATCH" -> ans.add(MachineInstruction.ENDMATCH())
+                "MATCHFAIL" -> ans.add(MachineInstruction.MATCHFAIL())
                 "ELEM" -> ans.add(MachineInstruction.ELEM())
                 "SET" -> ans.add(MachineInstruction.SET())
                 "LENGTH" -> ans.add(MachineInstruction.LENGTH())
@@ -40,7 +43,11 @@ fun JSONToStackInstructions(text: String): List<MachineInstruction> {
         } else if (command is JsonObject) {
             require(command.size == 1) { "Expected one stack instruction per object" }
             val key = command.keys.first()
-            if (key == "SEXP") {
+            if (key == "MATCH") {
+                val pattern = command[key]?.let(MatchPattern::parse)
+                    ?: throw IllegalArgumentException("Invalid MATCH pattern")
+                ans.add(MachineInstruction.MATCH(pattern))
+            } else if (key == "SEXP") {
                 val field = command[key]?.jsonArray ?: throw IllegalArgumentException("Missing argument for $key")
                 ans.add(MachineInstruction.SEXP(field[0].jsonPrimitive.content, field[1].jsonPrimitive.content.toInt()))
             } else {

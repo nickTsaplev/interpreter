@@ -25,6 +25,9 @@ fun StackInstructionsToJSON(instructions: List<MachineInstruction>) = JsonArray(
         is MachineInstruction.READ -> Json.encodeToJsonElement("READ")
         is MachineInstruction.ST -> Json.encodeToJsonElement(mapOf("ST" to it.varname))
         is MachineInstruction.WRITE -> Json.encodeToJsonElement("WRITE")
+        is MachineInstruction.MATCH -> JsonObject(mapOf("MATCH" to it.pattern.json))
+        is MachineInstruction.ENDMATCH -> JsonPrimitive("ENDMATCH")
+        is MachineInstruction.MATCHFAIL -> JsonPrimitive("MATCHFAIL")
         is MachineInstruction.SEXP -> JsonObject(mapOf(
             "SEXP" to JsonArray(listOf(JsonPrimitive(it.name), JsonPrimitive(it.size)))
         ))

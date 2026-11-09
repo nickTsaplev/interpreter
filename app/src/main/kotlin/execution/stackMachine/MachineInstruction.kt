@@ -1,5 +1,7 @@
 package ru.tsaplev.app.execution.stackMachine
 
+import ru.tsaplev.app.execution.MatchPattern
+
 sealed class MachineInstruction {
     class READ: MachineInstruction()
     class WRITE: MachineInstruction()
@@ -17,5 +19,8 @@ sealed class MachineInstruction {
     class JZ(val label: String): MachineInstruction()
     class JNZ(val label: String): MachineInstruction()
 
+    class MATCH(val pattern: MatchPattern): MachineInstruction()
+    class ENDMATCH: MachineInstruction()
+    class MATCHFAIL: MachineInstruction()
     class SEXP(val name: String, val size: Int): MachineInstruction()
 }
