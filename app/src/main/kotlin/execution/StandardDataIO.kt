@@ -23,15 +23,34 @@ class StandardDataIO: DataIO {
             }
 
             is DataValue.SExpressionValue -> {
-                print(output.name)
-                print('(')
-                output.elems.forEachIndexed { index, value ->
-                    write(value, if (index < output.elems.size - 1) ", " else "")
+                val elements = listElements(output)
+                if (elements != null) {
+                    print('{')
+                    elements.forEachIndexed { index, value ->
+                        write(value, if (index < elements.lastIndex) ", " else "")
+                    }
+                    print('}')
+                } else {
+                    print(output.name)
+                    print('(')
+                    output.elems.forEachIndexed { index, value ->
+                        write(value, if (index < output.elems.size - 1) ", " else "")
+                    }
+                    print(')')
                 }
-                print(')')
             }
         }
         print(end)
+    }
+
+    private fun listElements(value: DataValue.SExpressionValue): List<DataValue>? {
+        val elements = mutableListOf<DataValue>()
+        var tail = value
+        while (tail.name == "cons" && tail.elems.size == 2) {
+            elements.add(tail.elems[0])
+            tail = tail.elems[1] as? DataValue.SExpressionValue ?: return null
+        }
+        return if (tail.name == "nil" && tail.elems.isEmpty()) elements else null
     }
 
     override fun read(): DataValue {

@@ -64,7 +64,8 @@ class StackMachine {
                     when(array) {
                         is DataValue.StringValue -> mem.pushNameless(DataValue.IntValue(array.value[index].code))
                         is DataValue.ArrayValue -> mem.pushNameless(array.elems[index])
-                        else -> throw IllegalStateException("Indexed value is not an array/string")
+                        is DataValue.SExpressionValue -> mem.pushNameless(array.elems[index])
+                        else -> throw IllegalStateException("Indexed value is not an array/string/S-expression")
                     }
                 }
                 is MachineInstruction.SET -> {
@@ -79,7 +80,8 @@ class StackMachine {
                             destination.value = destination.value.replaceRange(index, index + 1, charValue.value.toChar().toString())
                         }
                         is DataValue.ArrayValue -> destination.elems[index] = source
-                        else -> throw IllegalStateException("Set destination is not an array/string")
+                        is DataValue.SExpressionValue -> destination.elems[index] = source
+                        else -> throw IllegalStateException("Set destination is not an array/string/S-expression")
                     }
                 }
                 is MachineInstruction.LENGTH -> {
@@ -87,7 +89,7 @@ class StackMachine {
                         is DataValue.ArrayValue -> value.elems.size
                         is DataValue.StringValue -> value.value.length
                         is DataValue.SExpressionValue -> value.elems.size
-                        is DataValue.IntValue -> throw IllegalArgumentException("length is only defined for arrays and strings")
+                        is DataValue.IntValue -> throw IllegalArgumentException("length is only defined for arrays, strings and S-expressions")
                     }
                     mem.pushNameless(DataValue.IntValue(length))
                 }

@@ -13,6 +13,19 @@ public class ExecutionFrame(private val name: String? = null) {
         namedStack[identifier] = value;
     }
 
+    internal fun bind(values: Map<String, DataValue>): Map<String, DataValue?> {
+        val previous = values.keys.associateWith { namedStack[it] }
+        namedStack.putAll(values)
+        return previous
+    }
+
+    internal fun restore(previous: Map<String, DataValue?>) {
+        previous.forEach { (name, value) ->
+            if (value == null) namedStack.remove(name)
+            else namedStack[name] = value
+        }
+    }
+
     public fun getTopNameless(): DataValue? {
         if(unnamedStack.empty())
             return null

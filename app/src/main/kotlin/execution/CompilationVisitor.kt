@@ -15,6 +15,7 @@ import ru.tsaplev.app.ASTreeNodes.ASTSet
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
 import ru.tsaplev.app.ASTreeNodes.ASTString
 import ru.tsaplev.app.ASTreeNodes.ASTLength
+import ru.tsaplev.app.ASTreeNodes.ASTSwitch
 import ru.tsaplev.app.ASTreeNodes.ASTSExp
 import ru.tsaplev.app.ASTreeNodes.ASTVar
 import ru.tsaplev.app.ASTreeNodes.ASTWhile
@@ -120,6 +121,10 @@ class CompilationVisitor: ASTVisitor {
 
     override fun visit(node: ASTLength) {
         instructions.add(MachineInstruction.LENGTH())
+    }
+
+    override fun visit(node: ASTSwitch) {
+        throw IllegalArgumentException("switch is only supported in AST mode")
     }
 
     override fun visit(node: ASTSExp) {
