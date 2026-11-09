@@ -1,16 +1,37 @@
 {
   "seq": {
-    "left": { "read": "limit" },
+    "left": {
+      "read": "limit"
+    },
     "right": {
       "seq": {
-        "left": { "assn": { "dst": "count", "src": { "const": 0 } } },
+        "left": {
+          "assn": {
+            "dst": "count",
+            "src": {
+              "const": 0
+            }
+          }
+        },
         "right": {
           "seq": {
-            "left": { "assn": { "dst": "sum", "src": { "const": 0 } } },
+            "left": {
+              "assn": {
+                "dst": "sum",
+                "src": {
+                  "const": 0
+                }
+              }
+            },
             "right": {
               "seq": {
                 "left": {
-                  "assn": { "dst": "checksum", "src": { "const": 0 } }
+                  "assn": {
+                    "dst": "checksum",
+                    "src": {
+                      "const": 0
+                    }
+                  }
                 },
                 "right": {
                   "seq": {
@@ -19,15 +40,21 @@
                         "left": {
                           "assn": {
                             "dst": "candidate",
-                            "src": { "const": 2 }
+                            "src": {
+                              "const": 2
+                            }
                           }
                         },
                         "right": {
                           "while": {
                             "cond": {
                               "binop": "<=",
-                              "left": { "var": "candidate" },
-                              "right": { "var": "limit" }
+                              "left": {
+                                "var": "candidate"
+                              },
+                              "right": {
+                                "var": "limit"
+                              }
                             },
                             "body": {
                               "seq": {
@@ -36,7 +63,9 @@
                                     "left": {
                                       "assn": {
                                         "dst": "divisor",
-                                        "src": { "const": 2 }
+                                        "src": {
+                                          "const": 2
+                                        }
                                       }
                                     },
                                     "right": {
@@ -44,7 +73,9 @@
                                         "left": {
                                           "assn": {
                                             "dst": "isPrime",
-                                            "src": { "const": 1 }
+                                            "src": {
+                                              "const": 1
+                                            }
                                           }
                                         },
                                         "right": {
@@ -85,12 +116,16 @@
                                                           "var": "divisor"
                                                         }
                                                       },
-                                                      "right": { "const": 0 }
+                                                      "right": {
+                                                        "const": 0
+                                                      }
                                                     },
                                                     "then": {
                                                       "assn": {
                                                         "dst": "isPrime",
-                                                        "src": { "const": 0 }
+                                                        "src": {
+                                                          "const": 0
+                                                        }
                                                       }
                                                     },
                                                     "else": {
@@ -106,14 +141,24 @@
                                                           }
                                                         }
                                                       }
+                                                    },
+                                                    "labels": {
+                                                      "end": "L_while_cond_14",
+                                                      "else": "L_else_15"
                                                     }
                                                   }
+                                                },
+                                                "labels": {
+                                                  "body": 13,
+                                                  "condition": 14
                                                 }
                                               }
                                             },
                                             "right": {
                                               "if": {
-                                                "cond": { "var": "isPrime" },
+                                                "cond": {
+                                                  "var": "isPrime"
+                                                },
                                                 "then": {
                                                   "seq": {
                                                     "left": {
@@ -208,7 +253,11 @@
                                                                     "var": "candidate"
                                                                   }
                                                                 },
-                                                                "else": "skip"
+                                                                "else": "skip",
+                                                                "labels": {
+                                                                  "end": "L_seq_9",
+                                                                  "else": "L_else_20"
+                                                                }
                                                               }
                                                             }
                                                           }
@@ -217,7 +266,11 @@
                                                     }
                                                   }
                                                 },
-                                                "else": "skip"
+                                                "else": "skip",
+                                                "labels": {
+                                                  "end": "L_seq_9",
+                                                  "else": "L_else_16"
+                                                }
                                               }
                                             }
                                           }
@@ -231,12 +284,20 @@
                                     "dst": "candidate",
                                     "src": {
                                       "binop": "+",
-                                      "left": { "var": "candidate" },
-                                      "right": { "const": 1 }
+                                      "left": {
+                                        "var": "candidate"
+                                      },
+                                      "right": {
+                                        "const": 1
+                                      }
                                     }
                                   }
                                 }
                               }
+                            },
+                            "labels": {
+                              "body": 7,
+                              "condition": 8
                             }
                           }
                         }
@@ -244,11 +305,23 @@
                     },
                     "right": {
                       "seq": {
-                        "left": { "write": { "var": "count" } },
+                        "left": {
+                          "write": {
+                            "var": "count"
+                          }
+                        },
                         "right": {
                           "seq": {
-                            "left": { "write": { "var": "sum" } },
-                            "right": { "write": { "var": "checksum" } }
+                            "left": {
+                              "write": {
+                                "var": "sum"
+                              }
+                            },
+                            "right": {
+                              "write": {
+                                "var": "checksum"
+                              }
+                            }
                           }
                         }
                       }
