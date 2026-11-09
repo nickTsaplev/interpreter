@@ -32,7 +32,6 @@ class StackMachine {
     })
 
     fun run(commands: List<MachineInstruction>, io: DataIO) {
-        val matchScopes = ArrayDeque<Map<String, DataValue?>>()
         var pc = 0
 
         createLabelTable(commands)
@@ -53,20 +52,6 @@ class StackMachine {
                     val elements = MutableList(command.size) { mem.popNameless() }
                     mem.pushNameless(DataValue.ArrayValue(elements.reversed().toMutableList()))
                 }
-                is MachineInstruction.MATCH -> {
-                    val value = mem.popNameless()
-                    val bindings = command.pattern.match(value)
-                    if (bindings == null) {
-                        mem.pushNameless(value)
-                        mem.pushNameless(DataValue.IntValue(0))
-                    } else {
-                        matchScopes.addLast(mem.bind(bindings))
-                        mem.pushNameless(DataValue.IntValue(1))
-                    }
-                }
-                is MachineInstruction.ENDMATCH -> mem.restore(matchScopes.removeLast())
-                is MachineInstruction.MATCHFAIL ->
-                    throw IllegalArgumentException("Match failure on ${mem.popNameless()}")
                 is MachineInstruction.SEXP -> {
                     val elements = MutableList(command.size) { mem.popNameless() }
                     mem.pushNameless(DataValue.SExpressionValue(command.name,elements.reversed().toMutableList()))

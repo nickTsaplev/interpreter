@@ -124,19 +124,7 @@ class CompilationVisitor: ASTVisitor {
     }
 
     override fun visit(node: ASTSwitch) {
-        node.scrutinee.visit(this)
-        val endLabel = "SWITCH-END ${labelCount++}"
-        for ((pattern, branch) in node.branches) {
-            val nextLabel = "SWITCH-NEXT ${labelCount++}"
-            instructions.add(MachineInstruction.MATCH(pattern))
-            instructions.add(MachineInstruction.JZ(nextLabel))
-            branch.visit(this)
-            instructions.add(MachineInstruction.ENDMATCH())
-            instructions.add(MachineInstruction.JMP(endLabel))
-            instructions.add(MachineInstruction.LABEL(nextLabel))
-        }
-        instructions.add(MachineInstruction.MATCHFAIL())
-        instructions.add(MachineInstruction.LABEL(endLabel))
+        throw IllegalArgumentException("switch is only supported in AST mode")
     }
 
     override fun visit(node: ASTSExp) {

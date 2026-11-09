@@ -73,7 +73,12 @@ fun main(args: Array<String>) {
         }
 
         val visitor = CompilationVisitor()
-        ast.visit(visitor)
+        try {
+            ast.visit(visitor)
+        } catch (e: IllegalArgumentException) {
+            print("Argument error while compiling: ${e.message}")
+            return
+        }
 
         val instructions = if (optimize) optimize(visitor.instructions) else visitor.instructions
 

@@ -1,13 +1,8 @@
 package ru.tsaplev.app.source
 
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
 import ru.tsaplev.app.ASTNode
 import ru.tsaplev.app.ASTreeNodes.*
 import ru.tsaplev.app.execution.DataValue
-import ru.tsaplev.app.execution.MatchPattern
 
 class SourceParser(private val text: String) {
     private data class Token(val text: String, val offset: Int)
@@ -124,7 +119,7 @@ class SourceParser(private val text: String) {
         val branches = mutableListOf<Pair<MatchPattern, ASTNode>>()
         do {
             expect("case")
-            val pattern = MatchPattern.parse(pattern()) ?: fail("Invalid pattern")
+            val pattern = pattern()
             expect("->")
             branches.add(pattern to statements("|", "}"))
         } while (accept("|"))
@@ -192,39 +187,34 @@ class SourceParser(private val text: String) {
         else -> ASTVar(identifier())
     }
 
-    private fun pattern(): JsonElement {
+    private fun pattern(): MatchPattern {
         val head = patternPrimary()
-        return if (accept(":")) constructor("cons", listOf(head, pattern())) else head
+        return if (accept(":")) MatchPattern.constructor("cons", listOf(head, pattern())) else head
     }
 
-    private fun patternPrimary(): JsonElement = when {
-        accept("_") -> wildcard()
+    private fun patternPrimary(): MatchPattern = when {
+        accept("_") -> MatchPattern.wildcard()
         accept("(") -> pattern().also { expect(")") }
-        accept("[") -> JsonObject(mapOf("array" to JsonArray(commaList("]", false, ::pattern))))
-        accept("{") -> commaList("}", true, ::pattern).foldRight(constructor("nil", emptyList())) { head, tail ->
-            constructor("cons", listOf(head, tail))
+        accept("[") -> MatchPattern.array(commaList("]", false, ::pattern))
+        accept("{") -> commaList("}", true, ::pattern).foldRight(MatchPattern.constructor("nil", emptyList())) { head, tail ->
+            MatchPattern.constructor("cons", listOf(head, tail))
         }
         accept("#") -> {
             if (current !in typePatterns) fail("Pattern type expected")
-            JsonPrimitive("#" + take())
+            MatchPattern.type(take()) ?: fail("Pattern type expected")
         }
-        current.startsWith('"') -> JsonObject(mapOf("literal" to JsonPrimitive(take().drop(1).dropLast(1))))
-        current.startsWith('\'') -> JsonPrimitive(character())
+        current.startsWith('"') -> MatchPattern.literal(DataValue.StringValue(take().drop(1).dropLast(1)))
+        current.startsWith('\'') -> MatchPattern.literal(DataValue.IntValue(character()))
         current.firstOrNull() in 'A'..'Z' -> {
             val name = take()
-            constructor(name, if (accept("(")) commaList(")", false, ::pattern) else emptyList())
+            MatchPattern.constructor(name, if (accept("(")) commaList(")", false, ::pattern) else emptyList())
         }
         else -> {
             val name = identifier()
-            val child = if (accept("@")) pattern() else wildcard()
-            JsonObject(mapOf("bind" to JsonObject(mapOf("name" to JsonPrimitive(name), "pattern" to child))))
+            val child = if (accept("@")) pattern() else MatchPattern.wildcard()
+            MatchPattern.bind(name, child)
         }
     }
-
-    private fun wildcard(): JsonObject = JsonObject(mapOf("wildcard" to JsonArray(emptyList())))
-
-    private fun constructor(name: String, args: List<JsonElement>): JsonObject =
-        JsonObject(mapOf("sexp" to JsonPrimitive(name), "args" to JsonArray(args)))
 
     private fun character(): Int {
         val value = take().drop(1).dropLast(1)
