@@ -29,6 +29,18 @@ fun cmpDV(left: DataValue, right: DataValue): Int {
         return (left.elems.size - right.elems.size)
     }
 
+    if (left is DataValue.SExpressionValue && right is DataValue.SExpressionValue) {
+        val nameOrder = left.name.compareTo(right.name)
+        if (nameOrder != 0) return nameOrder
+        val sizeOrder = left.elems.size.compareTo(right.elems.size)
+        if (sizeOrder != 0) return sizeOrder
+        for (index in left.elems.indices) {
+            val order = cmpDV(left.elems[index], right.elems[index])
+            if (order != 0) return order
+        }
+        return 0
+    }
+
     throw IllegalArgumentException()
 }
 

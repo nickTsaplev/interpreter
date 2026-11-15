@@ -17,6 +17,7 @@ import ru.tsaplev.app.ASTreeNodes.ASTSet
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
 import ru.tsaplev.app.ASTreeNodes.ASTString
 import ru.tsaplev.app.ASTreeNodes.ASTLength
+import ru.tsaplev.app.ASTreeNodes.ASTSwitch
 import ru.tsaplev.app.ASTreeNodes.ASTSExp
 
 class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
@@ -111,6 +112,23 @@ class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
         executionStack.current().pushNameless(DataValue.ArrayValue(ans.reversed().toMutableList()))
     }
 
+    override fun visit(node: ASTSwitch) {
+        node.scrutinee.visit(this)
+        val value = popValue("switch scrutinee")
+        val frame = executionStack.current()
+        for ((pattern, branch) in node.branches) {
+            val bindings = pattern.match(value) ?: continue
+            val previous = frame.bind(bindings)
+            try {
+                branch.visit(this)
+            } finally {
+                frame.restore(previous)
+            }
+            return
+        }
+        throw IllegalArgumentException("Match failure on $value")
+    }
+
     override fun visit(node: ASTSExp) {
         val ans = mutableListOf<DataValue>()
         for (i in node.elems.indices) {
@@ -152,7 +170,8 @@ class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
         val length = when (value) {
             is DataValue.ArrayValue -> value.elems.size
             is DataValue.StringValue -> value.value.length
-            else -> throw IllegalArgumentException("length is only defined for arrays and strings")
+            is DataValue.SExpressionValue -> value.elems.size
+            is DataValue.IntValue -> throw IllegalArgumentException("length is only defined for arrays, strings and S-expressions")
         }
         executionStack.current().pushNameless(DataValue.IntValue(length))
     }
