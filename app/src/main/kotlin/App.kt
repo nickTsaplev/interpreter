@@ -6,7 +6,6 @@ import ru.tsaplev.app.execution.ExecutionVisitor
 import ru.tsaplev.app.execution.StandardDataIO
 import ru.tsaplev.app.execution.optimize
 import ru.tsaplev.app.execution.stackMachine.StackMachine
-import ru.tsaplev.app.source.SourceParser
 import java.io.File
 
 fun main(args: Array<String>) {
@@ -28,7 +27,7 @@ fun main(args: Array<String>) {
 
     if (mode == "ast") {
         val text = File(inputPath).readText(Charsets.UTF_8)
-        val ast = parseProgram(inputPath, text)
+        val ast = GetJsonToAST().startParse(text)
 
         if (ast == null) {
             print("Error: faulty JSON")
@@ -65,7 +64,7 @@ fun main(args: Array<String>) {
 
     if (mode == "compile") {
         val text = File(inputPath).readText(Charsets.UTF_8)
-        val ast = parseProgram(inputPath, text)
+        val ast = GetJsonToAST().startParse(text)
 
         if (ast == null) {
             print("Error: faulty JSON")
@@ -87,6 +86,3 @@ fun main(args: Array<String>) {
         File(outputFileName).writeText(StackInstructionsToJSON(instructions).toString())
     }
 }
-
-private fun parseProgram(path: String, text: String): ASTNode? =
-    if (path.endsWith(".in")) SourceParser(text).parse() else GetJsonToAST().startParse(text)
