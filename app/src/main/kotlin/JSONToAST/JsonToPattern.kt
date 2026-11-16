@@ -18,30 +18,30 @@ internal fun parsePattern(json: JsonElement): MatchPattern? {
     if (json is JsonPrimitive) {
         if (!json.isString) {
             val number = json.intOrNull ?: return null
-            return MatchPattern.literal(DataValue.IntValue(number))
+            return MatchPattern.Literal(DataValue.IntValue(number))
         }
         if (json.content.startsWith("#")) {
-            MatchPattern.type(json.content.drop(1))?.let { return it }
+            MatchPattern.Type(json.content.drop(1)).let { return it }
         }
-        return MatchPattern.literal(DataValue.StringValue(json.content))
+        return MatchPattern.Literal(DataValue.StringValue(json.content))
     }
     val node = json as? JsonObject ?: return null
     return when {
-        "wildcard" in node -> MatchPattern.wildcard()
+        "wildcard" in node -> MatchPattern.Wirdcard()
         "literal" in node -> {
             val literal = string(node["literal"]) ?: return null
-            MatchPattern.literal(DataValue.StringValue(literal))
+            MatchPattern.Literal(DataValue.StringValue(literal))
         }
         "bind" in node -> {
             val bind = node["bind"] as? JsonObject ?: return null
             val name = string(bind["name"]) ?: return null
             val pattern = bind["pattern"]?.let(::parsePattern) ?: return null
-            MatchPattern.bind(name, pattern)
+            MatchPattern.Bind(name, pattern)
         }
-        "array" in node -> MatchPattern.array(items(node["array"]) ?: return null)
+        "array" in node -> MatchPattern.Array(items(node["array"]) ?: return null)
         "sexp" in node -> {
             val name = string(node["sexp"]) ?: return null
-            MatchPattern.constructor(name, items(node["args"]) ?: return null)
+            MatchPattern.SExpression(name, items(node["args"]) ?: return null)
         }
         else -> null
     }

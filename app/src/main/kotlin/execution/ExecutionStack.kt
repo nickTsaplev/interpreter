@@ -1,23 +1,45 @@
 package ru.tsaplev.app.execution
 
-import java.util.Stack
+class ExecutionStack {
+    private val stack: MutableList<ExecutionFrame> = mutableListOf(ExecutionFrame("main"))
 
-public class ExecutionStack {
-    private val stack = Stack<ExecutionFrame>()
 
-    constructor() {
-        stack.push(ExecutionFrame("main"))
+
+    fun start(name: String? = null) {
+        stack.add(ExecutionFrame(name))
     }
 
-    public fun start(name: String? = null) {
-        stack.push(ExecutionFrame(name))
+    fun pop() {
+        stack.removeLast()
     }
 
-    public fun pop() {
-        stack.pop()
+    fun current(): ExecutionFrame {
+        return stack[stack.lastIndex]
     }
 
-    public fun current(): ExecutionFrame {
-        return stack.peek()
+    fun getVar(identifier: String): DataValue? {
+        stack.reversed().forEach {
+            if (it.hasVar(identifier)) {
+                return it.getVar(identifier)
+            }
+        }
+        return null
     }
+
+    fun setVar(identifier: String, value: DataValue) {
+        stack.reversed().forEach {
+            if (it.hasVar(identifier)) {
+                return it.setVar(identifier, value)
+            }
+        }
+        current().setVar(identifier, value)
+    }
+    fun getTopNameless(): DataValue? = stack[0].getTopNameless()
+
+    fun popNameless(): DataValue = stack[0].popNameless()
+
+    fun pushNameless(value: DataValue) = stack[0].pushNameless(value)
+
+    val unnamedDepth
+        get() = stack[0].depth
 }
