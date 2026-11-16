@@ -134,13 +134,13 @@ class CompilationVisitor: ASTVisitor {
             val lPref = "MATCH-CASE ${lNum}"
             val vis = MatchPatternVisitor(lPref)
             vis.visit(it.first)
+            vis.getBindings(it.first)
             instructions.addAll(vis.instructions)
             instructions.add(MachineInstruction.JMP("MATCH-CASE-START ${lNum}"))
-            for (i in 1..vis.maxDropDepth) {
+            for (i in (0..vis.maxDropDepth).reversed()) {
                 instructions.add(MachineInstruction.DROP())
                 instructions.add(MachineInstruction.LABEL("${lPref}_${i}"))
             }
-            instructions.add(MachineInstruction.LABEL("${lPref}_0"))
 
             instructions.add(MachineInstruction.JMP("MATCH-CASE-END ${lNum}"))
             instructions.add(MachineInstruction.LABEL("MATCH-CASE-START ${lNum}"))

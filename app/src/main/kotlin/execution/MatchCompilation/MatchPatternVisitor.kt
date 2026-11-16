@@ -12,6 +12,47 @@ class MatchPatternVisitor(val labelPrefix: String) {
     var dropDepth = 0
     var maxDropDepth = 0
 
+    fun checks(element: MatchPattern): Boolean =
+        (element !is MatchPattern.Wirdcard) && !(element is MatchPattern.Bind && !checks(element.pattern))
+
+    fun visitElems(elems: List<MatchPattern>) {
+        elems.indices.forEach {
+            if (checks(elems[it])) {
+                instructions.add(MachineInstruction.DUP())
+                instructions.add(MachineInstruction.CONST(it))
+                instructions.add(MachineInstruction.ELEM())
+                visit(elems[it])
+            }
+        }
+    }
+
+    fun getBindings(node: MatchPattern) {
+        when(node) {
+            is MatchPattern.Bind -> {
+                bindingPaths.addBinding(node.name)
+                getBindings(node.pattern)
+            }
+
+            is MatchPattern.Array -> {
+                node.patterns.indices.forEach {
+                    bindingPaths.push(it)
+                    getBindings(node.patterns[it])
+                    bindingPaths.pop()
+                }
+            }
+
+            is MatchPattern.SExpression -> {
+                node.patterns.indices.forEach {
+                    bindingPaths.push(it)
+                    getBindings(node.patterns[it])
+                    bindingPaths.pop()
+                }
+            }
+
+            else -> {}
+        }
+    }
+
     fun visit(node: MatchPattern) {
         when(node) {
             is MatchPattern.Wirdcard -> {
@@ -33,14 +74,8 @@ class MatchPatternVisitor(val labelPrefix: String) {
                 instructions.add(MachineInstruction.JZ("${labelPrefix}_${dropDepth}"))
 
                 dropDepth++
-                node.patterns.indices.forEach {
-                    instructions.add(MachineInstruction.DUP())
-                    instructions.add(MachineInstruction.CONST(it))
-                    instructions.add(MachineInstruction.ELEM())
-                    bindingPaths.push(it)
-                    visit(node.patterns[it])
-                    bindingPaths.pop()
-                }
+                maxDropDepth = max(dropDepth, maxDropDepth)
+                visitElems(node.patterns)
                 dropDepth--
 
                 instructions.add(MachineInstruction.DROP())
@@ -51,14 +86,7 @@ class MatchPatternVisitor(val labelPrefix: String) {
                 instructions.add(MachineInstruction.JZ("${labelPrefix}_${dropDepth}"))
                 dropDepth++
                 maxDropDepth = max(dropDepth, maxDropDepth)
-                node.patterns.indices.forEach {
-                    instructions.add(MachineInstruction.DUP())
-                    instructions.add(MachineInstruction.CONST(it))
-                    instructions.add(MachineInstruction.ELEM())
-                    bindingPaths.push(it)
-                    visit(node.patterns[it])
-                    bindingPaths.pop()
-                }
+                visitElems(node.patterns)
                 dropDepth--
 
                 instructions.add(MachineInstruction.DROP())
