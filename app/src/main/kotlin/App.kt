@@ -19,7 +19,7 @@ fun main(args: Array<String>) {
             "compile"
         }
         else -> {
-            System.err.println("Usage: interpreter <ast.json> | ast <ast.json> | stack <stack.json> | compile <ast.json> <output.json>")
+            System.err.println("Usage: interpreter <program.json|program.in> | ast <program> | stack <stack.json> | compile <program> <output.json>")
             return
         }
     }
@@ -72,7 +72,12 @@ fun main(args: Array<String>) {
         }
 
         val visitor = CompilationVisitor()
-        ast.visit(visitor)
+        try {
+            ast.visit(visitor)
+        } catch (e: IllegalArgumentException) {
+            print("Argument error while compiling: ${e.message}")
+            return
+        }
 
         val instructions = if (optimize) optimize(visitor.instructions) else visitor.instructions
 

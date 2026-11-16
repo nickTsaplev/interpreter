@@ -4,4 +4,5 @@ sealed class DataValue {
     data class IntValue(val value: Int): DataValue()
     data class StringValue(var value: String): DataValue()
     data class ArrayValue(val elems: MutableList<DataValue>): DataValue()
+    data class SExpressionValue(val name: String, val elems: MutableList<DataValue>): DataValue()
 }

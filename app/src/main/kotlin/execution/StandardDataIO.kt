@@ -21,8 +21,36 @@ class StandardDataIO: DataIO {
             is DataValue.StringValue -> {
                 print(output.value)
             }
+
+            is DataValue.SExpressionValue -> {
+                val elements = listElements(output)
+                if (elements != null) {
+                    print('{')
+                    elements.forEachIndexed { index, value ->
+                        write(value, if (index < elements.lastIndex) ", " else "")
+                    }
+                    print('}')
+                } else {
+                    print(output.name)
+                    print('(')
+                    output.elems.forEachIndexed { index, value ->
+                        write(value, if (index < output.elems.size - 1) ", " else "")
+                    }
+                    print(')')
+                }
+            }
         }
         print(end)
+    }
+
+    private fun listElements(value: DataValue.SExpressionValue): List<DataValue>? {
+        val elements = mutableListOf<DataValue>()
+        var tail = value
+        while (tail.name == "cons" && tail.elems.size == 2) {
+            elements.add(tail.elems[0])
+            tail = tail.elems[1] as? DataValue.SExpressionValue ?: return null
+        }
+        return if (tail.name == "nil" && tail.elems.isEmpty()) elements else null
     }
 
     override fun read(): DataValue {
@@ -49,9 +77,32 @@ private class DataValueParser(private val input: String) {
 
         return when (input[position]) {
             '[' -> parseArray()
+            '{' -> parseList()
             '"' -> DataValue.StringValue(parseQuotedString())
             else -> parseScalar()
         }
+    }
+
+    private fun toList(elements: List<DataValue>): DataValue.SExpressionValue {
+        if (elements.isEmpty())
+            return DataValue.SExpressionValue("nil", mutableListOf())
+        return DataValue.SExpressionValue("cons", mutableListOf(elements[0], toList(elements.subList(1, elements.size))))
+    }
+
+    private fun parseList(): DataValue.SExpressionValue {
+        position++
+        skipWhitespace()
+        val elements = mutableListOf<DataValue>()
+        if (consume('}')) return toList(elements)
+
+        while (true) {
+            elements.add(parseValue())
+            skipWhitespace()
+            if (consume('}')) break
+            require(consume(';') || consume(',')) { "Expected ',', ';' or '}' at position $position" }
+            skipWhitespace()
+        }
+        return toList(elements)
     }
 
     private fun parseArray(): DataValue.ArrayValue {
@@ -97,7 +148,7 @@ private class DataValueParser(private val input: String) {
 
     private fun parseScalar(): DataValue {
         val start = position
-        while (position < input.length && input[position] !in charArrayOf(',', ';', ']')) position++
+        while (position < input.length && input[position] !in charArrayOf(',', ';', ']', '}')) position++
         val token = input.substring(start, position).trim()
         return token.toIntOrNull()?.let(DataValue::IntValue) ?: DataValue.StringValue(token)
     }

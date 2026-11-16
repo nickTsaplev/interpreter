@@ -2,12 +2,13 @@ package ru.tsaplev.app.execution.stackMachine
 
 import ru.tsaplev.app.execution.DataValue
 import ru.tsaplev.app.execution.DataIO
-import ru.tsaplev.app.execution.ExecutionFrame
+import ru.tsaplev.app.execution.ExecutionStack
 import ru.tsaplev.app.execution.IntIO
 import ru.tsaplev.app.execution.binaryOperationOverloaded
+import ru.tsaplev.app.execution.toLanguageBoolean
 
 class StackMachine {
-    private val mem = ExecutionFrame("main")
+    private val mem = ExecutionStack()
     private var labelTable = mapOf<String, Int>()
 
     private fun findLabel(commands: List<MachineInstruction>, label: String): Int {
@@ -52,6 +53,10 @@ class StackMachine {
                     val elements = MutableList(command.size) { mem.popNameless() }
                     mem.pushNameless(DataValue.ArrayValue(elements.reversed().toMutableList()))
                 }
+                is MachineInstruction.SEXP -> {
+                    val elements = MutableList(command.size) { mem.popNameless() }
+                    mem.pushNameless(DataValue.SExpressionValue(command.name,elements.reversed().toMutableList()))
+                }
                 is MachineInstruction.ELEM -> {
                     val index = (mem.popNameless() as? DataValue.IntValue)?.value
                         ?: throw IllegalArgumentException("Array index is not an integer")
@@ -60,7 +65,8 @@ class StackMachine {
                     when(array) {
                         is DataValue.StringValue -> mem.pushNameless(DataValue.IntValue(array.value[index].code))
                         is DataValue.ArrayValue -> mem.pushNameless(array.elems[index])
-                        else -> throw IllegalStateException("Indexed value is not an array/string")
+                        is DataValue.SExpressionValue -> mem.pushNameless(array.elems[index])
+                        else -> throw IllegalStateException("Indexed value is not an array/string/S-expression")
                     }
                 }
                 is MachineInstruction.SET -> {
@@ -75,14 +81,16 @@ class StackMachine {
                             destination.value = destination.value.replaceRange(index, index + 1, charValue.value.toChar().toString())
                         }
                         is DataValue.ArrayValue -> destination.elems[index] = source
-                        else -> throw IllegalStateException("Set destination is not an array/string")
+                        is DataValue.SExpressionValue -> destination.elems[index] = source
+                        else -> throw IllegalStateException("Set destination is not an array/string/S-expression")
                     }
                 }
                 is MachineInstruction.LENGTH -> {
                     val length = when (val value = mem.popNameless()) {
                         is DataValue.ArrayValue -> value.elems.size
                         is DataValue.StringValue -> value.value.length
-                        is DataValue.IntValue -> throw IllegalArgumentException("length is only defined for arrays and strings")
+                        is DataValue.SExpressionValue -> value.elems.size
+                        is DataValue.IntValue -> throw IllegalArgumentException("length is only defined for arrays, strings and S-expressions")
                     }
                     mem.pushNameless(DataValue.IntValue(length))
                 }
@@ -111,6 +119,48 @@ class StackMachine {
                 }
                 is MachineInstruction.ST -> mem.setVar(command.varname, mem.popNameless())
                 is MachineInstruction.WRITE -> io.write(mem.popNameless())
+
+                is MachineInstruction.DUP -> {
+                    val top = mem.popNameless()
+                    mem.pushNameless(top)
+                    mem.pushNameless(top)
+                }
+
+                is MachineInstruction.DROP -> mem.popNameless()
+
+                is MachineInstruction.SCOPE -> {
+                    mem.start("match_outer")
+                }
+
+                is MachineInstruction.ENTER -> {
+                    mem.start("match_inner")
+                }
+
+                is MachineInstruction.LEAVE -> {
+                    mem.pop()
+                    mem.pop()
+                }
+
+                is MachineInstruction.PATT -> {
+                    val value = mem.popNameless()
+                    val ans = when(command.pattern) {
+                        "int" -> (value is DataValue.IntValue).toLanguageBoolean()
+                        "string" -> (value is DataValue.StringValue).toLanguageBoolean()
+                        "array" -> (value is DataValue.ArrayValue).toLanguageBoolean()
+                        "sexp" -> (value is DataValue.SExpressionValue).toLanguageBoolean()
+                        else -> {
+                            val args = command.pattern.split(' ')
+                            (value is DataValue.SExpressionValue
+                                    && value.name == args[1]
+                                    && value.elems.size == args[2].toInt()).toLanguageBoolean()
+                        }
+                    }
+                    mem.pushNameless(ans)
+                }
+
+                is MachineInstruction.MF -> {
+                    throw IllegalArgumentException("Match failed")
+                }
             }
         }
     }
