@@ -2,12 +2,13 @@ package ru.tsaplev.app.execution.stackMachine
 
 import ru.tsaplev.app.execution.DataValue
 import ru.tsaplev.app.execution.DataIO
-import ru.tsaplev.app.execution.ExecutionFrame
+import ru.tsaplev.app.execution.ExecutionStack
 import ru.tsaplev.app.execution.IntIO
 import ru.tsaplev.app.execution.binaryOperationOverloaded
+import ru.tsaplev.app.execution.toLanguageBoolean
 
 class StackMachine {
-    private val mem = ExecutionFrame("main")
+    private val mem = ExecutionStack()
     private var labelTable = mapOf<String, Int>()
 
     private fun findLabel(commands: List<MachineInstruction>, label: String): Int {
@@ -118,6 +119,48 @@ class StackMachine {
                 }
                 is MachineInstruction.ST -> mem.setVar(command.varname, mem.popNameless())
                 is MachineInstruction.WRITE -> io.write(mem.popNameless())
+
+                is MachineInstruction.DUP -> {
+                    val top = mem.popNameless()
+                    mem.pushNameless(top)
+                    mem.pushNameless(top)
+                }
+
+                is MachineInstruction.DROP -> mem.popNameless()
+
+                is MachineInstruction.SCOPE -> {
+                    mem.start("match_outer")
+                }
+
+                is MachineInstruction.ENTER -> {
+                    mem.start("match_inner")
+                }
+
+                is MachineInstruction.LEAVE -> {
+                    mem.pop()
+                    mem.pop()
+                }
+
+                is MachineInstruction.PATT -> {
+                    val value = mem.popNameless()
+                    val ans = when(command.pattern) {
+                        "int" -> (value is DataValue.IntValue).toLanguageBoolean()
+                        "string" -> (value is DataValue.StringValue).toLanguageBoolean()
+                        "array" -> (value is DataValue.ArrayValue).toLanguageBoolean()
+                        "sexp" -> (value is DataValue.SExpressionValue).toLanguageBoolean()
+                        else -> {
+                            val args = command.pattern.split(' ')
+                            (value is DataValue.SExpressionValue
+                                    && value.name == args[1]
+                                    && value.elems.size == args[2].toInt()).toLanguageBoolean()
+                        }
+                    }
+                    mem.pushNameless(ans)
+                }
+
+                is MachineInstruction.MF -> {
+                    throw IllegalArgumentException("Match failed")
+                }
             }
         }
     }

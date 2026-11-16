@@ -25,6 +25,15 @@ fun StackInstructionsToJSON(instructions: List<MachineInstruction>) = JsonArray(
         is MachineInstruction.READ -> Json.encodeToJsonElement("READ")
         is MachineInstruction.ST -> Json.encodeToJsonElement(mapOf("ST" to it.varname))
         is MachineInstruction.WRITE -> Json.encodeToJsonElement("WRITE")
+        is MachineInstruction.DROP -> Json.encodeToJsonElement("DROP")
+        is MachineInstruction.DUP -> Json.encodeToJsonElement("DUP")
+        is MachineInstruction.SCOPE -> Json.encodeToJsonElement("SCOPE")
+        is MachineInstruction.ENTER -> Json.encodeToJsonElement("ENTER")
+        is MachineInstruction.LEAVE -> Json.encodeToJsonElement("LEAVE")
+        is MachineInstruction.MF -> Json.encodeToJsonElement("MF")
+
+        is MachineInstruction.PATT -> Json.encodeToJsonElement(mapOf("PATT" to it.pattern))
+
         is MachineInstruction.SEXP -> JsonObject(mapOf(
             "SEXP" to JsonArray(listOf(JsonPrimitive(it.name), JsonPrimitive(it.size)))
         ))

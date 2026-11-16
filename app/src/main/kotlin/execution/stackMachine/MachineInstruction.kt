@@ -18,4 +18,13 @@ sealed class MachineInstruction {
     class JNZ(val label: String): MachineInstruction()
 
     class SEXP(val name: String, val size: Int): MachineInstruction()
+
+    class PATT(val pattern: String): MachineInstruction()
+    class DUP(): MachineInstruction()
+    class DROP(): MachineInstruction()
+    class SCOPE(): MachineInstruction()
+    class ENTER(): MachineInstruction()
+    class LEAVE(): MachineInstruction()
+
+    class MF(): MachineInstruction()
 }
