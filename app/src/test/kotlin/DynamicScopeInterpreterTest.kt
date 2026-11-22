@@ -139,7 +139,7 @@ class DynamicScopeInterpreterTest {
     }
 
     @Test
-    fun statementCallsDiscardResultsAndVoidFunctionsCannotBeUsedAsValues() {
+    fun statementCallsDiscardResultsAndVoidFunctionsReturnZero() {
         val io = IO()
         val visitor = ExecutionVisitor(io)
         parse(seq(
@@ -148,9 +148,9 @@ class DynamicScopeInterpreterTest {
             call("answer", statement = true), call("void", statement = true),
             write(bin("+", c(3), call("answer")))
         )).visit(visitor)
-        assertFailsWith<IllegalStateException> { parse(write(call("void"))).visit(visitor) }
+        parse(write(call("void"))).visit(visitor)
         parse(write(call("answer"))).visit(visitor)
-        expect(io, 45, 42)
+        expect(io, 45, 0, 42)
     }
 
     @Test

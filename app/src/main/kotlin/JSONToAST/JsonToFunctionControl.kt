@@ -11,7 +11,12 @@ class JsonToFunctionControl : JsonToASTer() {
         if ("return" in obj) {
             if (obj.size != 1) return null
             val value = obj.getValue("return")
-            return ASTReturn(if (value == JsonNull) null else parser.parse(parser, value) ?: return null)
+            if (value == JsonNull || value.asStringOrNull() == "") return ASTReturn()
+            if (value is JsonObject && "expr" in value) {
+                if (value.keys != setOf("expr")) return null
+                return ASTReturn(parser.parse(parser, value.getValue("expr")) ?: return null)
+            }
+            return ASTReturn(parser.parse(parser, value) ?: return null)
         }
         val tag = when {
             "call" in obj -> "call"
@@ -20,8 +25,9 @@ class JsonToFunctionControl : JsonToASTer() {
         }
         if (obj.size != 1) return null
         val call = obj[tag] as? JsonObject ?: return null
-        if (call.keys != setOf("name", "args")) return null
-        val name = call["name"]?.asStringOrNull()?.takeIf { it.isNotBlank() } ?: return null
+        val nameKey = if ("fun" in call) "fun" else "name"
+        if (call.keys != setOf(nameKey, "args")) return null
+        val name = call[nameKey]?.asStringOrNull()?.takeIf { it.isNotBlank() } ?: return null
         val args = call["args"] as? JsonArray ?: return null
         return ASTFuncCall(name, args.map { parser.parse(parser, it) ?: return null }, tag == "call")
     }

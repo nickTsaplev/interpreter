@@ -17,7 +17,7 @@ class JsonToSwitch: JsonToASTer() {
         return ASTSwitch(scrutinee, branches.map {
             val entry = it as? JsonObject ?: return null
             val pattern = entry["pattern"]?.let(::parsePattern) ?: return null
-            val branch = entry["branch"]?.let { body -> parser.parse(parser, body) } ?: return null
+            val branch = entry["branch"]?.let { body -> parser.parseStatement(body) } ?: return null
             pattern to branch
         })
     }

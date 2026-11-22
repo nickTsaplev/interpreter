@@ -9,20 +9,20 @@ class JsonToControl: JsonToASTer() {
         if (jsonObject.hasNodeTag("while")) {
             val loop = jsonObject["while"] as? JsonObject ?: return null
             val cond = loop["cond"]?.let { parser.parse(parser, it) } ?: return null
-            val body = loop["body"]?.let { parser.parse(parser, it) } ?: return null
+            val body = loop["body"]?.let { parser.parseStatement(it) } ?: return null
             return ASTWhile(cond, body)
         }
         if (jsonObject.hasNodeTag("do")) {
             val loop = jsonObject["do"] as? JsonObject ?: return null
-            val body = loop["body"]?.let { parser.parse(parser, it) } ?: return null
+            val body = loop["body"]?.let { parser.parseStatement(it) } ?: return null
             val cond = loop["cond"]?.let { parser.parse(parser, it) } ?: return null
             return ASTDo(body, cond)
         }
         if (jsonObject.hasNodeTag("if")) {
             val conditional = jsonObject["if"] as? JsonObject ?: return null
             val cond = conditional["cond"]?.let { parser.parse(parser, it) } ?: return null
-            val thenBranch = conditional["then"]?.let { parser.parse(parser, it) } ?: return null
-            val elseBranch = conditional["else"]?.let { parser.parse(parser, it) ?: return null }
+            val thenBranch = conditional["then"]?.let { parser.parseStatement(it) } ?: return null
+            val elseBranch = conditional["else"]?.let { parser.parseStatement(it) ?: return null }
             return ASTIf(cond, thenBranch, elseBranch)
         }
         return next?.parse(parser, text)

@@ -6,6 +6,7 @@ import ru.tsaplev.app.ASTreeNodes.ASTVarDecl
 import ru.tsaplev.app.ASTreeNodes.ASTBlock
 import ru.tsaplev.app.ASTreeNodes.ASTFuncDecl
 import ru.tsaplev.app.ASTreeNodes.ASTReturn
+import ru.tsaplev.app.ASTreeNodes.ASTScope
 import ru.tsaplev.app.ASTreeNodes.ASTArray
 import ru.tsaplev.app.ASTreeNodes.ASTAssign
 import ru.tsaplev.app.ASTreeNodes.ASTBinOP
@@ -69,6 +70,16 @@ class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
         }
     }
 
+    override fun visit(node: ASTScope) {
+        executionStack.start()
+        try {
+            node.declarations.forEach { it.visit(this) }
+            node.body.visit(this)
+        } finally {
+            executionStack.pop()
+        }
+    }
+
     private fun popValue(context: String): DataValue =
         executionStack.current().getTopNameless()
             ?: throw IllegalStateException("$context did not produce a value")
@@ -121,8 +132,7 @@ class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
             executionStack.pop()
         }
         if (node.asExpression) {
-            check(result != null) { "Function ${node.name} did not return a value" }
-            executionStack.current().pushNameless(result)
+            executionStack.current().pushNameless(result ?: DataValue.IntValue(0))
         }
     }
 
