@@ -1,58 +1,38 @@
 {
-  "block": [
-    {
-      "decl": {
-        "name": "n",
-        "value": {
-          "const": 0
-        }
-      }
-    },
-    {
-      "read": "n"
-    },
-    {
-      "decl": {
+  "scope": {
+    "decls": [
+      { "name": "n", "spec": "var" },
+      {
         "name": "fact",
-        "params": [
-          "n"
-        ],
-        "body": {
-          "if": {
-            "cond": {
-              "binop": "<=",
-              "left": {
-                "var": "n"
-              },
-              "right": {
-                "const": 1
-              }
-            },
-            "then": {
-              "return": {
-                "const": 1
-              }
-            },
-            "else": {
-              "return": {
-                "binop": "*",
-                "left": {
-                  "var": "n"
+        "spec": {
+          "fun": {
+            "args": [ "n" ],
+            "body": {
+              "if": {
+                "cond": {
+                  "binop": "<=",
+                  "left": { "var": "n" },
+                  "right": { "const": 1 }
                 },
-                "right": {
-                  "call": {
-                    "name": "fact",
-                    "args": [
-                      {
-                        "binop": "-",
-                        "left": {
-                          "var": "n"
-                        },
-                        "right": {
-                          "const": 1
+                "then": { "return": { "expr": { "const": 1 } } },
+                "else": {
+                  "return": {
+                    "expr": {
+                      "binop": "*",
+                      "left": { "var": "n" },
+                      "right": {
+                        "call": {
+                          "fun": "fact",
+                          "args": [
+                            {
+                              "binop": "-",
+                              "left": { "var": "n" },
+                              "right": { "const": 1 }
+                            }
+                          ]
                         }
                       }
-                    ]
+                    }
                   }
                 }
               }
@@ -60,18 +40,21 @@
           }
         }
       }
-    },
-    {
-      "write": {
-        "call": {
-          "name": "fact",
-          "args": [
-            {
-              "var": "n"
+    ],
+    "body": {
+      "seq": {
+        "left": { "assn": { "dst": "n", "src": { "const": 0 } } },
+        "right": {
+          "seq": {
+            "left": { "read": "n" },
+            "right": {
+              "write": {
+                "call": { "fun": "fact", "args": [ { "var": "n" } ] }
+              }
             }
-          ]
+          }
         }
       }
     }
-  ]
+  }
 }

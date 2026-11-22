@@ -1,63 +1,43 @@
 {
-  "block": [
-    {
-      "decl": {
-        "name": "x",
-        "value": {
-          "const": 1
-        }
-      }
-    },
-    {
-      "block": [
-        {
-          "decl": {
-            "name": "x",
-            "value": {
-              "const": 2
-            }
-          }
-        },
-        {
-          "block": [
-            {
-              "assn": {
-                "dst": "x",
-                "src": {
-                  "const": 3
+  "scope": {
+    "decls": [ { "name": "x", "spec": "var" } ],
+    "body": {
+      "seq": {
+        "left": { "assn": { "dst": "x", "src": { "const": 1 } } },
+        "right": {
+          "seq": {
+            "left": {
+              "scope": {
+                "decls": [ { "name": "x", "spec": "var" } ],
+                "body": {
+                  "seq": {
+                    "left": { "assn": { "dst": "x", "src": { "const": 2 } } },
+                    "right": {
+                      "seq": {
+                        "left": {
+                          "assn": { "dst": "x", "src": { "const": 3 } }
+                        },
+                        "right": { "write": { "var": "x" } }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "right": {
+              "seq": {
+                "left": { "write": { "var": "x" } },
+                "right": {
+                  "seq": {
+                    "left": { "assn": { "dst": "x", "src": { "const": 8 } } },
+                    "right": { "write": { "var": "x" } }
+                  }
                 }
               }
             }
-          ]
-        },
-        {
-          "write": {
-            "var": "x"
           }
         }
-      ]
-    },
-    {
-      "write": {
-        "var": "x"
-      }
-    },
-    {
-      "block": [
-        {
-          "assn": {
-            "dst": "x",
-            "src": {
-              "const": 8
-            }
-          }
-        }
-      ]
-    },
-    {
-      "write": {
-        "var": "x"
       }
     }
-  ]
+  }
 }

@@ -1,4 +1,8 @@
 {
-  fun noop() { return; }
-  write(noop());
+  {
+    fun noop() {
+      return
+    }
+    write(noop());
+  }
 }

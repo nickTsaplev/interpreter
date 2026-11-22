@@ -1,95 +1,173 @@
-{"seq":{"left":{"seq": {"left": {"decl": {"name": "rows", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "cols", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "count", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "i", "value": {"const": 0}}}, "right": {"decl": {"name": "j", "value": {"const": 0}}}}}}}}}}},"right":
 {
-  "seq": {
-    "left": { "read": "rows" },
-    "right": {
+  "scope": {
+    "decls": [
+      { "name": "rows", "spec": "var" },
+      { "name": "cols", "spec": "var" },
+      { "name": "count", "spec": "var" },
+      { "name": "i", "spec": "var" },
+      { "name": "j", "spec": "var" }
+    ],
+    "body": {
       "seq": {
-        "left": { "read": "cols" },
+        "left": { "assn": { "dst": "j", "src": { "const": 0 } } },
         "right": {
           "seq": {
-            "left": { "assn": { "dst": "count", "src": { "const": 0 } } },
+            "left": { "assn": { "dst": "i", "src": { "const": 0 } } },
             "right": {
               "seq": {
-                "left": {
+                "left": { "assn": { "dst": "count", "src": { "const": 0 } } },
+                "right": {
                   "seq": {
-                    "left": { "assn": { "dst": "i", "src": { "const": 0 } } },
+                    "left": {
+                      "assn": { "dst": "cols", "src": { "const": 0 } }
+                    },
                     "right": {
-                      "while": {
-                        "cond": {
-                          "binop": "<",
-                          "left": { "var": "i" },
-                          "right": { "var": "rows" }
+                      "seq": {
+                        "left": {
+                          "assn": { "dst": "rows", "src": { "const": 0 } }
                         },
-                        "body": {
+                        "right": {
                           "seq": {
-                            "left": {
+                            "left": { "read": "rows" },
+                            "right": {
                               "seq": {
-                                "left": {
-                                  "assn": {
-                                    "dst": "j",
-                                    "src": { "const": 0 }
-                                  }
-                                },
+                                "left": { "read": "cols" },
                                 "right": {
-                                  "while": {
-                                    "cond": {
-                                      "binop": "<",
-                                      "left": { "var": "j" },
-                                      "right": { "var": "cols" }
+                                  "seq": {
+                                    "left": {
+                                      "assn": {
+                                        "dst": "count",
+                                        "src": { "const": 0 }
+                                      }
                                     },
-                                    "body": {
+                                    "right": {
                                       "seq": {
                                         "left": {
-                                          "if": {
-                                            "cond": {
-                                              "binop": "==",
-                                              "left": {
-                                                "binop": "%",
-                                                "left": {
-                                                  "binop": "+",
-                                                  "left": { "var": "i" },
-                                                  "right": { "var": "j" }
-                                                },
-                                                "right": { "const": 2 }
-                                              },
-                                              "right": { "const": 0 }
-                                            },
-                                            "then": {
+                                          "seq": {
+                                            "left": {
                                               "assn": {
-                                                "dst": "count",
-                                                "src": {
-                                                  "binop": "+",
-                                                  "left": { "var": "count" },
-                                                  "right": { "const": 1 }
-                                                }
+                                                "dst": "i",
+                                                "src": { "const": 0 }
                                               }
                                             },
-                                            "else": "skip"
+                                            "right": {
+                                              "while": {
+                                                "cond": {
+                                                  "binop": "<",
+                                                  "left": { "var": "i" },
+                                                  "right": { "var": "rows" }
+                                                },
+                                                "body": {
+                                                  "seq": {
+                                                    "left": {
+                                                      "seq": {
+                                                        "left": {
+                                                          "assn": {
+                                                            "dst": "j",
+                                                            "src": {
+                                                              "const": 0
+                                                            }
+                                                          }
+                                                        },
+                                                        "right": {
+                                                          "while": {
+                                                            "cond": {
+                                                              "binop": "<",
+                                                              "left": {
+                                                                "var": "j"
+                                                              },
+                                                              "right": {
+                                                                "var": "cols"
+                                                              }
+                                                            },
+                                                            "body": {
+                                                              "seq": {
+                                                                "left": {
+                                                                  "if": {
+                                                                    "cond": {
+                                                                    "binop": "==",
+                                                                    "left": {
+                                                                    "binop": "%",
+                                                                    "left": {
+                                                                    "binop": "+",
+                                                                    "left": {
+                                                                    "var": "i"
+                                                                    },
+                                                                    "right": {
+                                                                    "var": "j"
+                                                                    }
+                                                                    },
+                                                                    "right": {
+                                                                    "const": 2
+                                                                    }
+                                                                    },
+                                                                    "right": {
+                                                                    "const": 0
+                                                                    }
+                                                                    },
+                                                                    "then": {
+                                                                    "assn": {
+                                                                    "dst": "count",
+                                                                    "src": {
+                                                                    "binop": "+",
+                                                                    "left": {
+                                                                    "var": "count"
+                                                                    },
+                                                                    "right": {
+                                                                    "const": 1
+                                                                    }
+                                                                    }
+                                                                    }
+                                                                    },
+                                                                    "else": "skip"
+                                                                  }
+                                                                },
+                                                                "right": {
+                                                                  "assn": {
+                                                                    "dst": "j",
+                                                                    "src": {
+                                                                    "binop": "+",
+                                                                    "left": {
+                                                                    "var": "j"
+                                                                    },
+                                                                    "right": {
+                                                                    "const": 1
+                                                                    }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    },
+                                                    "right": {
+                                                      "assn": {
+                                                        "dst": "i",
+                                                        "src": {
+                                                          "binop": "+",
+                                                          "left": {
+                                                            "var": "i"
+                                                          },
+                                                          "right": {
+                                                            "const": 1
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
                                           }
                                         },
                                         "right": {
-                                          "assn": {
-                                            "dst": "j",
-                                            "src": {
-                                              "binop": "+",
-                                              "left": { "var": "j" },
-                                              "right": { "const": 1 }
-                                            }
-                                          }
+                                          "write": { "var": "count" }
                                         }
                                       }
                                     }
                                   }
-                                }
-                              }
-                            },
-                            "right": {
-                              "assn": {
-                                "dst": "i",
-                                "src": {
-                                  "binop": "+",
-                                  "left": { "var": "i" },
-                                  "right": { "const": 1 }
                                 }
                               }
                             }
@@ -98,8 +176,7 @@
                       }
                     }
                   }
-                },
-                "right": { "write": { "var": "count" } }
+                }
               }
             }
           }
@@ -108,4 +185,3 @@
     }
   }
 }
-}}

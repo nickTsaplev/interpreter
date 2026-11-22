@@ -1,9 +1,13 @@
 {
-  var n = 0;
-  read(n);
-  fun fact(n) {
-    if (n <= 1) return 1;
-    else return n * fact(n - 1);
+  {
+    var n = 0;
+    fun fact(n) {
+      if (n <= 1)
+        { return 1 }
+      else
+        { return n * fact(n - 1) }
+    }
+    read(n);
+    write(fact(n));
   }
-  write(fact(n));
 }

@@ -1,4 +1,7 @@
 {
-  { var local = 7; }
+  {
+    var local = 7;
+    skip;
+  }
   write(local);
 }

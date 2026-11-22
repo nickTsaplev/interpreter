@@ -1,12 +1,1 @@
-{
-  "block": [
-    {
-      "assn": {
-        "dst": "x",
-        "src": {
-          "const": 2
-        }
-      }
-    }
-  ]
-}
+{ "assn": { "dst": "x", "src": { "const": 2 } } }

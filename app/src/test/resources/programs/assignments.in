@@ -1,21 +1,23 @@
 {
-  var x = 0;
-  var y = 0;
-  var result_2 = 0;
+  {
+    var x = 0;
+    var y = 0;
+    var result_2 = 0;
 
-  read(x);
-  read(y);
-  result_2 = x + y;
-  write(result_2);
+    read(x);
+    read(y);
+    result_2 = x + y;
+    write(result_2);
 
-  x += 5;
-  write(x);
-  x -= 2;
-  write(x);
-  x *= y;
-  write(x);
-  x /= 4;
-  write(x);
-  x %= 5;
-  write(x);
+    x += 5;
+    write(x);
+    x -= 2;
+    write(x);
+    x *= y;
+    write(x);
+    x /= 4;
+    write(x);
+    x %= 5;
+    write(x);
+  }
 }
