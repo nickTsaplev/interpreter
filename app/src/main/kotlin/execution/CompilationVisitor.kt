@@ -15,8 +15,11 @@ import ru.tsaplev.app.ASTreeNodes.ASTSet
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
 import ru.tsaplev.app.ASTreeNodes.ASTString
 import ru.tsaplev.app.ASTreeNodes.ASTLength
+import ru.tsaplev.app.ASTreeNodes.ASTSwitch
+import ru.tsaplev.app.ASTreeNodes.ASTSExp
 import ru.tsaplev.app.ASTreeNodes.ASTVar
 import ru.tsaplev.app.ASTreeNodes.ASTWhile
+import ru.tsaplev.app.execution.MatchCompilation.MatchPatternVisitor
 import ru.tsaplev.app.execution.stackMachine.MachineInstruction
 
 class CompilationVisitor: ASTVisitor {
@@ -119,5 +122,57 @@ class CompilationVisitor: ASTVisitor {
 
     override fun visit(node: ASTLength) {
         instructions.add(MachineInstruction.LENGTH())
+    }
+
+    override fun visit(node: ASTSwitch) {
+        node.scrutinee.visit(this)
+
+        val endLabel = "MATCH-END ${labelCount++}"
+        node.branches.forEach {
+            instructions.add(MachineInstruction.DUP())
+            val lNum = labelCount++
+            val lPref = "MATCH-CASE ${lNum}"
+            val vis = MatchPatternVisitor(lPref)
+            vis.visit(it.first)
+            vis.getBindings(it.first)
+            instructions.addAll(vis.instructions)
+            instructions.add(MachineInstruction.JMP("MATCH-CASE-START ${lNum}"))
+            for (i in (0..vis.maxDropDepth).reversed()) {
+                instructions.add(MachineInstruction.DROP())
+                instructions.add(MachineInstruction.LABEL("${lPref}_${i}"))
+            }
+
+            instructions.add(MachineInstruction.JMP("MATCH-CASE-END ${lNum}"))
+            instructions.add(MachineInstruction.LABEL("MATCH-CASE-START ${lNum}"))
+
+            instructions.add(MachineInstruction.SCOPE())
+            for (binding in vis.bindingPaths.paths) {
+                instructions.add(MachineInstruction.DUP())
+                for (index in binding.value) {
+                    instructions.add(MachineInstruction.CONST(index))
+                    instructions.add(MachineInstruction.ELEM())
+                }
+                instructions.add(MachineInstruction.ST(binding.key))
+            }
+            instructions.add(MachineInstruction.DROP())
+
+            instructions.add(MachineInstruction.ENTER())
+
+            it.second.visit(this)
+
+            instructions.add(MachineInstruction.LEAVE())
+
+            instructions.add(MachineInstruction.JMP(endLabel))
+
+            instructions.add(MachineInstruction.LABEL("MATCH-CASE-END ${lNum}"))
+        }
+
+        instructions.add(MachineInstruction.MF())
+
+        instructions.add(MachineInstruction.LABEL(endLabel))
+    }
+
+    override fun visit(node: ASTSExp) {
+        instructions.add(MachineInstruction.SEXP(node.name, node.elems.size))
     }
 }

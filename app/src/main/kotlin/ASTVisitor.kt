@@ -16,6 +16,8 @@ import ru.tsaplev.app.ASTreeNodes.ASTSet
 import ru.tsaplev.app.ASTreeNodes.ASTSkip
 import ru.tsaplev.app.ASTreeNodes.ASTString
 import ru.tsaplev.app.ASTreeNodes.ASTLength
+import ru.tsaplev.app.ASTreeNodes.ASTSwitch
+import ru.tsaplev.app.ASTreeNodes.ASTSExp
 
 interface ASTVisitor {
     fun visit(node: ASTBinOP)
@@ -41,4 +43,7 @@ interface ASTVisitor {
     fun visit(node: ASTElem)
     fun visit(node: ASTSet)
     fun visit(node: ASTLength)
+
+    fun visit(node: ASTSwitch)
+    fun visit(node: ASTSExp)
 }

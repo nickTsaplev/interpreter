@@ -2,7 +2,7 @@ package ru.tsaplev.app.execution
 
 import kotlin.math.min
 
-private fun Boolean.toLanguageBoolean(): DataValue = if (this) DataValue.IntValue(1) else DataValue.IntValue(0)
+fun Boolean.toLanguageBoolean(): DataValue = if (this) DataValue.IntValue(1) else DataValue.IntValue(0)
 
 fun cmpDV(left: DataValue, right: DataValue): Int {
     if (left is DataValue.IntValue && right is DataValue.IntValue) {
@@ -29,6 +29,18 @@ fun cmpDV(left: DataValue, right: DataValue): Int {
         return (left.elems.size - right.elems.size)
     }
 
+    if (left is DataValue.SExpressionValue && right is DataValue.SExpressionValue) {
+        val nameOrder = left.name.compareTo(right.name)
+        if (nameOrder != 0) return nameOrder
+        val sizeOrder = left.elems.size.compareTo(right.elems.size)
+        if (sizeOrder != 0) return sizeOrder
+        for (index in left.elems.indices) {
+            val order = cmpDV(left.elems[index], right.elems[index])
+            if (order != 0) return order
+        }
+        return 0
+    }
+
     throw IllegalArgumentException()
 }
 
@@ -53,6 +65,13 @@ fun binaryOperationOverloaded(operand: String, left: DataValue, right: DataValue
         }
     }
 
+    if (left is DataValue.StringValue && right is DataValue.IntValue) {
+        return when (operand) {
+            "+" -> DataValue.StringValue(left.value + right.value.toString())
+            else -> throw IllegalArgumentException("Unknown binary string operation: $operand")
+        }
+    }
+
     if (left is DataValue.ArrayValue && right is DataValue.ArrayValue) {
         return when (operand) {
             "+" -> DataValue.ArrayValue((left.elems + right.elems).toMutableList())
@@ -60,5 +79,5 @@ fun binaryOperationOverloaded(operand: String, left: DataValue, right: DataValue
         }
     }
 
-    throw IllegalArgumentException("Differing types: $left and $right")
+    throw IllegalArgumentException("Differing $operand types: $left and $right")
 }
