@@ -1,21 +1,11 @@
 {
-  "block": [
-    {
-      "decl": {
+  "scope": {
+    "decls": [
+      {
         "name": "noop",
-        "params": [],
-        "body": {
-          "return": null
-        }
+        "spec": { "fun": { "args": [], "body": { "return": "" } } }
       }
-    },
-    {
-      "write": {
-        "call": {
-          "name": "noop",
-          "args": []
-        }
-      }
-    }
-  ]
+    ],
+    "body": { "write": { "call": { "fun": "noop", "args": [] } } }
+  }
 }

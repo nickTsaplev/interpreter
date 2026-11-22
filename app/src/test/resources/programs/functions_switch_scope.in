@@ -1,8 +1,12 @@
 {
-  var x = 1;
-  fun get() { return x; }
-  write(10 + switch (32) {
-    case x @ _: get();
-  });
-  write(x);
+  {
+    var x = 1;
+    fun get() {
+      return x
+    }
+    switch (32) {
+      case x @ _ -> write(10 + get());
+    }
+    write(x);
+  }
 }

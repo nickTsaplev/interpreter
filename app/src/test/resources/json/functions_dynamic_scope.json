@@ -1,74 +1,56 @@
 {
-  "block": [
-    {
-      "decl": {
-        "name": "x",
-        "value": {
-          "const": 1
+  "scope": {
+    "decls": [
+      { "name": "x", "spec": "var" },
+      {
+        "name": "bump",
+        "spec": {
+          "fun": {
+            "args": [],
+            "body": {
+              "seq": {
+                "left": {
+                  "assn": {
+                    "dst": "x",
+                    "src": {
+                      "binop": "+",
+                      "left": { "var": "x" },
+                      "right": { "const": 1 }
+                    }
+                  }
+                },
+                "right": { "return": { "expr": { "var": "x" } } }
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "caller",
+        "spec": {
+          "fun": {
+            "args": [ "x" ],
+            "body": {
+              "return": { "expr": { "call": { "fun": "bump", "args": [] } } }
+            }
+          }
         }
       }
-    },
-    {
-      "decl": {
-        "name": "bump",
-        "params": [],
-        "body": {
+    ],
+    "body": {
+      "seq": {
+        "left": { "assn": { "dst": "x", "src": { "const": 1 } } },
+        "right": {
           "seq": {
             "left": {
-              "assn": {
-                "dst": "x",
-                "src": {
-                  "binop": "+",
-                  "left": {
-                    "var": "x"
-                  },
-                  "right": {
-                    "const": 1
-                  }
-                }
+              "write": {
+                "call": { "fun": "caller", "args": [ { "const": 40 } ] }
               }
             },
-            "right": {
-              "return": {
-                "var": "x"
-              }
-            }
+            "right": { "write": { "var": "x" } }
           }
         }
-      }
-    },
-    {
-      "decl": {
-        "name": "caller",
-        "params": [
-          "x"
-        ],
-        "body": {
-          "return": {
-            "call": {
-              "name": "bump",
-              "args": []
-            }
-          }
-        }
-      }
-    },
-    {
-      "write": {
-        "call": {
-          "name": "caller",
-          "args": [
-            {
-              "const": 40
-            }
-          ]
-        }
-      }
-    },
-    {
-      "write": {
-        "var": "x"
       }
     }
-  ]
+  }
 }

@@ -1,21 +1,16 @@
 {
-  "block": [
-    {
-      "block": [
-        {
-          "decl": {
-            "name": "local",
-            "value": {
-              "const": 7
-            }
+  "seq": {
+    "left": {
+      "scope": {
+        "decls": [ { "name": "local", "spec": "var" } ],
+        "body": {
+          "seq": {
+            "left": { "assn": { "dst": "local", "src": { "const": 7 } } },
+            "right": "skip"
           }
         }
-      ]
-    },
-    {
-      "write": {
-        "var": "local"
       }
-    }
-  ]
+    },
+    "right": { "write": { "var": "local" } }
+  }
 }

@@ -1,61 +1,63 @@
 {
-  var n = 0;
-  var m = 0;
-  var factorial = 0;
-  var i = 0;
-  var original = 0;
-  var digitSum = 0;
-  var reversed = 0;
-  var digits = 0;
-  var digit = 0;
-  var a = 0;
-  var b = 0;
-  var temp = 0;
-  var gcd = 0;
-  var category = 0;
+  {
+    var n = 0;
+    var m = 0;
+    var factorial = 0;
+    var i = 0;
+    var original = 0;
+    var digitSum = 0;
+    var reversed = 0;
+    var digits = 0;
+    var digit = 0;
+    var a = 0;
+    var b = 0;
+    var temp = 0;
+    var gcd = 0;
+    var category = 0;
 
-  read(n);
-  read(m);
+    read(n);
+    read(m);
 
-  factorial = 1;
-  for (i = 2; i <= n; i += 1)
-    factorial *= i;
+    factorial = 1;
+    for ({ i = 2; } i <= n; { i += 1 })
+      { factorial *= i; }
 
-  original = factorial;
-  digitSum = 0;
-  reversed = 0;
-  digits = 0;
+    original = factorial;
+    digitSum = 0;
+    reversed = 0;
+    digits = 0;
 
-  do {
-    digit = original % 10;
-    digitSum += digit;
-    reversed = reversed * 10 + digit;
-    original /= 10;
-    digits += 1;
-  } while (original > 0);
+    do {
+      digit = original % 10;
+      digitSum += digit;
+      reversed = reversed * 10 + digit;
+      original /= 10;
+      digits += 1;
+    } while (original > 0);
 
-  a = factorial;
-  b = m;
+    a = factorial;
+    b = m;
 
-  while (b != 0) {
-    temp = a % b;
-    a = b;
-    b = temp;
+    while (b != 0) {
+      temp = a % b;
+      a = b;
+      b = temp;
+    }
+
+    gcd = a;
+
+    if ((digitSum % 2 == 0) && (gcd > 1))
+      { category = 2; }
+    elif ((digitSum % 3 == 0) !! (gcd == 1))
+      { category = 1; }
+    else
+      { category = 0; }
+
+    write(factorial);
+    write(digitSum);
+    write(reversed);
+    write(digits);
+    write(gcd);
+    write(category);
   }
-
-  gcd = a;
-
-  if ((digitSum % 2 == 0) && (gcd > 1))
-    category = 2;
-  elif ((digitSum % 3 == 0) !! (gcd == 1))
-    category = 1;
-  else
-    category = 0;
-
-  write(factorial);
-  write(digitSum);
-  write(reversed);
-  write(digits);
-  write(gcd);
-  write(category);
 }

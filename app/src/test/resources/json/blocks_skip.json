@@ -1,32 +1,40 @@
-{"seq":{"left":{"decl": {"name": "x", "value": {"const": 0}}},"right":
 {
-  "seq": {
-    "left": {
+  "scope": {
+    "decls": [ { "name": "x", "spec": "var" } ],
+    "body": {
       "seq": {
-        "left": { "assn": { "dst": "x", "src": { "const": 1 } } },
+        "left": { "assn": { "dst": "x", "src": { "const": 0 } } },
         "right": {
           "seq": {
-            "left": "skip",
-            "right": {
+            "left": {
               "seq": {
-                "left": {
-                  "assn": {
-                    "dst": "x",
-                    "src": {
-                      "binop": "+",
-                      "left": { "var": "x" },
-                      "right": { "const": 1 }
+                "left": { "assn": { "dst": "x", "src": { "const": 1 } } },
+                "right": {
+                  "seq": {
+                    "left": "skip",
+                    "right": {
+                      "seq": {
+                        "left": {
+                          "assn": {
+                            "dst": "x",
+                            "src": {
+                              "binop": "+",
+                              "left": { "var": "x" },
+                              "right": { "const": 1 }
+                            }
+                          }
+                        },
+                        "right": { "write": { "var": "x" } }
+                      }
                     }
                   }
-                },
-                "right": { "write": { "var": "x" } }
+                }
               }
-            }
+            },
+            "right": "skip"
           }
         }
       }
-    },
-    "right": "skip"
+    }
   }
 }
-}}
