@@ -1,0 +1,20 @@
+{
+  "block": [
+    {
+      "decl": {
+        "name": "x",
+        "value": {
+          "const": 1
+        }
+      }
+    },
+    {
+      "decl": {
+        "name": "x",
+        "value": {
+          "const": 2
+        }
+      }
+    }
+  ]
+}

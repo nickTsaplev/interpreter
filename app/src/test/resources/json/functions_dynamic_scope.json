@@ -1,0 +1,74 @@
+{
+  "block": [
+    {
+      "decl": {
+        "name": "x",
+        "value": {
+          "const": 1
+        }
+      }
+    },
+    {
+      "decl": {
+        "name": "bump",
+        "params": [],
+        "body": {
+          "seq": {
+            "left": {
+              "assn": {
+                "dst": "x",
+                "src": {
+                  "binop": "+",
+                  "left": {
+                    "var": "x"
+                  },
+                  "right": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            "right": {
+              "return": {
+                "var": "x"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "decl": {
+        "name": "caller",
+        "params": [
+          "x"
+        ],
+        "body": {
+          "return": {
+            "call": {
+              "name": "bump",
+              "args": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "write": {
+        "call": {
+          "name": "caller",
+          "args": [
+            {
+              "const": 40
+            }
+          ]
+        }
+      }
+    },
+    {
+      "write": {
+        "var": "x"
+      }
+    }
+  ]
+}

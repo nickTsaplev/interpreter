@@ -1,0 +1,17 @@
+{
+  var x = 1;
+  fun answer() { return 42; }
+  fun noop() { return; x = 99; }
+  fun early() {
+    while (1) {
+      var x = 8;
+      return x;
+    }
+    x = 99;
+  }
+  answer();
+  noop();
+  write(3 + answer());
+  write(early());
+  write(x);
+}

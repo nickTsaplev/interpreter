@@ -1,0 +1,77 @@
+{
+  "block": [
+    {
+      "decl": {
+        "name": "n",
+        "value": {
+          "const": 0
+        }
+      }
+    },
+    {
+      "read": "n"
+    },
+    {
+      "decl": {
+        "name": "fact",
+        "params": [
+          "n"
+        ],
+        "body": {
+          "if": {
+            "cond": {
+              "binop": "<=",
+              "left": {
+                "var": "n"
+              },
+              "right": {
+                "const": 1
+              }
+            },
+            "then": {
+              "return": {
+                "const": 1
+              }
+            },
+            "else": {
+              "return": {
+                "binop": "*",
+                "left": {
+                  "var": "n"
+                },
+                "right": {
+                  "call": {
+                    "name": "fact",
+                    "args": [
+                      {
+                        "binop": "-",
+                        "left": {
+                          "var": "n"
+                        },
+                        "right": {
+                          "const": 1
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "write": {
+        "call": {
+          "name": "fact",
+          "args": [
+            {
+              "var": "n"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

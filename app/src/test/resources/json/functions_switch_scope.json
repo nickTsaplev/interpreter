@@ -1,0 +1,61 @@
+{
+  "block": [
+    {
+      "decl": {
+        "name": "x",
+        "value": {
+          "const": 1
+        }
+      }
+    },
+    {
+      "decl": {
+        "name": "get",
+        "params": [],
+        "body": {
+          "return": {
+            "var": "x"
+          }
+        }
+      }
+    },
+    {
+      "write": {
+        "binop": "+",
+        "left": {
+          "const": 10
+        },
+        "right": {
+          "switch": {
+            "scrutinee": {
+              "const": 32
+            },
+            "branches": [
+              {
+                "pattern": {
+                  "bind": {
+                    "name": "x",
+                    "pattern": {
+                      "wildcard": true
+                    }
+                  }
+                },
+                "branch": {
+                  "call": {
+                    "name": "get",
+                    "args": []
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "write": {
+        "var": "x"
+      }
+    }
+  ]
+}

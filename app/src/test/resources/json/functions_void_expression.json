@@ -1,0 +1,21 @@
+{
+  "block": [
+    {
+      "decl": {
+        "name": "noop",
+        "params": [],
+        "body": {
+          "return": null
+        }
+      }
+    },
+    {
+      "write": {
+        "call": {
+          "name": "noop",
+          "args": []
+        }
+      }
+    }
+  ]
+}

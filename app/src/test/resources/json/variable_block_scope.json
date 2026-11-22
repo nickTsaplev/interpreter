@@ -1,0 +1,63 @@
+{
+  "block": [
+    {
+      "decl": {
+        "name": "x",
+        "value": {
+          "const": 1
+        }
+      }
+    },
+    {
+      "block": [
+        {
+          "decl": {
+            "name": "x",
+            "value": {
+              "const": 2
+            }
+          }
+        },
+        {
+          "block": [
+            {
+              "assn": {
+                "dst": "x",
+                "src": {
+                  "const": 3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "write": {
+            "var": "x"
+          }
+        }
+      ]
+    },
+    {
+      "write": {
+        "var": "x"
+      }
+    },
+    {
+      "block": [
+        {
+          "assn": {
+            "dst": "x",
+            "src": {
+              "const": 8
+            }
+          }
+        }
+      ]
+    },
+    {
+      "write": {
+        "var": "x"
+      }
+    }
+  ]
+}

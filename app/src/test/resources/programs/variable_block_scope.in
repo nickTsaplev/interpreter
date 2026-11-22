@@ -1,0 +1,11 @@
+{
+  var x = 1;
+  {
+    var x = 2;
+    { x = 3; }
+    write(x);
+  }
+  write(x);
+  { x = 8; }
+  write(x);
+}

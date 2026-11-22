@@ -1,0 +1,4 @@
+{
+  { var local = 7; }
+  write(local);
+}

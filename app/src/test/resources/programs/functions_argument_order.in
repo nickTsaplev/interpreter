@@ -1,0 +1,8 @@
+{
+  var x = 5;
+  var counter = 0;
+  fun next() { counter = counter + 1; return counter; }
+  fun pair(x, y) { return x * 10 + y; }
+  write(pair(2, x));
+  write(pair(next(), next()));
+}
