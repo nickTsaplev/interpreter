@@ -1,3 +1,4 @@
+{"seq":{"left":{"decl": {"name": "a", "value": {"const": 0}}},"right":
 {
   "seq": {
     "left": { "assn": { "dst": "a", "src": { "const": 2 } } },
@@ -41,3 +42,4 @@
     }
   }
 }
+}}

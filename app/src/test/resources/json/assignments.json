@@ -1,3 +1,4 @@
+{"seq":{"left":{"seq": {"left": {"decl": {"name": "x", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "y", "value": {"const": 0}}}, "right": {"decl": {"name": "result_2", "value": {"const": 0}}}}}}},"right":
 {
   "seq": {
     "left": { "read": "x" },
@@ -126,3 +127,4 @@
     }
   }
 }
+}}

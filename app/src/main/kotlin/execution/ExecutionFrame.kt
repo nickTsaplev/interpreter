@@ -13,6 +13,11 @@ class ExecutionFrame(private val name: String? = null) {
         namedStack[identifier] = value
     }
 
+    fun declareVar(identifier: String, initialValue: DataValue) {
+        check(!hasVar(identifier)) { "Variable already declared in this scope: $identifier" }
+        namedStack[identifier] = initialValue
+    }
+
     fun hasVar(identifier: String): Boolean {
         return namedStack.keys.contains(identifier)
     }

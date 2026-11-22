@@ -1,4 +1,8 @@
 {
+  var n = 0;
+  var sum = 0;
+  var i = 0;
+
   read(n);
   sum = 0;
   for (i = 0; i < n; i += 1) {

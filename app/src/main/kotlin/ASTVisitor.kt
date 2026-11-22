@@ -18,8 +18,18 @@ import ru.tsaplev.app.ASTreeNodes.ASTString
 import ru.tsaplev.app.ASTreeNodes.ASTLength
 import ru.tsaplev.app.ASTreeNodes.ASTSwitch
 import ru.tsaplev.app.ASTreeNodes.ASTSExp
+import ru.tsaplev.app.ASTreeNodes.ASTVarDecl
+import ru.tsaplev.app.ASTreeNodes.ASTBlock
 
 interface ASTVisitor {
+    fun visit(node: ASTVarDecl) {
+        throw UnsupportedOperationException("Variable declarations are not supported by this visitor")
+    }
+
+    fun visit(node: ASTBlock) {
+        throw UnsupportedOperationException("Scoped blocks are only supported by the AST interpreter")
+    }
+
     fun visit(node: ASTBinOP)
 
     fun visit(node: ASTConst)

@@ -1,4 +1,6 @@
 {
+  var a = 0;
+
   a = 2;
   while (a < 22) {
     write((a % 7) + (a % 3));

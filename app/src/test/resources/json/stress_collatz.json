@@ -1,3 +1,4 @@
+{"seq":{"left":{"seq": {"left": {"decl": {"name": "n", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "steps", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "peak", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "oddSteps", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "evenSteps", "value": {"const": 0}}}, "right": {"decl": {"name": "checksum", "value": {"const": 0}}}}}}}}}}}}},"right":
 {
   "seq": {
     "left": { "read": "n" },
@@ -235,3 +236,4 @@
     }
   }
 }
+}}

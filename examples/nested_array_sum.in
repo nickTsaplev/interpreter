@@ -1,4 +1,9 @@
 {
+  var work = 0;
+  var total = 0;
+  var i = 0;
+  var item = 0;
+
   -- Every element is [flag, payload]: 0 means a number, 1 means an array.
   work = [
     [0, 1],

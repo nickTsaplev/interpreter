@@ -1,3 +1,4 @@
+{"seq":{"left":{"seq": {"left": {"decl": {"name": "state", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "i", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "checksum", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "high", "value": {"const": 0}}}, "right": {"decl": {"name": "low", "value": {"const": 0}}}}}}}}}}},"right":
 {
   "seq": {
     "left": { "read": "state" },
@@ -212,3 +213,4 @@
     }
   }
 }
+}}

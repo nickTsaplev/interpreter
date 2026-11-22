@@ -1,4 +1,11 @@
 {
+  var n = 0;
+  var steps = 0;
+  var peak = 0;
+  var oddSteps = 0;
+  var evenSteps = 0;
+  var checksum = 0;
+
   read(n);
   steps = 0;
   peak = n;

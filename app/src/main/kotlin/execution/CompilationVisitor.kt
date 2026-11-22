@@ -1,6 +1,7 @@
 package ru.tsaplev.app.execution
 
 import ru.tsaplev.app.ASTVisitor
+import ru.tsaplev.app.ASTreeNodes.ASTVarDecl
 import ru.tsaplev.app.ASTreeNodes.ASTArray
 import ru.tsaplev.app.ASTreeNodes.ASTAssign
 import ru.tsaplev.app.ASTreeNodes.ASTBinOP
@@ -25,6 +26,11 @@ import ru.tsaplev.app.execution.stackMachine.MachineInstruction
 class CompilationVisitor: ASTVisitor {
     val instructions = mutableListOf<MachineInstruction>()
     var labelCount = 0
+
+    override fun visit(node: ASTVarDecl) {
+        node.initialValue.visit(this)
+        instructions.add(MachineInstruction.ST(node.name))
+    }
 
     override fun visit(node: ASTBinOP) {
         instructions.add(MachineInstruction.BINOP(node.binop))

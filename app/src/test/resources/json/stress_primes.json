@@ -1,3 +1,4 @@
+{"seq":{"left":{"seq": {"left": {"decl": {"name": "limit", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "count", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "sum", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "checksum", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "candidate", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "divisor", "value": {"const": 0}}}, "right": {"decl": {"name": "isPrime", "value": {"const": 0}}}}}}}}}}}}}}},"right":
 {
   "seq": {
     "left": { "read": "limit" },
@@ -263,3 +264,4 @@
     }
   }
 }
+}}

@@ -3,6 +3,7 @@ package ru.tsaplev.app
 import java.io.File
 import ru.tsaplev.app.ASTreeNodes.ASTArray
 import ru.tsaplev.app.ASTreeNodes.ASTAssign
+import ru.tsaplev.app.ASTreeNodes.ASTVarDecl
 import ru.tsaplev.app.ASTreeNodes.ASTBinOP
 import ru.tsaplev.app.ASTreeNodes.ASTConst
 import ru.tsaplev.app.ASTreeNodes.ASTElem
@@ -38,7 +39,7 @@ class StringArrayInterpreterTest {
     @Test
     fun stringsAndArraysSupportLanguageOperations() {
         val program = sequence(
-            ASTAssign(
+            ASTVarDecl(
                 "values",
                 ASTArray(listOf(ASTConst(int(1)), ASTString("old")))
             ),
@@ -89,7 +90,7 @@ class StringArrayInterpreterTest {
     @Test
     fun compilerAndStackMachineSupportStringsAndArrays() {
         val program = sequence(
-            ASTAssign("values", ASTArray(listOf(ASTString("a"), ASTString("b")))),
+            ASTVarDecl("values", ASTArray(listOf(ASTString("a"), ASTString("b")))),
             ASTSet(ASTVar("values"), ASTString("changed"), ASTConst(int(0))),
             ASTFuncCall("write", ASTElem(ASTVar("values"), ASTConst(int(0)))),
             ASTFuncCall("write", ASTLength(ASTVar("values")))

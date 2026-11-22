@@ -1,3 +1,4 @@
+{"seq":{"left":{"seq": {"left": {"decl": {"name": "n", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "m", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "factorial", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "i", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "original", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "digitSum", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "reversed", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "digits", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "digit", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "a", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "b", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "temp", "value": {"const": 0}}}, "right": {"seq": {"left": {"decl": {"name": "gcd", "value": {"const": 0}}}, "right": {"decl": {"name": "category", "value": {"const": 0}}}}}}}}}}}}}}}}}}}}}}}}}}}}},"right":
 {
   "seq": {
     "left": { "read": "n" },
@@ -419,3 +420,4 @@
     }
   }
 }
+}}

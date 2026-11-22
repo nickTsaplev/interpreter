@@ -1,4 +1,10 @@
 {
+  var state = 0;
+  var i = 0;
+  var checksum = 0;
+  var high = 0;
+  var low = 0;
+
   read(state);
   i = 0;
   checksum = 0;

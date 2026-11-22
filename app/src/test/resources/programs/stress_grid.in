@@ -1,4 +1,13 @@
 {
+  var rows = 0;
+  var cols = 0;
+  var score = 0;
+  var evenCells = 0;
+  var diagonal = 0;
+  var i = 0;
+  var j = 0;
+  var cell = 0;
+
   read(rows);
   read(cols);
   score = 0;

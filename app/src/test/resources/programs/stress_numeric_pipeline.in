@@ -1,4 +1,19 @@
 {
+  var n = 0;
+  var m = 0;
+  var factorial = 0;
+  var i = 0;
+  var original = 0;
+  var digitSum = 0;
+  var reversed = 0;
+  var digits = 0;
+  var digit = 0;
+  var a = 0;
+  var b = 0;
+  var temp = 0;
+  var gcd = 0;
+  var category = 0;
+
   read(n);
   read(m);
 

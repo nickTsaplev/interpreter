@@ -1,3 +1,4 @@
+{"seq":{"left":{"seq": {"left": {"decl": {"name": "a", "value": {"const": 0}}}, "right": {"decl": {"name": "b", "value": {"const": 0}}}}},"right":
 {
   "seq": {
     "left": {
@@ -62,3 +63,4 @@
     }
   }
 }
+}}

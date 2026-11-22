@@ -1,4 +1,12 @@
 {
+  var limit = 0;
+  var count = 0;
+  var sum = 0;
+  var checksum = 0;
+  var candidate = 0;
+  var divisor = 0;
+  var isPrime = 0;
+
   read(limit);
   count = 0;
   sum = 0;

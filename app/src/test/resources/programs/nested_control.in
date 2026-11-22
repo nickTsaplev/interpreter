@@ -1,4 +1,10 @@
 {
+  var rows = 0;
+  var cols = 0;
+  var count = 0;
+  var i = 0;
+  var j = 0;
+
   read(rows);
   read(cols);
   count = 0;

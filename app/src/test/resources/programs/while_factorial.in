@@ -1,4 +1,8 @@
 {
+  var n = 0;
+  var i = 0;
+  var factorial = 0;
+
   read(n);
   i = 1;
   factorial = 1;

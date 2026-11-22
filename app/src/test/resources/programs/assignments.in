@@ -1,4 +1,8 @@
 {
+  var x = 0;
+  var y = 0;
+  var result_2 = 0;
+
   read(x);
   read(y);
   result_2 = x + y;

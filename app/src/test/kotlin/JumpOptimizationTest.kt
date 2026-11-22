@@ -2,6 +2,7 @@ package ru.tsaplev.app
 
 import org.junit.jupiter.api.assertTimeoutPreemptively
 import ru.tsaplev.app.ASTreeNodes.ASTAssign
+import ru.tsaplev.app.ASTreeNodes.ASTVarDecl
 import ru.tsaplev.app.ASTreeNodes.ASTBinOP
 import ru.tsaplev.app.ASTreeNodes.ASTConst
 import ru.tsaplev.app.ASTreeNodes.ASTDo
@@ -150,8 +151,8 @@ class JumpOptimizationTest {
         fun writeAndDecrement() = ASTSeq(ASTFuncCall("write", ASTVar("i")), decrement())
         val programs = listOf(
             ASTIf(constant(1), ASTIf(constant(0), write(99), null), write(98)),
-            ASTSeq(ASTAssign("i", constant(2)), ASTWhile(positive(), ASTWhile(positive(), writeAndDecrement()))),
-            ASTSeq(ASTAssign("i", constant(2)), ASTDo(
+            ASTSeq(ASTVarDecl("i", constant(2)), ASTWhile(positive(), ASTWhile(positive(), writeAndDecrement()))),
+            ASTSeq(ASTVarDecl("i", constant(2)), ASTDo(
                 ASTSeq(ASTWhile(constant(0), ASTSkip()), writeAndDecrement()), positive()
             ))
         )
