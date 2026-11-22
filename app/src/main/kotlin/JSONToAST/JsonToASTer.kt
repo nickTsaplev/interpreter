@@ -5,6 +5,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import ru.tsaplev.app.ASTNode
+import ru.tsaplev.app.ASTreeNodes.ASTFuncCall
 
 abstract class JsonToASTer {
     protected var next: JsonToASTer? = null
@@ -18,7 +19,17 @@ abstract class JsonToASTer {
     }
 
     fun startParse(text: String): ASTNode? =
-        parse(this, Json.parseToJsonElement(text))
+        parseStatement(Json.parseToJsonElement(text))
+
+    fun parseStatement(text: JsonElement): ASTNode? {
+        val node = parse(this, text) ?: return null
+        val call = (text as? JsonObject)?.get("call") as? JsonObject
+        // The reference frontend uses the same call node in both contexts.
+        // Legacy name/callStmt nodes keep their explicit expression/statement mode.
+        return if (node is ASTFuncCall && call != null && "fun" in call) {
+            ASTFuncCall(node.name, node.arguments, asExpression = false)
+        } else node
+    }
 
     protected fun JsonElement.asStringOrNull(): String? {
         val primitive = this as? JsonPrimitive ?: return null

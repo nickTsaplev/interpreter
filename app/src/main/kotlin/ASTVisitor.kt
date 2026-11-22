@@ -22,8 +22,13 @@ import ru.tsaplev.app.ASTreeNodes.ASTVarDecl
 import ru.tsaplev.app.ASTreeNodes.ASTBlock
 import ru.tsaplev.app.ASTreeNodes.ASTFuncDecl
 import ru.tsaplev.app.ASTreeNodes.ASTReturn
+import ru.tsaplev.app.ASTreeNodes.ASTScope
 
 interface ASTVisitor {
+    fun visit(node: ASTScope) {
+        throw UnsupportedOperationException("Reference scopes are not supported by this visitor")
+    }
+
     fun visit(node: ASTFuncDecl) {
         throw UnsupportedOperationException("User functions are only supported by the AST interpreter")
     }

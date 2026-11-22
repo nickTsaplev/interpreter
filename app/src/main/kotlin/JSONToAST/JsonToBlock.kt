@@ -12,6 +12,6 @@ class JsonToBlock : JsonToASTer() {
         if (!obj.hasNodeTag("block")) return next?.parse(parser, text)
         if (obj.size != 1) return null
         val statements = obj["block"] as? JsonArray ?: return null
-        return ASTBlock(statements.map { parser.parse(parser, it) ?: return null })
+        return ASTBlock(statements.map { parser.parseStatement(it) ?: return null })
     }
 }

@@ -119,8 +119,8 @@ class InterpreterProgramTest {
     }
 
     @Test
-    fun fileVoidFunctionCannotBeUsedAsExpression() {
-        assertProgramError("functions_void_expression", "Function noop did not return a value")
+    fun fileVoidFunctionReturnsReferenceDefaultValue() {
+        assertProgram("functions_void_expression", emptyList(), listOf(0))
     }
 
     @Test

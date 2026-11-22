@@ -2,6 +2,7 @@ package ru.tsaplev.app.JSONToAST
 
 fun GetJsonToAST(): JsonToASTer {
     return JsonToBinop()
+        .addNext(JsonToScope())
         .addNext(JsonToDecl())
         .addNext(JsonToBlock())
         .addNext(JsonToFunctionControl())
