@@ -46,6 +46,8 @@ class CompilationVisitor: ASTVisitor {
 
     override fun visit(node: ASTFuncCall) {
         if (node.name == "write") {
+            require(node.arguments.size == 1 && !node.asExpression) { "write must be a one-argument statement" }
+            node.arguments.single().visit(this)
             instructions.add(MachineInstruction.WRITE())
         } else {
             throw IllegalArgumentException("Unknown function: ${node.name}")

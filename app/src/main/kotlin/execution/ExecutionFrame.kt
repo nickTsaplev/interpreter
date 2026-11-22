@@ -1,10 +1,21 @@
 package ru.tsaplev.app.execution
 
 import java.util.Stack
+import ru.tsaplev.app.ASTreeNodes.ASTFuncDecl
 
 class ExecutionFrame(private val name: String? = null) {
     private val unnamedStack = Stack<DataValue>()
     private val namedStack = mutableMapOf<String, DataValue>()
+    private val functions = mutableMapOf<String, ASTFuncDecl>()
+
+    fun declareFunction(function: ASTFuncDecl) {
+        require(function.name != "write") { "Cannot redefine built-in function: write" }
+        check(function.name !in functions) { "Function already declared in this scope: ${function.name}" }
+        functions[function.name] = function
+    }
+
+    fun getFunction(identifier: String): ASTFuncDecl? = functions[identifier]
+
     fun getVar(identifier: String): DataValue? {
         return namedStack[identifier]
     }

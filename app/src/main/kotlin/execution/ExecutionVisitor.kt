@@ -4,6 +4,8 @@ import ru.tsaplev.app.ASTVisitor
 import ru.tsaplev.app.ASTNode
 import ru.tsaplev.app.ASTreeNodes.ASTVarDecl
 import ru.tsaplev.app.ASTreeNodes.ASTBlock
+import ru.tsaplev.app.ASTreeNodes.ASTFuncDecl
+import ru.tsaplev.app.ASTreeNodes.ASTReturn
 import ru.tsaplev.app.ASTreeNodes.ASTArray
 import ru.tsaplev.app.ASTreeNodes.ASTAssign
 import ru.tsaplev.app.ASTreeNodes.ASTBinOP
@@ -26,6 +28,18 @@ import ru.tsaplev.app.ASTreeNodes.ASTSExp
 class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
 
     private val executionStack = ExecutionStack()
+    private var functionDepth = 0
+
+    private class ReturnSignal(val value: DataValue?) : RuntimeException(null, null, false, false)
+
+    override fun visit(node: ASTFuncDecl) {
+        executionStack.declareFunction(node)
+    }
+
+    override fun visit(node: ASTReturn) {
+        check(functionDepth > 0) { "Return outside a function" }
+        throw ReturnSignal(node.value?.let { evaluate(it) })
+    }
 
     private fun evaluate(node: ASTNode): DataValue {
         val frame = executionStack.current()
@@ -78,10 +92,38 @@ class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
 
     override fun visit(node: ASTFuncCall) {
         if (node.name == "write") {
-            io.write(popValue("write argument"))
+            require(node.arguments.size == 1) { "write expects 1 argument, got ${node.arguments.size}" }
+            check(!node.asExpression) { "write does not return a value" }
+            io.write(evaluate(node.arguments.single()))
             return
         }
-        throw IllegalArgumentException("Unknown function: ${node.name}")
+        val function = executionStack.getFunction(node.name)
+            ?: throw IllegalArgumentException("Unknown function: ${node.name}")
+        require(function.parameters.size == node.arguments.size) {
+            "${node.name} expects ${function.parameters.size} arguments, got ${node.arguments.size}"
+        }
+        // Evaluate all arguments in the caller, before any parameter can shadow it.
+        val values = node.arguments.map { evaluate(it) }
+        executionStack.start(node.name)
+        functionDepth++
+        val result = try {
+            function.parameters.zip(values).forEach { (name, value) ->
+                executionStack.declareVar(name, value)
+            }
+            try {
+                function.body.visit(this)
+                null
+            } catch (signal: ReturnSignal) {
+                signal.value
+            }
+        } finally {
+            functionDepth--
+            executionStack.pop()
+        }
+        if (node.asExpression) {
+            check(result != null) { "Function ${node.name} did not return a value" }
+            executionStack.current().pushNameless(result)
+        }
     }
 
     override fun visit(node: ASTRead) {

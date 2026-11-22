@@ -1,5 +1,7 @@
 package ru.tsaplev.app.execution
 
+import ru.tsaplev.app.ASTreeNodes.ASTFuncDecl
+
 class ExecutionStack {
     private val stack: MutableList<ExecutionFrame> = mutableListOf(ExecutionFrame("main"))
 
@@ -45,6 +47,11 @@ class ExecutionStack {
             ?: throw IllegalStateException("Variable not declared: $identifier")
         frame.setVar(identifier, value)
     }
+
+    fun declareFunction(function: ASTFuncDecl) = current().declareFunction(function)
+
+    fun getFunction(identifier: String): ASTFuncDecl? =
+        stack.asReversed().firstNotNullOfOrNull { it.getFunction(identifier) }
 
     fun getTopNameless(): DataValue? = stack[0].getTopNameless()
 

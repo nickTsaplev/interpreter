@@ -4,6 +4,7 @@ fun GetJsonToAST(): JsonToASTer {
     return JsonToBinop()
         .addNext(JsonToDecl())
         .addNext(JsonToBlock())
+        .addNext(JsonToFunctionControl())
         .addNext(JsonToConst())
         .addNext(JsonToWrite())
         .addNext(JsonToSeq())

@@ -20,8 +20,18 @@ import ru.tsaplev.app.ASTreeNodes.ASTSwitch
 import ru.tsaplev.app.ASTreeNodes.ASTSExp
 import ru.tsaplev.app.ASTreeNodes.ASTVarDecl
 import ru.tsaplev.app.ASTreeNodes.ASTBlock
+import ru.tsaplev.app.ASTreeNodes.ASTFuncDecl
+import ru.tsaplev.app.ASTreeNodes.ASTReturn
 
 interface ASTVisitor {
+    fun visit(node: ASTFuncDecl) {
+        throw UnsupportedOperationException("User functions are only supported by the AST interpreter")
+    }
+
+    fun visit(node: ASTReturn) {
+        throw UnsupportedOperationException("Return is only supported by the AST interpreter")
+    }
+
     fun visit(node: ASTVarDecl) {
         throw UnsupportedOperationException("Variable declarations are not supported by this visitor")
     }
