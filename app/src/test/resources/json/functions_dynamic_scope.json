@@ -1,0 +1,56 @@
+{
+  "scope": {
+    "decls": [
+      { "name": "x", "spec": "var" },
+      {
+        "name": "bump",
+        "spec": {
+          "fun": {
+            "args": [],
+            "body": {
+              "seq": {
+                "left": {
+                  "assn": {
+                    "dst": "x",
+                    "src": {
+                      "binop": "+",
+                      "left": { "var": "x" },
+                      "right": { "const": 1 }
+                    }
+                  }
+                },
+                "right": { "return": { "expr": { "var": "x" } } }
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "caller",
+        "spec": {
+          "fun": {
+            "args": [ "x" ],
+            "body": {
+              "return": { "expr": { "call": { "fun": "bump", "args": [] } } }
+            }
+          }
+        }
+      }
+    ],
+    "body": {
+      "seq": {
+        "left": { "assn": { "dst": "x", "src": { "const": 1 } } },
+        "right": {
+          "seq": {
+            "left": {
+              "write": {
+                "call": { "fun": "caller", "args": [ { "const": 40 } ] }
+              }
+            },
+            "right": { "write": { "var": "x" } }
+          }
+        }
+      }
+    }
+  }
+}

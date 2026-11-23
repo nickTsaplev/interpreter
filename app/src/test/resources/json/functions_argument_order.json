@@ -1,0 +1,85 @@
+{
+  "scope": {
+    "decls": [
+      { "name": "x", "spec": "var" },
+      { "name": "counter", "spec": "var" },
+      {
+        "name": "next",
+        "spec": {
+          "fun": {
+            "args": [],
+            "body": {
+              "seq": {
+                "left": {
+                  "assn": {
+                    "dst": "counter",
+                    "src": {
+                      "binop": "+",
+                      "left": { "var": "counter" },
+                      "right": { "const": 1 }
+                    }
+                  }
+                },
+                "right": { "return": { "expr": { "var": "counter" } } }
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "pair",
+        "spec": {
+          "fun": {
+            "args": [ "x", "y" ],
+            "body": {
+              "return": {
+                "expr": {
+                  "binop": "+",
+                  "left": {
+                    "binop": "*",
+                    "left": { "var": "x" },
+                    "right": { "const": 10 }
+                  },
+                  "right": { "var": "y" }
+                }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "body": {
+      "seq": {
+        "left": { "assn": { "dst": "counter", "src": { "const": 0 } } },
+        "right": {
+          "seq": {
+            "left": { "assn": { "dst": "x", "src": { "const": 5 } } },
+            "right": {
+              "seq": {
+                "left": {
+                  "write": {
+                    "call": {
+                      "fun": "pair",
+                      "args": [ { "const": 2 }, { "var": "x" } ]
+                    }
+                  }
+                },
+                "right": {
+                  "write": {
+                    "call": {
+                      "fun": "pair",
+                      "args": [
+                        { "call": { "fun": "next", "args": [] } },
+                        { "call": { "fun": "next", "args": [] } }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

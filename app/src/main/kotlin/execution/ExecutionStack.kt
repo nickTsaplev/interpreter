@@ -1,5 +1,7 @@
 package ru.tsaplev.app.execution
 
+import ru.tsaplev.app.ASTreeNodes.ASTFuncDecl
+
 class ExecutionStack {
     private val stack: MutableList<ExecutionFrame> = mutableListOf(ExecutionFrame("main"))
 
@@ -10,6 +12,7 @@ class ExecutionStack {
     }
 
     fun pop() {
+        check(stack.size > 1) { "Cannot remove the root scope" }
         stack.removeLast()
     }
 
@@ -26,6 +29,7 @@ class ExecutionStack {
         return null
     }
 
+    // Legacy stack-machine ST permits implicit creation; AST execution uses assignVar.
     fun setVar(identifier: String, value: DataValue) {
         stack.reversed().forEach {
             if (it.hasVar(identifier)) {
@@ -34,6 +38,21 @@ class ExecutionStack {
         }
         current().setVar(identifier, value)
     }
+
+    fun declareVar(identifier: String, initialValue: DataValue) =
+        current().declareVar(identifier, initialValue)
+
+    fun assignVar(identifier: String, value: DataValue) {
+        val frame = stack.asReversed().firstOrNull { it.hasVar(identifier) }
+            ?: throw IllegalStateException("Variable not declared: $identifier")
+        frame.setVar(identifier, value)
+    }
+
+    fun declareFunction(function: ASTFuncDecl) = current().declareFunction(function)
+
+    fun getFunction(identifier: String): ASTFuncDecl? =
+        stack.asReversed().firstNotNullOfOrNull { it.getFunction(identifier) }
+
     fun getTopNameless(): DataValue? = stack[0].getTopNameless()
 
     fun popNameless(): DataValue = stack[0].popNameless()

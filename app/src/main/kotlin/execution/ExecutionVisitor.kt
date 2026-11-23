@@ -1,6 +1,12 @@
 package ru.tsaplev.app.execution
 
 import ru.tsaplev.app.ASTVisitor
+import ru.tsaplev.app.ASTNode
+import ru.tsaplev.app.ASTreeNodes.ASTVarDecl
+import ru.tsaplev.app.ASTreeNodes.ASTBlock
+import ru.tsaplev.app.ASTreeNodes.ASTFuncDecl
+import ru.tsaplev.app.ASTreeNodes.ASTReturn
+import ru.tsaplev.app.ASTreeNodes.ASTScope
 import ru.tsaplev.app.ASTreeNodes.ASTArray
 import ru.tsaplev.app.ASTreeNodes.ASTAssign
 import ru.tsaplev.app.ASTreeNodes.ASTBinOP
@@ -23,6 +29,56 @@ import ru.tsaplev.app.ASTreeNodes.ASTSExp
 class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
 
     private val executionStack = ExecutionStack()
+    private var functionDepth = 0
+
+    private class ReturnSignal(val value: DataValue?) : RuntimeException(null, null, false, false)
+
+    override fun visit(node: ASTFuncDecl) {
+        executionStack.declareFunction(node)
+    }
+
+    override fun visit(node: ASTReturn) {
+        check(functionDepth > 0) { "Return outside a function" }
+        throw ReturnSignal(node.value?.let { evaluate(it) })
+    }
+
+    private fun evaluate(node: ASTNode): DataValue {
+        val frame = executionStack.current()
+        val depth = frame.depth
+        try {
+            node.visit(this)
+            check(frame.depth == depth + 1) { "Expression did not produce exactly one value" }
+            return frame.popNameless()
+        } finally {
+            while (frame.depth > depth) frame.popNameless()
+        }
+    }
+
+    override fun visit(node: ASTVarDecl) {
+        check(!executionStack.current().hasVar(node.name)) {
+            "Variable already declared in this scope: ${node.name}"
+        }
+        executionStack.declareVar(node.name, evaluate(node.initialValue))
+    }
+
+    override fun visit(node: ASTBlock) {
+        executionStack.start()
+        try {
+            node.statements.forEach { it.visit(this) }
+        } finally {
+            executionStack.pop()
+        }
+    }
+
+    override fun visit(node: ASTScope) {
+        executionStack.start()
+        try {
+            node.declarations.forEach { it.visit(this) }
+            node.body.visit(this)
+        } finally {
+            executionStack.pop()
+        }
+    }
 
     private fun popValue(context: String): DataValue =
         executionStack.current().getTopNameless()
@@ -47,24 +103,52 @@ class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
 
     override fun visit(node: ASTFuncCall) {
         if (node.name == "write") {
-            io.write(popValue("write argument"))
+            require(node.arguments.size == 1) { "write expects 1 argument, got ${node.arguments.size}" }
+            check(!node.asExpression) { "write does not return a value" }
+            io.write(evaluate(node.arguments.single()))
             return
         }
-        throw IllegalArgumentException("Unknown function: ${node.name}")
+        val function = executionStack.getFunction(node.name)
+            ?: throw IllegalArgumentException("Unknown function: ${node.name}")
+        require(function.parameters.size == node.arguments.size) {
+            "${node.name} expects ${function.parameters.size} arguments, got ${node.arguments.size}"
+        }
+        // Evaluate all arguments in the caller, before any parameter can shadow it.
+        val values = node.arguments.map { evaluate(it) }
+        executionStack.start(node.name)
+        functionDepth++
+        val result = try {
+            function.parameters.zip(values).forEach { (name, value) ->
+                executionStack.declareVar(name, value)
+            }
+            try {
+                function.body.visit(this)
+                null
+            } catch (signal: ReturnSignal) {
+                signal.value
+            }
+        } finally {
+            functionDepth--
+            executionStack.pop()
+        }
+        if (node.asExpression) {
+            executionStack.current().pushNameless(result ?: DataValue.IntValue(0))
+        }
     }
 
     override fun visit(node: ASTRead) {
+        check(executionStack.getVar(node.varName) != null) { "Variable not declared: ${node.varName}" }
         val value = io.read()
-        executionStack.current().setVar(node.varName, value)
+        executionStack.assignVar(node.varName, value)
     }
 
     override fun visit(node: ASTAssign) {
         val value = popValue("Assignment to ${node.name}")
-        executionStack.current().setVar(node.name, value)
+        executionStack.assignVar(node.name, value)
     }
 
     override fun visit(node: ASTVar) {
-        val value = executionStack.current().getVar(node.name)
+        val value = executionStack.getVar(node.name)
             ?: throw IllegalStateException("Variable not found: ${node.name}")
         executionStack.current().pushNameless(value)
     }
@@ -115,15 +199,19 @@ class ExecutionVisitor(val io: DataIO = StandardDataIO()): ASTVisitor {
     override fun visit(node: ASTSwitch) {
         node.scrutinee.visit(this)
         val value = popValue("switch scrutinee")
-        val frame = executionStack.current()
         for ((pattern, branch) in node.branches) {
             val bindings = pattern.match(value) ?: continue
-            val previous = frame.bind(bindings)
-            try {
+            executionStack.start("match")
+            val results = try {
+                bindings.forEach { (name, value) -> executionStack.declareVar(name, value) }
                 branch.visit(this)
+                val frame = executionStack.current()
+                List(frame.depth) { frame.popNameless() }.asReversed()
             } finally {
-                frame.restore(previous)
+                executionStack.pop()
             }
+            // A switch branch may be an expression; its values outlive its local names.
+            results.forEach { executionStack.current().pushNameless(it) }
             return
         }
         throw IllegalArgumentException("Match failure on $value")

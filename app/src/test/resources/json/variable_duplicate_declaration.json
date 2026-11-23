@@ -1,0 +1,18 @@
+{
+  "scope": {
+    "decls": [
+      { "name": "x", "spec": "var" }, { "name": "x", "spec": "var" }
+    ],
+    "body": {
+      "seq": {
+        "left": { "assn": { "dst": "x", "src": { "const": 2 } } },
+        "right": {
+          "seq": {
+            "left": { "assn": { "dst": "x", "src": { "const": 1 } } },
+            "right": "skip"
+          }
+        }
+      }
+    }
+  }
+}

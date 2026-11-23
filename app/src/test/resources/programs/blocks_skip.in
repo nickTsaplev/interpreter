@@ -1,11 +1,15 @@
 {
   {
-    x = 1;
-    skip;
+    var x = 0;
+
     {
-      x += 1;
-      write(x);
+      x = 1;
+      skip;
+      {
+        x += 1;
+        write(x);
+      }
     }
+    skip;
   }
-  skip;
 }

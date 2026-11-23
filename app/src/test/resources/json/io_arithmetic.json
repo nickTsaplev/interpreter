@@ -1,57 +1,74 @@
 {
-  "seq": {
-    "left": {
-      "write": {
-        "binop": "+",
-        "left": {
-          "binop": "+",
-          "left": {
-            "binop": "+",
-            "left": { "const": 2 },
-            "right": { "const": 2 }
-          },
-          "right": { "const": 4 }
-        },
-        "right": {
-          "binop": "/",
-          "left": { "const": 5 },
-          "right": { "const": 2 }
-        }
-      }
-    },
-    "right": {
+  "scope": {
+    "decls": [
+      { "name": "a", "spec": "var" }, { "name": "b", "spec": "var" }
+    ],
+    "body": {
       "seq": {
-        "left": {
-          "assn": {
-            "dst": "a",
-            "src": {
-              "binop": "+",
-              "left": {
-                "binop": "+",
-                "left": { "const": 2 },
-                "right": { "const": 2 }
-              },
-              "right": { "const": 3 }
-            }
-          }
-        },
+        "left": { "assn": { "dst": "b", "src": { "const": 0 } } },
         "right": {
           "seq": {
-            "left": {
-              "write": {
-                "binop": "*",
-                "left": { "var": "a" },
-                "right": { "const": 2 }
-              }
-            },
+            "left": { "assn": { "dst": "a", "src": { "const": 0 } } },
             "right": {
               "seq": {
-                "left": { "read": "b" },
-                "right": {
+                "left": {
                   "write": {
-                    "binop": "*",
-                    "left": { "var": "b" },
-                    "right": { "const": 4 }
+                    "binop": "+",
+                    "left": {
+                      "binop": "+",
+                      "left": {
+                        "binop": "+",
+                        "left": { "const": 2 },
+                        "right": { "const": 2 }
+                      },
+                      "right": { "const": 4 }
+                    },
+                    "right": {
+                      "binop": "/",
+                      "left": { "const": 5 },
+                      "right": { "const": 2 }
+                    }
+                  }
+                },
+                "right": {
+                  "seq": {
+                    "left": {
+                      "assn": {
+                        "dst": "a",
+                        "src": {
+                          "binop": "+",
+                          "left": {
+                            "binop": "+",
+                            "left": { "const": 2 },
+                            "right": { "const": 2 }
+                          },
+                          "right": { "const": 3 }
+                        }
+                      }
+                    },
+                    "right": {
+                      "seq": {
+                        "left": {
+                          "write": {
+                            "binop": "*",
+                            "left": { "var": "a" },
+                            "right": { "const": 2 }
+                          }
+                        },
+                        "right": {
+                          "seq": {
+                            "left": { "read": "b" },
+                            "right": {
+                              "write": {
+                                "binop": "*",
+                                "left": { "var": "b" },
+                                "right": { "const": 4 }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }

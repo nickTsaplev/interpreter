@@ -1,0 +1,11 @@
+{
+  "scope": {
+    "decls": [
+      {
+        "name": "noop",
+        "spec": { "fun": { "args": [], "body": { "return": "" } } }
+      }
+    ],
+    "body": { "write": { "call": { "fun": "noop", "args": [] } } }
+  }
+}

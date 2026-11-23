@@ -1,45 +1,84 @@
 {
-  "seq": {
-    "left": { "read": "n" },
-    "right": {
+  "scope": {
+    "decls": [
+      { "name": "n", "spec": "var" },
+      { "name": "sum", "spec": "var" },
+      { "name": "i", "spec": "var" }
+    ],
+    "body": {
       "seq": {
-        "left": { "assn": { "dst": "sum", "src": { "const": 0 } } },
+        "left": { "assn": { "dst": "i", "src": { "const": 0 } } },
         "right": {
           "seq": {
-            "left": {
+            "left": { "assn": { "dst": "sum", "src": { "const": 0 } } },
+            "right": {
               "seq": {
-                "left": { "assn": { "dst": "i", "src": { "const": 0 } } },
+                "left": { "assn": { "dst": "n", "src": { "const": 0 } } },
                 "right": {
-                  "while": {
-                    "cond": {
-                      "binop": "<",
-                      "left": { "var": "i" },
-                      "right": { "var": "n" }
-                    },
-                    "body": {
+                  "seq": {
+                    "left": { "read": "n" },
+                    "right": {
                       "seq": {
                         "left": {
-                          "seq": {
-                            "left": { "write": { "var": "i" } },
-                            "right": {
-                              "assn": {
-                                "dst": "sum",
-                                "src": {
-                                  "binop": "+",
-                                  "left": { "var": "sum" },
-                                  "right": { "var": "i" }
-                                }
-                              }
-                            }
-                          }
+                          "assn": { "dst": "sum", "src": { "const": 0 } }
                         },
                         "right": {
-                          "assn": {
-                            "dst": "i",
-                            "src": {
-                              "binop": "+",
-                              "left": { "var": "i" },
-                              "right": { "const": 1 }
+                          "seq": {
+                            "left": {
+                              "seq": {
+                                "left": {
+                                  "assn": {
+                                    "dst": "i",
+                                    "src": { "const": 0 }
+                                  }
+                                },
+                                "right": {
+                                  "while": {
+                                    "cond": {
+                                      "binop": "<",
+                                      "left": { "var": "i" },
+                                      "right": { "var": "n" }
+                                    },
+                                    "body": {
+                                      "seq": {
+                                        "left": {
+                                          "seq": {
+                                            "left": {
+                                              "write": { "var": "i" }
+                                            },
+                                            "right": {
+                                              "assn": {
+                                                "dst": "sum",
+                                                "src": {
+                                                  "binop": "+",
+                                                  "left": { "var": "sum" },
+                                                  "right": { "var": "i" }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "right": {
+                                          "assn": {
+                                            "dst": "i",
+                                            "src": {
+                                              "binop": "+",
+                                              "left": { "var": "i" },
+                                              "right": { "const": 1 }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "right": {
+                              "seq": {
+                                "left": { "write": { "var": "sum" } },
+                                "right": "skip"
+                              }
                             }
                           }
                         }
@@ -47,12 +86,6 @@
                     }
                   }
                 }
-              }
-            },
-            "right": {
-              "seq": {
-                "left": { "write": { "var": "sum" } },
-                "right": "skip"
               }
             }
           }

@@ -1,7 +1,12 @@
 {
-  write(((2 + 2) + 4) + (5 / 2));
-  a = (2 + 2) + 3;
-  write(a * 2);
-  read(b);
-  write(b * 4);
+  {
+    var a = 0;
+    var b = 0;
+
+    write(((2 + 2) + 4) + (5 / 2));
+    a = (2 + 2) + 3;
+    write(a * 2);
+    read(b);
+    write(b * 4);
+  }
 }

@@ -1,0 +1,14 @@
+{
+  {
+    var x = 1;
+    fun bump() {
+      x = x + 1;
+      return x
+    }
+    fun caller(x) {
+      return bump()
+    }
+    write(caller(40));
+    write(x);
+  }
+}

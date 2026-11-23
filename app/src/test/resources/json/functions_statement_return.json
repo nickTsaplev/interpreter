@@ -1,0 +1,95 @@
+{
+  "scope": {
+    "decls": [
+      { "name": "x", "spec": "var" },
+      {
+        "name": "answer",
+        "spec": {
+          "fun": {
+            "args": [],
+            "body": { "return": { "expr": { "const": 42 } } }
+          }
+        }
+      },
+      {
+        "name": "noop",
+        "spec": {
+          "fun": {
+            "args": [],
+            "body": {
+              "seq": {
+                "left": { "return": "" },
+                "right": { "assn": { "dst": "x", "src": { "const": 99 } } }
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "early",
+        "spec": {
+          "fun": {
+            "args": [],
+            "body": {
+              "seq": {
+                "left": {
+                  "while": {
+                    "cond": { "const": 1 },
+                    "body": {
+                      "scope": {
+                        "decls": [ { "name": "x", "spec": "var" } ],
+                        "body": {
+                          "seq": {
+                            "left": {
+                              "assn": { "dst": "x", "src": { "const": 8 } }
+                            },
+                            "right": { "return": { "expr": { "var": "x" } } }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "right": { "assn": { "dst": "x", "src": { "const": 99 } } }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "body": {
+      "seq": {
+        "left": { "assn": { "dst": "x", "src": { "const": 1 } } },
+        "right": {
+          "seq": {
+            "left": { "call": { "fun": "answer", "args": [] } },
+            "right": {
+              "seq": {
+                "left": { "call": { "fun": "noop", "args": [] } },
+                "right": {
+                  "seq": {
+                    "left": {
+                      "write": {
+                        "binop": "+",
+                        "left": { "const": 3 },
+                        "right": { "call": { "fun": "answer", "args": [] } }
+                      }
+                    },
+                    "right": {
+                      "seq": {
+                        "left": {
+                          "write": { "call": { "fun": "early", "args": [] } }
+                        },
+                        "right": { "write": { "var": "x" } }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

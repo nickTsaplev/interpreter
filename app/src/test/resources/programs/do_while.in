@@ -1,7 +1,11 @@
 {
-  read(x);
-  do {
-    write(x);
-    x -= 1;
-  } while (x > 0);
+  {
+    var x = 0;
+
+    read(x);
+    do {
+      write(x);
+      x -= 1;
+    } while (x > 0);
+  }
 }

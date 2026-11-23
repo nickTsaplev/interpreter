@@ -1,35 +1,43 @@
 {
-  read(state);
-  i = 0;
-  checksum = 0;
-  high = 0;
-  low = 0;
+  {
+    var state = 0;
+    var i = 0;
+    var checksum = 0;
+    var high = 0;
+    var low = 0;
 
-  do {
-    state = (state * 17 + 11) % 97;
+    read(state);
+    i = 0;
+    checksum = 0;
+    high = 0;
+    low = 0;
 
-    if (state % 2 == 0)
-      checksum += state;
-    elif (state % 3 == 0)
-      checksum -= state;
-    else
-      checksum += state * 2;
+    do {
+      state = (state * 17 + 11) % 97;
 
-    if (state > 50)
-      high += 1;
-    else
-      low += 1;
+      if (state % 2 == 0)
+        { checksum += state; }
+      elif (state % 3 == 0)
+        { checksum -= state; }
+      else
+        { checksum += state * 2; }
 
-    if (i % 5 == 0)
-      write(checksum);
-    else
-      skip;
+      if (state > 50)
+        { high += 1; }
+      else
+        { low += 1; }
 
-    i += 1;
-  } while (i < 30);
+      if (i % 5 == 0)
+        { write(checksum); }
+      else
+        { skip; }
 
-  write(state);
-  write(checksum);
-  write(high);
-  write(low);
+      i += 1;
+    } while (i < 30);
+
+    write(state);
+    write(checksum);
+    write(high);
+    write(low);
+  }
 }

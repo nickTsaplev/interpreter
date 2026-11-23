@@ -1,0 +1,16 @@
+{
+  "seq": {
+    "left": {
+      "scope": {
+        "decls": [ { "name": "local", "spec": "var" } ],
+        "body": {
+          "seq": {
+            "left": { "assn": { "dst": "local", "src": { "const": 7 } } },
+            "right": "skip"
+          }
+        }
+      }
+    },
+    "right": { "write": { "var": "local" } }
+  }
+}

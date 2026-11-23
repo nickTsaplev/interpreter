@@ -1,63 +1,49 @@
 {
-  "seq": {
-    "left": { "read": "x" },
-    "right": {
+  "scope": {
+    "decls": [
+      { "name": "x", "spec": "var" },
+      { "name": "y", "spec": "var" },
+      { "name": "result_2", "spec": "var" }
+    ],
+    "body": {
       "seq": {
-        "left": { "read": "y" },
+        "left": { "assn": { "dst": "result_2", "src": { "const": 0 } } },
         "right": {
           "seq": {
-            "left": {
-              "assn": {
-                "dst": "result_2",
-                "src": {
-                  "binop": "+",
-                  "left": { "var": "x" },
-                  "right": { "var": "y" }
-                }
-              }
-            },
+            "left": { "assn": { "dst": "y", "src": { "const": 0 } } },
             "right": {
               "seq": {
-                "left": { "write": { "var": "result_2" } },
+                "left": { "assn": { "dst": "x", "src": { "const": 0 } } },
                 "right": {
                   "seq": {
-                    "left": {
-                      "assn": {
-                        "dst": "x",
-                        "src": {
-                          "binop": "+",
-                          "left": { "var": "x" },
-                          "right": { "const": 5 }
-                        }
-                      }
-                    },
+                    "left": { "read": "x" },
                     "right": {
                       "seq": {
-                        "left": { "write": { "var": "x" } },
+                        "left": { "read": "y" },
                         "right": {
                           "seq": {
                             "left": {
                               "assn": {
-                                "dst": "x",
+                                "dst": "result_2",
                                 "src": {
-                                  "binop": "-",
+                                  "binop": "+",
                                   "left": { "var": "x" },
-                                  "right": { "const": 2 }
+                                  "right": { "var": "y" }
                                 }
                               }
                             },
                             "right": {
                               "seq": {
-                                "left": { "write": { "var": "x" } },
+                                "left": { "write": { "var": "result_2" } },
                                 "right": {
                                   "seq": {
                                     "left": {
                                       "assn": {
                                         "dst": "x",
                                         "src": {
-                                          "binop": "*",
+                                          "binop": "+",
                                           "left": { "var": "x" },
-                                          "right": { "var": "y" }
+                                          "right": { "const": 5 }
                                         }
                                       }
                                     },
@@ -70,9 +56,9 @@
                                               "assn": {
                                                 "dst": "x",
                                                 "src": {
-                                                  "binop": "/",
+                                                  "binop": "-",
                                                   "left": { "var": "x" },
-                                                  "right": { "const": 4 }
+                                                  "right": { "const": 2 }
                                                 }
                                               }
                                             },
@@ -87,18 +73,74 @@
                                                       "assn": {
                                                         "dst": "x",
                                                         "src": {
-                                                          "binop": "%",
+                                                          "binop": "*",
                                                           "left": {
                                                             "var": "x"
                                                           },
                                                           "right": {
-                                                            "const": 5
+                                                            "var": "y"
                                                           }
                                                         }
                                                       }
                                                     },
                                                     "right": {
-                                                      "write": { "var": "x" }
+                                                      "seq": {
+                                                        "left": {
+                                                          "write": {
+                                                            "var": "x"
+                                                          }
+                                                        },
+                                                        "right": {
+                                                          "seq": {
+                                                            "left": {
+                                                              "assn": {
+                                                                "dst": "x",
+                                                                "src": {
+                                                                  "binop": "/",
+                                                                  "left": {
+                                                                    "var": "x"
+                                                                  },
+                                                                  "right": {
+                                                                    "const": 4
+                                                                  }
+                                                                }
+                                                              }
+                                                            },
+                                                            "right": {
+                                                              "seq": {
+                                                                "left": {
+                                                                  "write": {
+                                                                    "var": "x"
+                                                                  }
+                                                                },
+                                                                "right": {
+                                                                  "seq": {
+                                                                    "left": {
+                                                                      "assn": {
+                                                                        "dst": "x",
+                                                                        "src": {
+                                                                          "binop": "%",
+                                                                          "left": {
+                                                                            "var": "x"
+                                                                          },
+                                                                          "right": {
+                                                                            "const": 5
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    "right": {
+                                                                      "write": {
+                                                                        "var": "x"
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
                                                     }
                                                   }
                                                 }

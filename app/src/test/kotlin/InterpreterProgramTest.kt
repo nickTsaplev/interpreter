@@ -8,6 +8,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlin.test.assertContains
+import kotlin.test.assertFailsWith
 
 class TestIntIO(input: List<Int>) : DataIO {
     private val inputQueue = ArrayDeque(input)
@@ -46,6 +48,79 @@ class InterpreterProgramTest {
 
         assertEquals(expectedOutput, io.output, "Unexpected output for program $programName")
         assertTrue(io.inputConsumed, "Unused input for program $programName: ${io.remainingInput}")
+    }
+
+    private fun assertProgramError(programName: String, expectedMessage: String) {
+        val source = resourceText("programs", "$programName.in")
+        val json = resourceText("json", "$programName.json")
+        assertTrue(source.isNotBlank(), "Empty source program: programs/$programName.in")
+        val ast = assertNotNull(GetJsonToAST().startParse(json), "Invalid AST: json/$programName.json")
+        val io = TestIntIO(emptyList())
+
+        val error = assertFailsWith<IllegalStateException> { ast.visit(ExecutionVisitor(io)) }
+
+        assertContains(error.message.orEmpty(), expectedMessage)
+        assertEquals(emptyList(), io.output, "Unexpected output before error in $programName")
+    }
+
+    @Test
+    fun fileFunctionsUseDynamicCallerScope() {
+        assertProgram("functions_dynamic_scope", emptyList(), listOf(41, 1))
+    }
+
+    @Test
+    fun fileFunctionsSupportRecursion() {
+        assertProgram("functions_recursive_factorial", listOf(6), listOf(720))
+    }
+
+    @Test
+    fun fileRecursiveFunctionHandlesBaseCase() {
+        assertProgram("functions_recursive_factorial", listOf(0), listOf(1))
+    }
+
+    @Test
+    fun fileArgumentsEvaluateInCallerFromLeftToRight() {
+        assertProgram("functions_argument_order", emptyList(), listOf(25, 12))
+    }
+
+    @Test
+    fun fileBlocksShadowAndAssignNearestVariable() {
+        assertProgram("variable_block_scope", emptyList(), listOf(3, 1, 8))
+    }
+
+    @Test
+    fun fileStatementCallsAndEarlyReturnPreserveOuterScope() {
+        assertProgram("functions_statement_return", emptyList(), listOf(45, 8, 1))
+    }
+
+    @Test
+    fun fileSwitchBindingsAreVisibleToCalledFunctions() {
+        assertProgram("functions_switch_scope", emptyList(), listOf(42, 1))
+    }
+
+    @Test
+    fun fileDuplicateDeclarationFails() {
+        assertProgramError("variable_duplicate_declaration", "Variable already declared in this scope: x")
+    }
+
+    @Test
+    fun fileAssignmentRequiresDeclaration() {
+        assertProgramError("variable_undeclared_assignment", "Variable not declared: x")
+    }
+
+    @Test
+    fun fileReadRequiresDeclaration() {
+        assertProgramError("variable_undeclared_read", "Variable not declared: x")
+    }
+
+    @Test
+    fun fileBlockLocalVariableCannotEscape() {
+        assertProgramError("variable_block_escape", "Variable not found: local")
+    }
+
+    @Test
+    fun fileVoidFunctionReturnsReferenceDefaultValue() {
+        assertProgram("functions_void_expression", emptyList(), listOf(0))
     }
 
     @Test

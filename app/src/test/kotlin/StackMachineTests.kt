@@ -2,6 +2,7 @@ import ru.tsaplev.app.JSONToAST.GetJsonToAST
 import ru.tsaplev.app.JSONToStackInstructions
 import ru.tsaplev.app.StackInstructionsToJSON
 import ru.tsaplev.app.ASTreeNodes.ASTAssign
+import ru.tsaplev.app.ASTreeNodes.ASTVarDecl
 import ru.tsaplev.app.ASTreeNodes.ASTBinOP
 import ru.tsaplev.app.ASTreeNodes.ASTConst
 import ru.tsaplev.app.ASTreeNodes.ASTDo
@@ -77,7 +78,8 @@ class StackMachineTests {
               }
             }
         """.trimIndent()
-        val ast = GetJsonToAST().startParse(text)
+        val ast = ASTSeq(ASTVarDecl("x", ASTConst(DataValue.IntValue(0))),
+            assertNotNull(GetJsonToAST().startParse(text)))
         assertNotNull(ast)
 
         val directIO = TestIntIO(listOf(4))

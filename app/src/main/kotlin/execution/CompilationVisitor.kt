@@ -1,6 +1,8 @@
 package ru.tsaplev.app.execution
 
 import ru.tsaplev.app.ASTVisitor
+import ru.tsaplev.app.ASTreeNodes.ASTVarDecl
+import ru.tsaplev.app.ASTreeNodes.ASTScope
 import ru.tsaplev.app.ASTreeNodes.ASTArray
 import ru.tsaplev.app.ASTreeNodes.ASTAssign
 import ru.tsaplev.app.ASTreeNodes.ASTBinOP
@@ -25,6 +27,30 @@ import ru.tsaplev.app.execution.stackMachine.MachineInstruction
 class CompilationVisitor: ASTVisitor {
     val instructions = mutableListOf<MachineInstruction>()
     var labelCount = 0
+    private var referenceScopeDepth = 0
+
+    override fun visit(node: ASTScope) {
+        if (node.declarations.any { it !is ASTVarDecl }) {
+            throw UnsupportedOperationException("User functions are only supported by the AST interpreter")
+        }
+        if (node.declarations.isNotEmpty() && (referenceScopeDepth != 0 || instructions.isNotEmpty())) {
+            throw UnsupportedOperationException("Nested declared scopes are only supported by the AST interpreter")
+        }
+        // The existing compiler can lower an outer variable preamble; it does not
+        // implement local bindings or user-function calls.
+        referenceScopeDepth++
+        try {
+            node.declarations.forEach { it.visit(this) }
+            node.body.visit(this)
+        } finally {
+            referenceScopeDepth--
+        }
+    }
+
+    override fun visit(node: ASTVarDecl) {
+        node.initialValue.visit(this)
+        instructions.add(MachineInstruction.ST(node.name))
+    }
 
     override fun visit(node: ASTBinOP) {
         instructions.add(MachineInstruction.BINOP(node.binop))
@@ -40,6 +66,8 @@ class CompilationVisitor: ASTVisitor {
 
     override fun visit(node: ASTFuncCall) {
         if (node.name == "write") {
+            require(node.arguments.size == 1 && !node.asExpression) { "write must be a one-argument statement" }
+            node.arguments.single().visit(this)
             instructions.add(MachineInstruction.WRITE())
         } else {
             throw IllegalArgumentException("Unknown function: ${node.name}")

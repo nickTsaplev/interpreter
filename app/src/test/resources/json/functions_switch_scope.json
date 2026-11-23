@@ -1,0 +1,45 @@
+{
+  "scope": {
+    "decls": [
+      { "name": "x", "spec": "var" },
+      {
+        "name": "get",
+        "spec": {
+          "fun": {
+            "args": [],
+            "body": { "return": { "expr": { "var": "x" } } }
+          }
+        }
+      }
+    ],
+    "body": {
+      "seq": {
+        "left": { "assn": { "dst": "x", "src": { "const": 1 } } },
+        "right": {
+          "seq": {
+            "left": {
+              "switch": {
+                "scrutinee": { "const": 32 },
+                "branches": [
+                  {
+                    "pattern": {
+                      "bind": { "pattern": { "wildcard": [] }, "name": "x" }
+                    },
+                    "branch": {
+                      "write": {
+                        "binop": "+",
+                        "left": { "const": 10 },
+                        "right": { "call": { "fun": "get", "args": [] } }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "right": { "write": { "var": "x" } }
+          }
+        }
+      }
+    }
+  }
+}
